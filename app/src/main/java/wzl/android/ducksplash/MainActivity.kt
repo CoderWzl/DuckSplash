@@ -2,10 +2,16 @@ package wzl.android.ducksplash
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import wzl.android.ducksplash.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
+    private val viewBinding : ActivityMainBinding by lazy {
+        ActivityMainBinding.inflate(layoutInflater)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(viewBinding.root)
     }
 }
