@@ -73,7 +73,7 @@ class MainFragment : Fragment() {
             }
             it.viewPager.adapter = MainFragmentAdapter(tabModelList, this)
             TabLayoutMediator(it.tabLayout, it.viewPager) { tab, position ->
-                tab.text = "Title ${position + 1}"
+                tab.text = tabModelList[position].title
             }.attach()
         }
     }
