@@ -1,16 +1,24 @@
 package wzl.android.ducksplash.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.tabs.TabLayoutMediator
+import wzl.android.ducksplash.MainActivity
+import wzl.android.ducksplash.PhotoListType
 import wzl.android.ducksplash.R
+import wzl.android.ducksplash.adapter.MainFragmentAdapter
+import wzl.android.ducksplash.databinding.FragmentMainBinding
+import wzl.android.ducksplash.model.ListTabModel
+import wzl.android.ducksplash.util.reserveStatusBar
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+private const val ARG_EXTRA = "extra"
+private const val TAG = "MainFragment"
 
 /**
  * A simple [Fragment] subclass.
@@ -18,24 +26,62 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class MainFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    private var extra: String? = null
+
+    private val viewBinding: FragmentMainBinding by lazy {
+        FragmentMainBinding.inflate(layoutInflater)
+    }
+
+    private val tabModelList by lazy {
+        listOf(
+            ListTabModel(
+                PhotoListType.PHOTO_LIST_NEW,
+                "最新"
+            ),
+            ListTabModel(
+                PhotoListType.PHOTO_LIST_COLLECTIONS,
+                "图集"
+            )
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            extra = it.getString(ARG_EXTRA)
         }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main, container, false)
+    ): View {
+        return viewBinding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        Log.d(TAG, "onViewCreated: ")
+        viewBinding.let {
+            it.mainContainer.reserveStatusBar()
+            it.toolBar.setNavigationOnClickListener {
+                (requireActivity() as MainActivity).showMenu()
+            }
+            it.searchButton.setOnClickListener {
+                findNavController().navigate(R.id.action_mainFragment_to_searchFragment)
+            }
+            it.viewPager.adapter = MainFragmentAdapter(tabModelList, this)
+            TabLayoutMediator(it.tabLayout, it.viewPager) { tab, position ->
+                tab.text = "Title ${position + 1}"
+            }.attach()
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.d(TAG, "onDestroyView: ")
+        viewBinding.viewPager.adapter = null
     }
 
     companion object {
@@ -43,17 +89,14 @@ class MainFragment : Fragment() {
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
          *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
+         * @param extra Parameter 1.
          * @return A new instance of fragment MainFragment.
          */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance(extra: String) =
             MainFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+                    putString(ARG_EXTRA, extra)
                 }
             }
     }

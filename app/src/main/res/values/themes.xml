@@ -13,6 +13,8 @@
         <item name="android:statusBarColor" tools:targetApi="l">@color/transparent</item>
         <!-- Customize your theme here. -->
         <item name="statusBarBackground">@color/transparent</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="windowNoTitle">true</item>
 
     </style>
 </resources>
