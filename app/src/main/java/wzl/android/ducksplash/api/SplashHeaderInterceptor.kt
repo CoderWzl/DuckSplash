@@ -15,7 +15,7 @@ private const val TAG = "DuckSplashInterceptor"
 class DuckSplashInterceptor : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
-        Log.d(TAG, "intercept: $chain")
+        Log.d(TAG, "intercept: ${chain.request().url}")
         val request = chain.request().newBuilder()
             .addHeader("Accept-Version", "v1")
             .addHeader("Authorization", "Client-ID $USPLASH_CLIENT_ID")

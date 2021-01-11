@@ -12,8 +12,10 @@ buildscript {
         lifecycleVersion = "2.2.0"
         retrofitVersion = "2.9.0"
         okhttpLoggingVersion = '4.7.2'
-        coroutinesAndroidVersion = '1.3.9'
+        coroutinesCoreVersion = '1.3.9'
+        coroutinesAndroidVersion = '1.4.2'
         gsonVersion = '2.8.6'
+        glideVersion = '4.11.0'
 
         // test
         junitVersion = "4.13.1"

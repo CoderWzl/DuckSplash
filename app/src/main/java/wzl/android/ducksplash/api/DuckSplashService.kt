@@ -4,6 +4,9 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Part
+import retrofit2.http.Query
+import wzl.android.ducksplash.BASE_URL
 import wzl.android.ducksplash.model.PhotoModel
 
 /**
@@ -17,7 +20,7 @@ private val service: DuckSplashService by lazy {
         .build()
 
     val retrofit = Retrofit.Builder()
-        .baseUrl("https://api.unsplash.com/")
+        .baseUrl(BASE_URL)
         //.baseUrl("http://192.168.100.215:8080/")
         .client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create())
@@ -32,5 +35,5 @@ interface DuckSplashService {
     // page per_page 指定页数和一页中图片个数
     //@GET("resource/getPasterInfo/")
     @GET("photos/")
-    suspend fun getPhotoList(): List<PhotoModel>
+    suspend fun getPhotoList(@Query("page") page: Int, @Query("per_page") perPage: Int): List<PhotoModel>
 }

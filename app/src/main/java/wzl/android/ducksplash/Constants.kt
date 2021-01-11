@@ -5,6 +5,7 @@ package wzl.android.ducksplash
  *@author zhilin
  * 定义 App 模块中使用的常量
  */
+const val BASE_URL = "https://api.unsplash.com/"
 // unsplash 官网申请的 access key
 const val USPLASH_CLIENT_ID = "w72LwQkOD-iFlBdIFeqJkGZqbxLBuN5vQ68OlLBhKg0"
 

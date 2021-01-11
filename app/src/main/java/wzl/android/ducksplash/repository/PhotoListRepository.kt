@@ -13,8 +13,8 @@ class PhotoListRepository {
 
     val photoList = MutableLiveData<List<PhotoModel>>()
 
-    suspend fun loadPhotoList() {
-        val photos = getNetworkService().getPhotoList()
-
+    suspend fun loadPhotoList(page: Int, perPage: Int = 30) {
+        val photos = getNetworkService().getPhotoList(page, perPage)
+        photoList.value = photos
     }
 }
