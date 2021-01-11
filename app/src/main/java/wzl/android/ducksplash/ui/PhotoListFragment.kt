@@ -72,6 +72,7 @@ class PhotoListFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = PhotoListAdapter(datas)
         }
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
