@@ -7,8 +7,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import wzl.android.ducksplash.PhotoListType
 import wzl.android.ducksplash.R
+import wzl.android.ducksplash.adapter.PhotoListAdapter
 import wzl.android.ducksplash.databinding.PhotoListFragmentBinding
 import wzl.android.ducksplash.viewmodel.PhotoListViewModel
 
@@ -46,6 +48,15 @@ class PhotoListFragment : Fragment() {
         PhotoListFragmentBinding.inflate(layoutInflater)
     }
 
+    private val datas : List<String> by lazy {
+        val list = ArrayList<String>().apply {
+            for (i in 0 .. 30) {
+                add(photoListType.name + i)
+            }
+        }
+        list
+    }
+
     private lateinit var viewModel: PhotoListViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -57,13 +68,16 @@ class PhotoListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Log.d(TAG, "onViewCreated: ")
         super.onViewCreated(view, savedInstanceState)
+        viewBinding.recyclerView.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = PhotoListAdapter(datas)
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         Log.d(TAG, "onActivityCreated: ")
         viewModel = ViewModelProvider(this).get(PhotoListViewModel::class.java)
-        viewBinding.testText.text = "Photo List " + photoListType.name
     }
 
 }
