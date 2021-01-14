@@ -16,10 +16,10 @@ data class PhotoModel(
     val color: String,
     @SerializedName("blur_hash") val blurHash: String,
     val description: String,
+    val user: UserModel,
     @SerializedName("alt_description") val altDescription: String,
     val urls: UrlsModel,
     val links: LinksModel,
     val likes: Int,
-    @SerializedName("liked_by_user") val likedByUser: Boolean,
-    val sponsorship: String
+    @SerializedName("liked_by_user") val likedByUser: Boolean
 )

@@ -62,10 +62,7 @@ class PhotoListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Log.d(TAG, "onViewCreated: ")
         super.onViewCreated(view, savedInstanceState)
-        viewBinding.recyclerView.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = mAdapter
-        }
+        viewBinding.recyclerView.adapter = mAdapter
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -74,7 +71,7 @@ class PhotoListFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(PhotoListViewModel::class.java)
         if (!viewModel.inited) {
             viewModel.photoList.observe(this as LifecycleOwner) {
-                Log.d(TAG, "onViewCreated: $it")
+                Log.d(TAG, "onActivityCreated: $it")
                 mAdapter.submitList(it)
             }
             viewModel.loadPhotoList()

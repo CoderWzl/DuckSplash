@@ -16,6 +16,8 @@ buildscript {
         coroutinesAndroidVersion = '1.4.2'
         gsonVersion = '2.8.6'
         glideVersion = '4.11.0'
+        gpuImageVersion = '2.1.0'
+        glideTransformationsVersion = '4.3.0'
 
         // test
         junitVersion = "4.13.1"

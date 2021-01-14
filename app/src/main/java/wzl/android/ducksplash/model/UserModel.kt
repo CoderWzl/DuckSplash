@@ -12,7 +12,7 @@ data class UserModel(
     val username: String,
     val name: String,
     @SerializedName("first_name") val firstName: String,
-    @SerializedName("last_name") val laseName: String,
+    @SerializedName("last_name") val lastName: String,
     @SerializedName("twitter_username") val twitterName: String,
     @SerializedName("portfolio_url") val portfolioUrl: String,
     val bio: String,

@@ -27,7 +27,22 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug {
+            debuggable true
+            applicationIdSuffix '.debug'
+        }
     }
+
+    signingConfigs {
+        release {
+            storeFile file("../ducksplash.jks")
+            storePassword "lin123456"
+            keyAlias "ducksplash"
+            keyPassword "lin123456"
+            //v2SigningEnabled false
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -45,14 +60,17 @@ dependencies {
     implementation "com.google.android.material:material:$rootProject.materialVersion"
     implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraintlayoutVersion"
     implementation "androidx.fragment:fragment-ktx:$rootProject.fragmentKtxVersion"
+
     // navigation
     implementation "androidx.navigation:navigation-ui-ktx:$rootProject.navigationVersion"
     implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.navigationVersion"
+
     // lifecycle
     //implementation "androidx.lifecycle:lifecycle-extensions-ktx:$rootProject.lifecycleVersion" 将被弃用
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$rootProject.lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.lifecycleVersion"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
     // okhttp retrofit
     implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.okhttpLoggingVersion"
     implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofitVersion"
@@ -63,9 +81,13 @@ dependencies {
     // Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.coroutinesCoreVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.coroutinesAndroidVersion"
+
     //glide
     kapt "com.github.bumptech.glide:compiler:$rootProject.glideVersion"
     implementation "com.github.bumptech.glide:glide:$rootProject.glideVersion"
+    //implementation "jp.wasabeef:glide-transformations:$rootProject.glideTransformationsVersion"
+    // If you want to use the GPU Filters
+    //implementation "jp.co.cyberagent.android:gpuimage:$rootProject.gpuImageVersion"
 
     //test
     testImplementation "junit:junit:$rootProject.junitVersion"

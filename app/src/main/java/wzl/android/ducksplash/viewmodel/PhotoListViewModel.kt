@@ -18,7 +18,7 @@ class PhotoListViewModel : ViewModel() {
 
     var inited = false
 
-    private var curPage: Int = 0
+    private var curPage: Int = -1
 
     // 加载图片列表
     fun loadPhotoList() {
@@ -30,7 +30,6 @@ class PhotoListViewModel : ViewModel() {
             repository.loadPhotoList(curPage + 1)
             curPage += 1
             loading.value = false
-
         }
     }
 }
