@@ -5,8 +5,10 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Part
+import retrofit2.http.Path
 import retrofit2.http.Query
 import wzl.android.ducksplash.BASE_URL
+import wzl.android.ducksplash.model.CollectionModel
 import wzl.android.ducksplash.model.PhotoModel
 
 /**
@@ -36,4 +38,10 @@ interface DuckSplashService {
     //@GET("resource/getPasterInfo/")
     @GET("photos/")
     suspend fun getPhotoList(@Query("page") page: Int, @Query("per_page") perPage: Int): List<PhotoModel>
+
+    @GET("collections/")
+    suspend fun getCollectionList(@Query("page") page: Int, @Query("per_page") perPage: Int): List<CollectionModel>
+
+    @GET("collections/{id}/photos")
+    suspend fun getPhotoListWithCollectionId(@Path("id") int: Int, @Query("page") page: Int, @Query("per_page") perPage: Int): List<PhotoModel>
 }

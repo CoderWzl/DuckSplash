@@ -8,16 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
-import androidx.recyclerview.widget.LinearLayoutManager
-import wzl.android.ducksplash.PhotoListType
-import wzl.android.ducksplash.R
 import wzl.android.ducksplash.adapter.PhotoListAdapter
-import wzl.android.ducksplash.databinding.PhotoListFragmentBinding
+import wzl.android.ducksplash.databinding.FragmentPhotoListBinding
 import wzl.android.ducksplash.viewmodel.PhotoListViewModel
-import java.security.acl.Owner
 
 private const val TAG = "PhotoListFragment"
-private const val PARAM_PHOTO_LIST_TYPE = "photo_list_type"
 
 /**
  * zhilin
@@ -26,28 +21,11 @@ private const val PARAM_PHOTO_LIST_TYPE = "photo_list_type"
 class PhotoListFragment : Fragment() {
 
     companion object {
-        fun newInstance(listType: PhotoListType) = PhotoListFragment().apply {
-            Log.d(TAG, "newInstance: ${listType.name}")
-            arguments = Bundle().apply {
-                putString(PARAM_PHOTO_LIST_TYPE, listType.name)
-            }
-        }
+        fun newInstance() = PhotoListFragment()
     }
 
-    private val photoListType: PhotoListType by lazy {
-        arguments?.let {
-            val listType = it.getString(PARAM_PHOTO_LIST_TYPE)
-            return@lazy if (listType == null) {
-                PhotoListType.PHOTO_LIST_NEW
-            } else {
-                PhotoListType.valueOf(listType)
-            }
-        }
-        PhotoListType.PHOTO_LIST_NEW
-    }
-
-    private val viewBinding: PhotoListFragmentBinding by lazy {
-        PhotoListFragmentBinding.inflate(layoutInflater)
+    private val viewBinding: FragmentPhotoListBinding by lazy {
+        FragmentPhotoListBinding.inflate(layoutInflater)
     }
 
     private lateinit var viewModel: PhotoListViewModel

@@ -10,6 +10,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import wzl.android.ducksplash.GlideApp
 import wzl.android.ducksplash.R
+import wzl.android.ducksplash.widget.AspectRatioImageView
 
 /**
  *Created on 2021/1/13
@@ -57,4 +58,15 @@ fun ImageView.loadCirclePhotoUrl(url: String?, @DrawableRes placeholder: Int = R
             .transition(DrawableTransitionOptions.withCrossFade(CROSS_FADE_DURATION))
             .into(this)
             .clearOnDetach()
+}
+
+/**
+ * 通过 width 和 height 计算图片比例
+ */
+fun AspectRatioImageView.computerAspectRatio(width: Int, height: Int) {
+    aspectRatio = if (width != 0) {
+        height / (width * 1.0)
+    } else {
+        9 / 16.0
+    }
 }

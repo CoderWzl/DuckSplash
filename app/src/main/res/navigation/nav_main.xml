@@ -17,10 +17,36 @@
             app:exitAnim="@anim/fragment_fade_exit"
             app:popEnterAnim="@anim/fragment_fade_enter"
             app:popExitAnim="@anim/fragment_fade_exit" />
+        <action
+            android:id="@+id/action_mainFragment_to_collectionDetailFragment"
+            app:destination="@id/collectionDetailFragment" >
+            <argument
+                android:name="collectionId"
+                app:argType="integer"
+                android:defaultValue="0"/>
+            <argument
+                android:name="title"
+                app:argType="string"
+                android:defaultValue=""/>
+        </action>
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="wzl.android.ducksplash.ui.SearchFragment"
         android:label="search_fragment"
         tools:layout="@layout/search_fragment" />
+    <fragment
+        android:id="@+id/collectionDetailFragment"
+        android:name="wzl.android.ducksplash.ui.CollectionDetailFragment"
+        android:label="fragment_collection_detail"
+        tools:layout="@layout/fragment_collection_detail" >
+        <argument
+            android:name="collectionId"
+            app:argType="integer"
+            android:defaultValue="0"/>
+        <argument
+            android:name="title"
+            app:argType="string"
+            android:defaultValue=""/>
+    </fragment>
 </navigation>
