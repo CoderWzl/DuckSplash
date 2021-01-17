@@ -22,28 +22,28 @@ const val CROSS_FADE_DURATION = 350
  * 使用 Glide 带有缩略图的图片加载
  */
 fun ImageView.loadPhotoUrlWithThumbnail(
-    url: String,
-    thumbnailUrl: String,
-    color: String? = null,
-    centerCrop: Boolean = false,
-    requestListener: RequestListener<Drawable>? = null
+        url: String,
+        thumbnailUrl: String,
+        color: String? = null,
+        centerCrop: Boolean = false,
+        requestListener: RequestListener<Drawable>? = null
 ) {
     color?.let {
         background = ColorDrawable(Color.parseColor(it))
     }
     GlideApp.with(context)
-        .load(url)
-        .thumbnail(
-            if (centerCrop) {
-                GlideApp.with(context).load(thumbnailUrl).centerCrop()
-            } else {
-                GlideApp.with(context).load(thumbnailUrl)
-            }
-        )
-        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-        .listener(requestListener)
-        .into(this)
-        .clearOnDetach()
+            .load(url)
+            .thumbnail(
+                    if (centerCrop) {
+                        GlideApp.with(context).load(thumbnailUrl).centerCrop()
+                    } else {
+                        GlideApp.with(context).load(thumbnailUrl)
+                    }
+            )
+            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+            .listener(requestListener)
+            .into(this)
+            .clearOnDetach()
 }
 
 /**
@@ -51,10 +51,10 @@ fun ImageView.loadPhotoUrlWithThumbnail(
  */
 fun ImageView.loadCirclePhotoUrl(url: String?, @DrawableRes placeholder: Int = R.drawable.drawable_circle_image_placeholder) {
     GlideApp.with(context)
-        .load(url)
-        .circleCrop()
-        .placeholder(placeholder)
-        .transition(DrawableTransitionOptions.withCrossFade(CROSS_FADE_DURATION))
-        .into(this)
-        .clearOnDetach()
+            .load(url)
+            .circleCrop()
+            .placeholder(placeholder)
+            .transition(DrawableTransitionOptions.withCrossFade(CROSS_FADE_DURATION))
+            .into(this)
+            .clearOnDetach()
 }
