@@ -28,13 +28,52 @@
                 android:name="title"
                 app:argType="string"
                 android:defaultValue=""/>
+            <argument
+                android:name="totalPhotos"
+                app:argType="integer"
+                android:defaultValue="0" />
+            <argument
+                android:name="description"
+                app:argType="string"
+                app:nullable="true"
+                android:defaultValue="@null" />
+            <argument
+                android:name="fullName"
+                app:argType="string"
+                android:defaultValue="" />
         </action>
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="wzl.android.ducksplash.ui.SearchFragment"
         android:label="search_fragment"
-        tools:layout="@layout/search_fragment" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_collectionDetailFragment"
+            app:destination="@id/collectionDetailFragment" >
+            <argument
+                android:name="collectionId"
+                app:argType="integer"
+                android:defaultValue="0"/>
+            <argument
+                android:name="title"
+                app:argType="string"
+                android:defaultValue=""/>
+            <argument
+                android:name="totalPhotos"
+                app:argType="integer"
+                android:defaultValue="0" />
+            <argument
+                android:name="description"
+                app:argType="string"
+                app:nullable="true"
+                android:defaultValue="@null" />
+            <argument
+                android:name="fullName"
+                app:argType="string"
+                android:defaultValue="" />
+        </action>
+    </fragment>
     <fragment
         android:id="@+id/collectionDetailFragment"
         android:name="wzl.android.ducksplash.ui.CollectionDetailFragment"
@@ -48,5 +87,18 @@
             android:name="title"
             app:argType="string"
             android:defaultValue=""/>
+        <argument
+            android:name="totalPhotos"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <argument
+            android:name="description"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="fullName"
+            app:argType="string"
+            android:defaultValue="" />
     </fragment>
 </navigation>

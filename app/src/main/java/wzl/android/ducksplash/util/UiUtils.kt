@@ -1,7 +1,8 @@
 package wzl.android.ducksplash.util
 
 import android.content.Context
-import android.view.ViewGroup
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 
 /**
  *Created on 1/10/21
@@ -23,7 +24,7 @@ fun Context.statusBarHeight(): Int {
 /**
  * ViewGroup 设置 padding 预留出状态栏的高度
  */
-fun ViewGroup.reserveStatusBar() {
+fun View.reserveStatusBar() {
     if (tag is Boolean && tag as Boolean) {
         return
     }
@@ -34,4 +35,9 @@ fun ViewGroup.reserveStatusBar() {
         paddingBottom
     )
     tag = true
+}
+
+fun View.hideKeyboard() {
+    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.hideSoftInputFromWindow(windowToken, 0)
 }

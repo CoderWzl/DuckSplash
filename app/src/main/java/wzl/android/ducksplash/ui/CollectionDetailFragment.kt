@@ -6,10 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleOwner
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import wzl.android.ducksplash.R
 import wzl.android.ducksplash.adapter.PhotoListAdapter
 import wzl.android.ducksplash.databinding.FragmentCollectionDetailBinding
 import wzl.android.ducksplash.util.reserveStatusBar
@@ -39,7 +39,21 @@ class CollectionDetailFragment : Fragment() {
             coordinatorLayout.reserveStatusBar()
             recyclerView.adapter = mAdapter
             toolBar.title = args.title
-            //collapsingLayout.title = args.title
+            toolBar.setNavigationOnClickListener {
+                findNavController().popBackStack()
+            }
+            toolBar.post {
+                moreInfoContainer.apply {
+                    setPadding(
+                            paddingLeft,
+                            toolBar.height + paddingTop,
+                            paddingRight,
+                            paddingBottom
+                    )
+                }
+            }
+            description.text = args.description
+            otherDetails.text = requireContext().getString(R.string.photo_summary_user_info, args.totalPhotos, args.fullName)
         }
     }
 

@@ -18,6 +18,7 @@ buildscript {
         glideVersion = '4.11.0'
         gpuImageVersion = '2.1.0'
         glideTransformationsVersion = '4.3.0'
+        leakCanaryVersion = '2.2'
 
         // test
         junitVersion = "4.13.1"

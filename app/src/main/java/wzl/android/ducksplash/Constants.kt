@@ -1,5 +1,7 @@
 package wzl.android.ducksplash
 
+import androidx.annotation.StringRes
+
 /**
  *Created on 1/10/21
  *@author zhilin
@@ -12,4 +14,10 @@ const val USPLASH_CLIENT_ID = "w72LwQkOD-iFlBdIFeqJkGZqbxLBuN5vQ68OlLBhKg0"
 enum class PhotoListType {
     PHOTO_LIST_NEW,
     PHOTO_LIST_COLLECTIONS
+}
+
+enum class SearchType(@StringRes val titleId : Int) {
+    PHOTO(R.string.photo),
+    COLLECTION(R.string.collection),
+    USER(R.string.user)
 }

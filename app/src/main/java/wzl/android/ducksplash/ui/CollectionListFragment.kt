@@ -21,7 +21,9 @@ class CollectionListFragment : Fragment() {
     private val viewBinding: FragmentCollectionListBinding by lazy {
         FragmentCollectionListBinding.inflate(layoutInflater)
     }
-    private val mAdapter: CollectionListAdapter = CollectionListAdapter()
+    private val mAdapter: CollectionListAdapter by lazy {
+        CollectionListAdapter(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
