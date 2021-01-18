@@ -20,6 +20,8 @@ class SearchViewModel : ViewModel() {
 
     val collectionSearchResult = repository.searchCollectionResult
 
+    val userSearchResult = repository.searchUserResult
+
     fun updateQuery(query: String) {
         Log.d(TAG, "updateQuery: $query")
         _queryLiveData.postValue(query)
@@ -40,6 +42,15 @@ class SearchViewModel : ViewModel() {
         }
         viewModelScope.launch {
             repository.searchCollectionList(query, 0)
+        }
+    }
+
+    fun searchUserList(query: String) {
+        if (query.isBlank()) {
+            return
+        }
+        viewModelScope.launch {
+            repository.searchUserList(query, 0)
         }
     }
 }

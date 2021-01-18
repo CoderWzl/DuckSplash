@@ -47,6 +47,22 @@ fun ImageView.loadPhotoUrlWithThumbnail(
             .clearOnDetach()
 }
 
+fun ImageView.loadPhotoUrl(
+        url: String,
+        color: String? = null,
+        requestListener: RequestListener<Drawable>? = null
+) {
+    color?.let {
+        background = ColorDrawable(Color.parseColor(it))
+    }
+    GlideApp.with(context)
+            .load(url)
+            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+            .listener(requestListener)
+            .into(this)
+            .clearOnDetach()
+}
+
 /**
  * 加载圆形图片
  */

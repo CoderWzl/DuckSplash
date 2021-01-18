@@ -24,4 +24,5 @@ data class UserModel(
     @SerializedName("total_likes") val totalLikes: Int,
     @SerializedName("total_photos") val totalPhotos: Int,
     @SerializedName("accepted_tos") val acceptedTos: Boolean,
+    val photos: List<UserPhotoModel>?
 )

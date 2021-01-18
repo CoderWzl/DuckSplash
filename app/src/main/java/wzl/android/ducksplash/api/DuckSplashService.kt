@@ -10,6 +10,7 @@ import wzl.android.ducksplash.BASE_URL
 import wzl.android.ducksplash.model.CollectionModel
 import wzl.android.ducksplash.model.PhotoModel
 import wzl.android.ducksplash.model.SearchModel
+import wzl.android.ducksplash.model.UserModel
 
 /**
  *Created on 2021/1/11
@@ -72,5 +73,12 @@ interface DuckSplashService {
         @Query("page") page: Int?,
         @Query("per_page") perPage: Int?
     ): SearchModel<CollectionModel>
+
+    @GET("search/users")
+    suspend fun searchUserList(
+        @Query("query") query: String,
+        @Query("page") page: Int?,
+        @Query("per_page") perPage: Int?
+    ): SearchModel<UserModel>
 
 }

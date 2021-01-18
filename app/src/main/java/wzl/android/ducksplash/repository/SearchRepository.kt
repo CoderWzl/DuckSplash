@@ -17,7 +17,7 @@ class SearchRepository {
 
     val searchCollectionResult = MutableLiveData<SearchModel<CollectionModel>>()
 
-    val userList = MutableLiveData<List<UserModel>>()
+    val searchUserResult = MutableLiveData<SearchModel<UserModel>>()
 
     suspend fun searchPhotoList(
         query: String,
@@ -38,5 +38,13 @@ class SearchRepository {
         perPage: Int = 30
     ) {
         searchCollectionResult.value = getNetworkService().searchCollectionList(query, page, perPage)
+    }
+
+    suspend fun searchUserList(
+        query: String,
+        page: Int,
+        perPage: Int = 30
+    ) {
+        searchUserResult.value = getNetworkService().searchUserList(query, page, perPage)
     }
 }

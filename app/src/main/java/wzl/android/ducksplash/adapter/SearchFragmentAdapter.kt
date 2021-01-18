@@ -12,7 +12,7 @@ import wzl.android.ducksplash.viewmodel.SearchViewModel
  *Created on 2021/1/18
  *@author zhilin
  */
-class SearchFragmentAdapter(fragment: Fragment,val viewModel: SearchViewModel) : FragmentStateAdapter(fragment) {
+class SearchFragmentAdapter(fragment: Fragment, private val viewModel: SearchViewModel) : FragmentStateAdapter(fragment) {
 
     override fun getItemCount(): Int = SearchType.values().size
 
@@ -20,7 +20,7 @@ class SearchFragmentAdapter(fragment: Fragment,val viewModel: SearchViewModel) :
         return when(getItemType(position)) {
             SearchType.PHOTO -> SearchPhotoFragment.newInstance(viewModel)
             SearchType.COLLECTION -> SearchCollectionFragment.newInstance(viewModel)
-            SearchType.USER -> SearchUserFragment.newInstance()
+            SearchType.USER -> SearchUserFragment.newInstance(viewModel)
         }
     }
 
