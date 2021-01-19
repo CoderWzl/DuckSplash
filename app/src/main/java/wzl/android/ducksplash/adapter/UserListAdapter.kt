@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import wzl.android.ducksplash.databinding.ItemUserListBinding
 import wzl.android.ducksplash.model.UserModel
+import wzl.android.ducksplash.util.dp2px
 import wzl.android.ducksplash.util.loadCirclePhotoUrl
-import wzl.android.ducksplash.util.loadPhotoUrl
-import wzl.android.ducksplash.util.loadPhotoUrlWithThumbnail
+import wzl.android.ducksplash.util.loadRoundedPhotoUrl
 
 /**
  *Created on 1/18/21
@@ -26,19 +26,20 @@ class UserListAdapter : ListAdapter<UserModel, UserListAdapter.ViewHolder>(UserD
                     userHead.loadCirclePhotoUrl(item.profileImage.large)
                     userName.text = "${item.firstName} ${item.lastName?:""}"
                     userInsName.text = "@${item.username}"
-                    image1.aspectRatio = 16 / 9.0
-                    image2.aspectRatio = 16 / 9.0
-                    image3.aspectRatio = 16 / 9.0
-                    if (item.photos == null || item.photos.isEmpty()) {
+                    image1.aspectRatio = 4 / 3.0
+                    image2.aspectRatio = 4 / 3.0
+                    image3.aspectRatio = 4 / 3.0
+                    if (item.photos == null || item.photos.size < 3) {
                         imageContainer.visibility = View.GONE
                     } else {
                         imageContainer.visibility = View.VISIBLE
-                        val img1 = item.photos[0].urls.raw + "&w=400&q=80&fm=webp"
-                        val img2 = item.photos[1].urls.raw + "&w=400&q=80&fm=webp"
-                        val img3 = item.photos[2].urls.raw + "&w=400&q=80&fm=webp"
-                        image1.loadPhotoUrl(img1)
-                        image2.loadPhotoUrl(img2)
-                        image3.loadPhotoUrl(img3)
+                        val img1 = item.photos[0].urls.raw + "&w=300&q=80&fm=webp"
+                        val img2 = item.photos[1].urls.raw + "&w=300&q=80&fm=webp"
+                        val img3 = item.photos[2].urls.raw + "&w=300&q=80&fm=webp"
+                        val corner = itemView.context.dp2px(5f)
+                        image1.loadRoundedPhotoUrl(img1, corner)
+                        image2.loadRoundedPhotoUrl(img2, corner)
+                        image3.loadRoundedPhotoUrl(img3, corner)
                     }
                 }
             }

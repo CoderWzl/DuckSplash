@@ -2,6 +2,7 @@ package wzl.android.ducksplash.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -18,7 +19,7 @@ import wzl.android.ducksplash.util.loadPhotoUrlWithThumbnail
 
 private const val TAG = "PhotoListAdapter"
 
-class PhotoListAdapter() : ListAdapter<PhotoModel, PhotoListAdapter.ViewHolder>(PhotoDiffCallback()) {
+class PhotoListAdapter : ListAdapter<PhotoModel, PhotoListAdapter.ViewHolder>(PhotoDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -31,7 +32,10 @@ class PhotoListAdapter() : ListAdapter<PhotoModel, PhotoListAdapter.ViewHolder>(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.setupView(getItem(position))
+        val item = getItem(position)
+        if (item != null) {
+            holder.setupView(item)
+        }
     }
 
     inner class ViewHolder(private val viewBinding: ItemPhotoListBinding) :

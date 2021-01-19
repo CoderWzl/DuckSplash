@@ -22,6 +22,9 @@ class SearchViewModel : ViewModel() {
 
     val userSearchResult = repository.searchUserResult
 
+    private var curUserPager = 0
+    private var loadingUser = false
+
     fun updateQuery(query: String) {
         Log.d(TAG, "updateQuery: $query")
         _queryLiveData.postValue(query)
@@ -45,12 +48,18 @@ class SearchViewModel : ViewModel() {
         }
     }
 
-    fun searchUserList(query: String) {
+    fun searchUserList(query: String = _queryLiveData.value.toString()) {
         if (query.isBlank()) {
             return
         }
+        if (loadingUser) {
+            return
+        }
         viewModelScope.launch {
-            repository.searchUserList(query, 0)
+            loadingUser = true
+            repository.searchUserList(query, curUserPager)
+            curUserPager++
+            loadingUser = false
         }
     }
 }

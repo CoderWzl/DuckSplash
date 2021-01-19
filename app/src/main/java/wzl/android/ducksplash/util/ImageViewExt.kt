@@ -3,9 +3,14 @@ package wzl.android.ducksplash.util
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.ShapeDrawable
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import wzl.android.ducksplash.GlideApp
@@ -47,18 +52,30 @@ fun ImageView.loadPhotoUrlWithThumbnail(
             .clearOnDetach()
 }
 
-fun ImageView.loadPhotoUrl(
+fun ImageView.loadRoundedPhotoUrl(
         url: String,
+        cornerRadius: Float = 0f,
         color: String? = null,
         requestListener: RequestListener<Drawable>? = null
 ) {
-    color?.let {
-        background = ColorDrawable(Color.parseColor(it))
-    }
-    GlideApp.with(context)
+    val requestBuilder = GlideApp.with(context)
             .load(url)
             .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
             .listener(requestListener)
+    val drawable: GradientDrawable = ContextCompat.getDrawable(context, R.drawable.drawable_rounded_image_placeholder) as GradientDrawable
+    color?.let {
+        drawable.setColor(Color.parseColor(color))
+    }
+    if (cornerRadius > 0) {
+        drawable.cornerRadius = cornerRadius
+        requestBuilder
+                .transform(CenterCrop(), RoundedCorners(cornerRadius.toInt()))
+                .placeholder(drawable)
+                .into(this)
+                .clearOnDetach()
+    }
+    requestBuilder
+            .placeholder(drawable)
             .into(this)
             .clearOnDetach()
 }

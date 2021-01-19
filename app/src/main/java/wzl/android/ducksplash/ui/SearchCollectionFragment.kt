@@ -21,22 +21,20 @@ class SearchCollectionFragment : Fragment() {
 
     private lateinit var viewModel: SearchViewModel
 
-    private val viewBinding: FragmentSearchCollectionBinding by lazy {
-        FragmentSearchCollectionBinding.inflate(layoutInflater)
-    }
+    private lateinit var viewBinding: FragmentSearchCollectionBinding
 
-    private val mAdapter by lazy {
-        CollectionListAdapter(this)
-    }
+    private lateinit var mAdapter: CollectionListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        viewBinding = FragmentSearchCollectionBinding.inflate(inflater)
         return viewBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        mAdapter = CollectionListAdapter(this)
         viewBinding.apply {
             recyclerView.adapter = mAdapter
         }

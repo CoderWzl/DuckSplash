@@ -41,3 +41,19 @@ fun View.hideKeyboard() {
     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.hideSoftInputFromWindow(windowToken, 0)
 }
+
+fun Context.dp2px(dp: Float): Float {
+    return dp * resources.displayMetrics.density + 0.5f
+}
+
+fun Context.px2dp(px: Float): Float {
+    return px / resources.displayMetrics.density + 0.5f
+}
+
+fun Context.sp2px(sp: Float): Float {
+    return sp * resources.displayMetrics.scaledDensity + 0.5f
+}
+
+fun Context.px2sp(px: Float): Float {
+    return px / resources.displayMetrics.scaledDensity + 0.5f
+}

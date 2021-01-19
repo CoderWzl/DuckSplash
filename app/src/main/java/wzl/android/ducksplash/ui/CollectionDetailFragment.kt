@@ -19,9 +19,7 @@ class CollectionDetailFragment : Fragment() {
 
     private lateinit var viewModel: CollectionDetailViewModel
 
-    private val viewBinding: FragmentCollectionDetailBinding by lazy {
-        FragmentCollectionDetailBinding.inflate(layoutInflater)
-    }
+    private lateinit var viewBinding: FragmentCollectionDetailBinding
 
     private val args: CollectionDetailFragmentArgs by navArgs()
     private val mAdapter = PhotoListAdapter()
@@ -30,6 +28,7 @@ class CollectionDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        viewBinding = FragmentCollectionDetailBinding.inflate(inflater)
         return viewBinding.root
     }
 

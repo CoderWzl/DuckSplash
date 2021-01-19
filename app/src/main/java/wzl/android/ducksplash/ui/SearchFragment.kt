@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
@@ -20,14 +21,21 @@ import wzl.android.ducksplash.viewmodel.SearchViewModel
 private const val TAG = "SearchFragment"
 class SearchFragment : Fragment() {
     private lateinit var viewModel: SearchViewModel
-    private val viewBinding: FragmentSearchBinding by lazy {
+    private lateinit var viewBinding: FragmentSearchBinding
+    private lateinit var mAdapter: SearchFragmentAdapter
+
+    // 别这么使用，这将导致重新走 onCreateView 生命周期的时候复用上一次 onDestroyView
+    // 之前的状态，ViewPage，RecyclerView 复用的话存储的状态需要处理，每次 回调 onCreateView
+    // 方法重新 inflate 一个 ViewBinding 实例
+    /*private val viewBinding: FragmentSearchBinding by lazy {
         FragmentSearchBinding.inflate(layoutInflater)
-    }
+    }*/
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        viewBinding = FragmentSearchBinding.inflate(inflater)
         return viewBinding.root
     }
 
@@ -48,16 +56,13 @@ class SearchFragment : Fragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        viewBinding.viewPager.adapter = null
-    }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(SearchViewModel::class.java)
         Log.d(TAG, "onActivityCreated: $viewModel")
-        viewBinding.viewPager.adapter = SearchFragmentAdapter(this@SearchFragment, viewModel)
+        mAdapter = SearchFragmentAdapter(this@SearchFragment, viewModel)
+        viewBinding.viewPager.adapter = mAdapter
+        viewBinding.viewPager.offscreenPageLimit = 1
         TabLayoutMediator(viewBinding.tabLayout, viewBinding.viewPager) { tab, position ->
             tab.text = requireContext().getString(SearchType.values()[position].titleId)
         }.attach()

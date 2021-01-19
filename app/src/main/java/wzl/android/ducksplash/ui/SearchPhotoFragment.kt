@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LifecycleOwner
 import wzl.android.ducksplash.adapter.PhotoListAdapter
 import wzl.android.ducksplash.databinding.FragmentSearchPhotoBinding
@@ -24,9 +23,7 @@ class SearchPhotoFragment : Fragment() {
 
     private lateinit var viewModel: SearchViewModel
 
-    private val viewBinding: FragmentSearchPhotoBinding by lazy {
-        FragmentSearchPhotoBinding.inflate(layoutInflater)
-    }
+    private lateinit var viewBinding: FragmentSearchPhotoBinding
 
     private val mAdapter = PhotoListAdapter()
 
@@ -34,10 +31,13 @@ class SearchPhotoFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        viewBinding = FragmentSearchPhotoBinding.inflate(inflater)
+        Log.d(TAG, "onCreateView: ")
         return viewBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        Log.d(TAG, "onViewCreated: ")
         viewBinding.recyclerView.adapter = mAdapter
     }
 

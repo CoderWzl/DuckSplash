@@ -18,9 +18,8 @@ class CollectionListFragment : Fragment() {
     }
 
     private lateinit var viewModel: CollectionListViewModel
-    private val viewBinding: FragmentCollectionListBinding by lazy {
-        FragmentCollectionListBinding.inflate(layoutInflater)
-    }
+    private lateinit var viewBinding: FragmentCollectionListBinding
+
     private val mAdapter: CollectionListAdapter by lazy {
         CollectionListAdapter(this)
     }
@@ -29,6 +28,7 @@ class CollectionListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        viewBinding = FragmentCollectionListBinding.inflate(inflater)
         return viewBinding.root
     }
 

@@ -1,7 +1,6 @@
 package wzl.android.ducksplash.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -28,9 +27,7 @@ class MainFragment : Fragment() {
 
     private var extra: String? = null
 
-    private val viewBinding: FragmentMainBinding by lazy {
-        FragmentMainBinding.inflate(layoutInflater)
-    }
+    private lateinit var viewBinding: FragmentMainBinding
 
     private val tabModelList by lazy {
         listOf(
@@ -56,31 +53,25 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        viewBinding = FragmentMainBinding.inflate(inflater)
         return viewBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d(TAG, "onViewCreated: ")
-        viewBinding.let {
-            it.mainContainer.reserveStatusBar()
-            it.toolBar.setNavigationOnClickListener {
+        viewBinding.apply {
+            mainContainer.reserveStatusBar()
+            toolBar.setNavigationOnClickListener {
                 (requireActivity() as MainActivity).showMenu()
             }
-            it.searchButton.setOnClickListener {
+            searchButton.setOnClickListener {
                 findNavController().navigate(R.id.action_mainFragment_to_searchFragment)
             }
-            it.viewPager.adapter = MainFragmentAdapter(tabModelList, this)
-            TabLayoutMediator(it.tabLayout, it.viewPager) { tab, position ->
+            viewPager.adapter = MainFragmentAdapter(tabModelList, this@MainFragment)
+            TabLayoutMediator(tabLayout, viewPager) { tab, position ->
                 tab.text = tabModelList[position].title
             }.attach()
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        Log.d(TAG, "onDestroyView: ")
-        viewBinding.viewPager.adapter = null
     }
 
     companion object {

@@ -24,28 +24,24 @@ class PhotoListFragment : Fragment() {
         fun newInstance() = PhotoListFragment()
     }
 
-    private val viewBinding: FragmentPhotoListBinding by lazy {
-        FragmentPhotoListBinding.inflate(layoutInflater)
-    }
+    private lateinit var viewBinding: FragmentPhotoListBinding
 
     private lateinit var viewModel: PhotoListViewModel
     private val mAdapter = PhotoListAdapter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        Log.d(TAG, "onCreateView: ")
+        viewBinding = FragmentPhotoListBinding.inflate(inflater)
         return viewBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Log.d(TAG, "onViewCreated: ")
         super.onViewCreated(view, savedInstanceState)
         viewBinding.recyclerView.adapter = mAdapter
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        Log.d(TAG, "onActivityCreated: ")
         viewModel = ViewModelProvider(this).get(PhotoListViewModel::class.java)
         if (!viewModel.inited) {
             viewModel.photoList.observe(this as LifecycleOwner) {

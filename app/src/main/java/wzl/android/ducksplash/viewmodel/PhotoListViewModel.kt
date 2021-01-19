@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import wzl.android.ducksplash.repository.PhotoListRepository
+import java.lang.Exception
 
 private const val TAG = "PhotoListViewModel"
 
@@ -27,8 +28,12 @@ class PhotoListViewModel : ViewModel() {
         }
         viewModelScope.launch {
             loading.value = true
-            repository.loadPhotoList(curPage + 1)
-            curPage += 1
+            try {
+                repository.loadPhotoList(curPage + 1)
+                curPage += 1
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
             loading.value = false
         }
     }
