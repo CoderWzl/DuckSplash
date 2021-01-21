@@ -1,40 +1,20 @@
 package wzl.android.ducksplash.viewmodel
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.launch
-import wzl.android.ducksplash.repository.PhotoListRepository
-import java.lang.Exception
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import kotlinx.coroutines.flow.Flow
+import wzl.android.ducksplash.model.PhotoModel
+import wzl.android.ducksplash.repository.PhotoRepository
 
-private const val TAG = "PhotoListViewModel"
+class PhotoListViewModel(private val repository: PhotoRepository) : ViewModel() {
 
-class PhotoListViewModel : ViewModel() {
+    private var currentPhotos: Flow<PagingData<PhotoModel>>? = null
 
-    private val repository = PhotoListRepository()
-
-    private val loading = MutableLiveData(false)
-
-    val photoList = repository.photoList
-
-    var inited = false
-
-    private var curPage: Int = -1
-
-    // 加载图片列表
-    fun loadPhotoList() {
-        if (loading.value as Boolean) {
-            return
-        }
-        viewModelScope.launch {
-            loading.value = true
-            try {
-                repository.loadPhotoList(curPage + 1)
-                curPage += 1
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-            loading.value = false
-        }
+    fun getPhotos(): Flow<PagingData<PhotoModel>> {
+        return currentPhotos?: repository.getPhotos()
+            .cachedIn(viewModelScope)
+            .also { currentPhotos = it }
     }
 }

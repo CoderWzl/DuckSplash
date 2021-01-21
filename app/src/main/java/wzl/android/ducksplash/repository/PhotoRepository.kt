@@ -1,7 +1,13 @@
 package wzl.android.ducksplash.repository
 
 import androidx.lifecycle.MutableLiveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import kotlinx.coroutines.flow.Flow
+import wzl.android.ducksplash.api.PhotoService
 import wzl.android.ducksplash.api.getNetworkService
+import wzl.android.ducksplash.data.PhotoPagingSource
 import wzl.android.ducksplash.model.CollectionModel
 import wzl.android.ducksplash.model.PhotoModel
 
@@ -10,7 +16,7 @@ import wzl.android.ducksplash.model.PhotoModel
  *@author zhilin
  * Repository 用来执行获取数据的逻辑，数据源可以是 数据库 也可以是 网络
  */
-class PhotoListRepository {
+class PhotoRepository(private val service: PhotoService) {
 
     val photoList = MutableLiveData<List<PhotoModel>>()
     val collectionList = MutableLiveData<List<CollectionModel>>()
@@ -28,5 +34,15 @@ class PhotoListRepository {
     suspend fun loadPhotoListWithCollectionId(id: Int, page: Int, perPage: Int = 30) {
         val photos = getNetworkService().getPhotoListWithCollectionId(id, page, perPage)
         photoList.value = photos
+    }
+
+    fun getPhotos(): Flow<PagingData<PhotoModel>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 10,
+                enablePlaceholders = false,
+            ),
+            pagingSourceFactory = { PhotoPagingSource(service) }
+        ).flow
     }
 }

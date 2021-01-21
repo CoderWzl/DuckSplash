@@ -4,10 +4,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import wzl.android.ducksplash.repository.PhotoListRepository
+import wzl.android.ducksplash.api.createApiService
+import wzl.android.ducksplash.api.httpClient
+import wzl.android.ducksplash.repository.PhotoRepository
 
 class CollectionDetailViewModel : ViewModel() {
-    private val repository = PhotoListRepository()
+    private val repository = PhotoRepository(createApiService(httpClient))
 
     private var curPage: Int = 0
 

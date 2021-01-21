@@ -76,10 +76,19 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     // okhttp retrofit
-    implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.okhttpLoggingVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.okhttpVersion"
     implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-moshi:$rootProject.retrofitVersion"
     implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofitVersion"
     implementation "com.google.code.gson:gson:$rootProject.gsonVersion"
+    implementation "com.squareup.okhttp3:okhttp:$rootProject.okhttpVersion"
+    // Okio
+    implementation "com.squareup.okio:okio:$rootProject.okIoVersion"
+
+    // Moshi
+    implementation "com.squareup.moshi:moshi:$rootProject.moshiVersion"
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:$rootProject.moshiVersion"
+
     //di
 
     // Coroutines

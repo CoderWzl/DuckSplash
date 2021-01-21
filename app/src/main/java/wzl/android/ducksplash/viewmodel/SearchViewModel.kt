@@ -6,12 +6,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import wzl.android.ducksplash.api.createApiService
+import wzl.android.ducksplash.api.httpClient
 import wzl.android.ducksplash.repository.SearchRepository
 
 private const val TAG = "SearchViewModel"
 class SearchViewModel : ViewModel() {
 
-    private val repository = SearchRepository()
+    private val repository = SearchRepository(createApiService())
     private val _queryLiveData = MutableLiveData("")
 
     val queryLiveData: LiveData<String> = _queryLiveData

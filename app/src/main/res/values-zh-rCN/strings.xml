@@ -7,5 +7,6 @@
     <string name="photo">照片</string>
     <string name="collection">图集</string>
     <string name="user">用户</string>
+    <string name="loading">加载中</string>
 
 </resources>
