@@ -6,8 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import wzl.android.ducksplash.adapter.CollectionListAdapter
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import kotlinx.coroutines.launch
+import wzl.android.ducksplash.adapter.CollectionDiffCallback
+import wzl.android.ducksplash.adapter.CollectionPagingAdapter
+import wzl.android.ducksplash.adapter.FooterLoadStateAdapter
 import wzl.android.ducksplash.databinding.FragmentSearchCollectionBinding
+import wzl.android.ducksplash.util.navigateSafe
 import wzl.android.ducksplash.viewmodel.SearchViewModel
 
 private const val TAG = "SearchCollectionFragmen"
@@ -23,7 +29,22 @@ class SearchCollectionFragment : Fragment() {
 
     private lateinit var viewBinding: FragmentSearchCollectionBinding
 
-    private lateinit var mAdapter: CollectionListAdapter
+    private val mAdapter = CollectionPagingAdapter(CollectionDiffCallback()) {
+        val fullName = if (it.coverPhoto.user.lastName == null) {
+            it.coverPhoto.user.firstName
+        } else {
+            it.coverPhoto.user.firstName + " " + it.coverPhoto.user.lastName
+        }
+        findNavController().navigateSafe(
+                SearchFragmentDirections.actionSearchFragmentToCollectionDetailFragment(
+                        it.id,
+                        it.title,
+                        it.totalPhotos,
+                        it.description,
+                        fullName
+                )
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,10 +55,11 @@ class SearchCollectionFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        mAdapter = CollectionListAdapter(this)
-        viewBinding.apply {
-            recyclerView.adapter = mAdapter
-        }
+        viewBinding.recyclerView.adapter = mAdapter.withLoadStateFooter(
+                footer = FooterLoadStateAdapter {
+                    mAdapter.retry()
+                }
+        )
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -45,11 +67,13 @@ class SearchCollectionFragment : Fragment() {
         Log.d(TAG, "onActivityCreated: $viewModel")
         viewModel.queryLiveData.observe(viewLifecycleOwner) {
             Log.d(TAG, "onActivityCreated: queryLiveData $it")
-            viewModel.searchCollectionList(it)
-        }
-        viewModel.collectionSearchResult.observe(viewLifecycleOwner) {
-            Log.d(TAG, "onActivityCreated: collectionSearchResult $it")
-            mAdapter.submitList(it.results)
+            if (it.isNotBlank()) {
+                viewModel.searchCollections(it).observe(viewLifecycleOwner) {
+                    lifecycleScope.launch {
+                        mAdapter.submitData(it)
+                    }
+                }
+            }
         }
     }
 

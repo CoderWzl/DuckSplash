@@ -14,4 +14,8 @@
         android:clipToPadding="false"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
+    <include
+        android:id="@+id/loadingLayout"
+        layout="@layout/layout_initial_loading" />
+
 </FrameLayout>

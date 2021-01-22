@@ -10,6 +10,8 @@ import androidx.annotation.StringRes
 const val BASE_URL = "https://api.unsplash.com/"
 // unsplash 官网申请的 access key
 const val USPLASH_CLIENT_ID = "w72LwQkOD-iFlBdIFeqJkGZqbxLBuN5vQ68OlLBhKg0"
+// unsplash 第一页 index 为 1
+const val INITIAL_PAGE = 1;
 
 enum class PhotoListType {
     PHOTO_LIST_NEW,

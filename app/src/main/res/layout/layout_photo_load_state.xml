@@ -8,12 +8,13 @@
     android:gravity="center">
 
     <ProgressBar
+        android:id="@+id/progressBar"
         android:layout_width="@dimen/dp20"
         android:layout_height="@dimen/dp20"
-        android:layout_marginRight="@dimen/dp10"
-        />
+        android:layout_marginRight="@dimen/dp10" />
 
     <TextView
+        android:id="@+id/loadingTip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/loading"

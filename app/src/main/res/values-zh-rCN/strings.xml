@@ -8,5 +8,6 @@
     <string name="collection">图集</string>
     <string name="user">用户</string>
     <string name="loading">加载中</string>
+    <string name="initial_loading_error_tip">加载出错，点击重试</string>
 
 </resources>

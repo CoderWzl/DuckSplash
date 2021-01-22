@@ -6,14 +6,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import wzl.android.ducksplash.R
-import wzl.android.ducksplash.adapter.PhotoListAdapter
+import wzl.android.ducksplash.adapter.FooterLoadStateAdapter
+import wzl.android.ducksplash.adapter.PhotoDiffCallback
+import wzl.android.ducksplash.adapter.PhotoPagingAdapter
+import wzl.android.ducksplash.api.createApiService
 import wzl.android.ducksplash.databinding.FragmentCollectionDetailBinding
+import wzl.android.ducksplash.repository.PhotoRepository
 import wzl.android.ducksplash.util.reserveStatusBar
 import wzl.android.ducksplash.viewmodel.CollectionDetailViewModel
+import wzl.android.ducksplash.viewmodel.CollectionDetailViewModelFactory
 
 class CollectionDetailFragment : Fragment() {
 
@@ -22,7 +29,7 @@ class CollectionDetailFragment : Fragment() {
     private lateinit var viewBinding: FragmentCollectionDetailBinding
 
     private val args: CollectionDetailFragmentArgs by navArgs()
-    private val mAdapter = PhotoListAdapter()
+    private val mAdapter = PhotoPagingAdapter(PhotoDiffCallback())
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,7 +43,11 @@ class CollectionDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         with(viewBinding) {
             coordinatorLayout.reserveStatusBar()
-            recyclerView.adapter = mAdapter
+            recyclerView.adapter = mAdapter.withLoadStateFooter(
+                    footer = FooterLoadStateAdapter {
+                        mAdapter.retry()
+                    }
+            )
             toolBar.title = args.title
             toolBar.setNavigationOnClickListener {
                 findNavController().popBackStack()
@@ -58,10 +69,18 @@ class CollectionDetailFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(CollectionDetailViewModel::class.java)
-        viewModel.loadPhotoListWithCollectionId(args.collectionId)
-        viewModel.photoList.observe(this as LifecycleOwner) {
-            mAdapter.submitList(it)
+        viewModel = ViewModelProvider(
+                this,
+                CollectionDetailViewModelFactory(
+                        PhotoRepository(
+                                createApiService()
+                        )
+                )
+        ).get(CollectionDetailViewModel::class.java)
+        lifecycleScope.launch {
+            viewModel.getCollectionPhoto(args.collectionId).collectLatest {
+                mAdapter.submitData(it)
+            }
         }
     }
 

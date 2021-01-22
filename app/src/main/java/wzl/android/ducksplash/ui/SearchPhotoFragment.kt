@@ -7,7 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
-import wzl.android.ducksplash.adapter.PhotoListAdapter
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
+import wzl.android.ducksplash.adapter.FooterLoadStateAdapter
+import wzl.android.ducksplash.adapter.PhotoDiffCallback
+import wzl.android.ducksplash.adapter.PhotoPagingAdapter
 import wzl.android.ducksplash.databinding.FragmentSearchPhotoBinding
 import wzl.android.ducksplash.viewmodel.SearchViewModel
 
@@ -25,7 +29,7 @@ class SearchPhotoFragment : Fragment() {
 
     private lateinit var viewBinding: FragmentSearchPhotoBinding
 
-    private val mAdapter = PhotoListAdapter()
+    private val mAdapter = PhotoPagingAdapter(PhotoDiffCallback())
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,19 +42,25 @@ class SearchPhotoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Log.d(TAG, "onViewCreated: ")
-        viewBinding.recyclerView.adapter = mAdapter
+        viewBinding.recyclerView.adapter = mAdapter.withLoadStateFooter(
+                footer = FooterLoadStateAdapter {
+                    mAdapter.retry()
+                }
+        )
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         Log.d(TAG, "onActivityCreated: $viewModel")
-        viewModel.photoSearchResult.observe(this as LifecycleOwner) {
-            Log.d(TAG, "photoSearchResult: ")
-            mAdapter.submitList(it.results)
-        }
         viewModel.queryLiveData.observe(this as LifecycleOwner) {
             Log.d(TAG, "queryLiveData: $it")
-            viewModel.searchPhotoList(it)
+            if (it.isNotBlank()) {
+                viewModel.searchPhotos(it).observe(viewLifecycleOwner) {
+                    lifecycleScope.launch {
+                        mAdapter.submitData(it)
+                    }
+                }
+            }
         }
     }
 
