@@ -1,35 +1,34 @@
 package wzl.android.ducksplash.ui
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import wzl.android.ducksplash.adapter.CollectionDiffCallback
 import wzl.android.ducksplash.adapter.CollectionPagingAdapter
 import wzl.android.ducksplash.adapter.FooterLoadStateAdapter
-import wzl.android.ducksplash.api.createApiService
 import wzl.android.ducksplash.databinding.FragmentCollectionListBinding
-import wzl.android.ducksplash.repository.CollectionRepository
 import wzl.android.ducksplash.util.navigateSafe
 import wzl.android.ducksplash.viewmodel.CollectionListViewModel
-import wzl.android.ducksplash.viewmodel.CollectionListViewModelFactory
 
+@AndroidEntryPoint
 class CollectionListFragment : Fragment() {
 
     companion object {
         fun newInstance() = CollectionListFragment()
     }
 
-    private lateinit var viewModel: CollectionListViewModel
     private lateinit var viewBinding: FragmentCollectionListBinding
+    private val viewModel: CollectionListViewModel by viewModels()
 
     private val mAdapter = CollectionPagingAdapter(CollectionDiffCallback()) {
         val fullName = if (it.coverPhoto.user.lastName == null) {
@@ -63,22 +62,20 @@ class CollectionListFragment : Fragment() {
                 }
         )
         mAdapter.addLoadStateListener {
-            viewBinding.recyclerView.isVisible = it.source.refresh is LoadState.NotLoading
-            viewBinding.loadingLayout.loadingContainer.isVisible = it.source.refresh !is LoadState.NotLoading
-            viewBinding.loadingLayout.loadingTip.isVisible = it.source.refresh is LoadState.Error
-            viewBinding.loadingLayout.progressBar.isVisible = it.source.refresh !is LoadState.Error
-            viewBinding.loadingLayout.loadingTip.setOnClickListener {
-                mAdapter.retry()
+            viewBinding.apply {
+                recyclerView.isVisible = it.source.refresh is LoadState.NotLoading
+                loadingLayout.loadingContainer.isVisible = it.source.refresh !is LoadState.NotLoading
+                loadingLayout.loadingTip.isVisible = it.source.refresh is LoadState.Error
+                loadingLayout.progressBar.isVisible = it.source.refresh !is LoadState.Error
+                loadingLayout.loadingTip.setOnClickListener {
+                    mAdapter.retry()
+                }
             }
         }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(
-                this,
-                CollectionListViewModelFactory(CollectionRepository(createApiService()))
-        ).get(CollectionListViewModel::class.java)
         lifecycleScope.launch {
             viewModel.getCollections().collectLatest {
                 mAdapter.submitData(it)

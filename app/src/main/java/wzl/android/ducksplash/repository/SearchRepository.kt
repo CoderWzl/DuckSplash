@@ -12,12 +12,13 @@ import wzl.android.ducksplash.data.SearchUserPagingSource
 import wzl.android.ducksplash.model.CollectionModel
 import wzl.android.ducksplash.model.PhotoModel
 import wzl.android.ducksplash.model.UserModel
+import javax.inject.Inject
 
 /**
  *Created on 2021/1/18
  *@author zhilin
  */
-class SearchRepository(private val service: SearchService) {
+class SearchRepository @Inject constructor(private val service: SearchService) {
 
     fun searchPhotos(
             query: String,

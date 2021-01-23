@@ -7,22 +7,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 import wzl.android.ducksplash.SearchType
 import wzl.android.ducksplash.adapter.SearchFragmentAdapter
-import wzl.android.ducksplash.api.createApiService
 import wzl.android.ducksplash.databinding.FragmentSearchBinding
-import wzl.android.ducksplash.repository.SearchRepository
 import wzl.android.ducksplash.util.hideKeyboard
 import wzl.android.ducksplash.util.reserveStatusBar
 import wzl.android.ducksplash.viewmodel.SearchViewModel
-import wzl.android.ducksplash.viewmodel.SearchViewModelFactory
 
 private const val TAG = "SearchFragment"
+
+@AndroidEntryPoint
 class SearchFragment : Fragment() {
-    private lateinit var viewModel: SearchViewModel
+
+    private val viewModel by viewModels<SearchViewModel>()
     private lateinit var viewBinding: FragmentSearchBinding
     private lateinit var mAdapter: SearchFragmentAdapter
 
@@ -60,12 +61,6 @@ class SearchFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(
-                this,
-                SearchViewModelFactory(
-                        SearchRepository(createApiService())
-                )
-        ).get(SearchViewModel::class.java)
         viewBinding.textInputLayout.editText?.setText(viewModel.queryLiveData.value?:"")
         Log.d(TAG, "onActivityCreated: $viewModel")
         mAdapter = SearchFragmentAdapter(this@SearchFragment, viewModel)

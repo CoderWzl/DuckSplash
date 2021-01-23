@@ -8,15 +8,15 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import dagger.hilt.android.AndroidEntryPoint
 import wzl.android.ducksplash.databinding.ActivityMainBinding
 import wzl.android.ducksplash.viewmodel.PhotoListViewModel
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     // 懒加载
-    private val viewBinding : ActivityMainBinding by lazy {
-        ActivityMainBinding.inflate(layoutInflater)
-    }
+    private lateinit var viewBinding : ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
         } else {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
         }
+        viewBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
         // 为导航添加监听，只有在导航到 MainFragment 的时候才可以展开 DrawerLayout 。
         findNavController().addOnDestinationChangedListener { _, destination, _ ->

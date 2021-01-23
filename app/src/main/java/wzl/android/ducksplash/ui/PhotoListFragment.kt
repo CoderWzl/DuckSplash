@@ -1,30 +1,28 @@
 package wzl.android.ducksplash.ui
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import wzl.android.ducksplash.adapter.PhotoDiffCallback
 import wzl.android.ducksplash.adapter.FooterLoadStateAdapter
 import wzl.android.ducksplash.adapter.PhotoPagingAdapter
-import wzl.android.ducksplash.api.createApiService
-import wzl.android.ducksplash.api.httpClient
 import wzl.android.ducksplash.databinding.FragmentPhotoListBinding
-import wzl.android.ducksplash.repository.PhotoRepository
 import wzl.android.ducksplash.viewmodel.PhotoListViewModel
-import wzl.android.ducksplash.viewmodel.PhotoListViewModelFactory
 
 /**
  * zhilin
  * 图片列表界面
  */
+@AndroidEntryPoint
 class PhotoListFragment : Fragment() {
 
     companion object {
@@ -33,7 +31,7 @@ class PhotoListFragment : Fragment() {
 
     private lateinit var viewBinding: FragmentPhotoListBinding
 
-    private lateinit var viewModel: PhotoListViewModel
+    private val viewModel: PhotoListViewModel by viewModels()
     private val mAdapter = PhotoPagingAdapter(PhotoDiffCallback())
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -66,8 +64,6 @@ class PhotoListFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this, PhotoListViewModelFactory(PhotoRepository(
-            createApiService(okHttpClient = httpClient)))).get(PhotoListViewModel::class.java)
         lifecycleScope.launch { 
             viewModel.getPhotos().collectLatest {
                 mAdapter.submitData(it)

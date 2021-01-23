@@ -1,6 +1,7 @@
 package wzl.android.ducksplash.viewmodel
 
 import android.util.Log
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,7 +15,9 @@ import wzl.android.ducksplash.repository.SearchRepository
 
 private const val TAG = "SearchViewModel"
 
-class SearchViewModel(private val repository: SearchRepository) : ViewModel() {
+class SearchViewModel @ViewModelInject constructor(
+    private val repository: SearchRepository
+) : ViewModel() {
 
     private val _queryLiveData = MutableLiveData("")
 

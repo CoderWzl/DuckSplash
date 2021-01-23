@@ -1,30 +1,29 @@
 package wzl.android.ducksplash.ui
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import wzl.android.ducksplash.R
 import wzl.android.ducksplash.adapter.FooterLoadStateAdapter
 import wzl.android.ducksplash.adapter.PhotoDiffCallback
 import wzl.android.ducksplash.adapter.PhotoPagingAdapter
-import wzl.android.ducksplash.api.createApiService
 import wzl.android.ducksplash.databinding.FragmentCollectionDetailBinding
-import wzl.android.ducksplash.repository.PhotoRepository
 import wzl.android.ducksplash.util.reserveStatusBar
 import wzl.android.ducksplash.viewmodel.CollectionDetailViewModel
-import wzl.android.ducksplash.viewmodel.CollectionDetailViewModelFactory
 
+@AndroidEntryPoint
 class CollectionDetailFragment : Fragment() {
 
-    private lateinit var viewModel: CollectionDetailViewModel
+    private val viewModel by viewModels<CollectionDetailViewModel>()
 
     private lateinit var viewBinding: FragmentCollectionDetailBinding
 
@@ -69,14 +68,6 @@ class CollectionDetailFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(
-                this,
-                CollectionDetailViewModelFactory(
-                        PhotoRepository(
-                                createApiService()
-                        )
-                )
-        ).get(CollectionDetailViewModel::class.java)
         lifecycleScope.launch {
             viewModel.getCollectionPhoto(args.collectionId).collectLatest {
                 mAdapter.submitData(it)

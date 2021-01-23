@@ -1,5 +1,6 @@
 package wzl.android.ducksplash.viewmodel
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -8,7 +9,9 @@ import kotlinx.coroutines.flow.Flow
 import wzl.android.ducksplash.model.CollectionModel
 import wzl.android.ducksplash.repository.CollectionRepository
 
-class CollectionListViewModel(private val repository: CollectionRepository) : ViewModel() {
+class CollectionListViewModel @ViewModelInject constructor(
+    private val repository: CollectionRepository
+) : ViewModel() {
 
     private var currentCollections: Flow<PagingData<CollectionModel>>? = null
 

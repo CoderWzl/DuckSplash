@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 import wzl.android.ducksplash.MainActivity
 import wzl.android.ducksplash.PhotoListType
 import wzl.android.ducksplash.R
@@ -23,6 +24,7 @@ private const val TAG = "MainFragment"
  * Use the [MainFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+@AndroidEntryPoint
 class MainFragment : Fragment() {
 
     private var extra: String? = null

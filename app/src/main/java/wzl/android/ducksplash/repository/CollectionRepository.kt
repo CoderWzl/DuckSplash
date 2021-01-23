@@ -7,13 +7,16 @@ import kotlinx.coroutines.flow.Flow
 import wzl.android.ducksplash.api.CollectionService
 import wzl.android.ducksplash.data.CollectionPagingSource
 import wzl.android.ducksplash.model.CollectionModel
+import javax.inject.Inject
 
 /**
  *Created on 2021/1/22
  *@author zhilin
  *加载图集相关
  */
-class CollectionRepository(private val service: CollectionService) {
+class CollectionRepository @Inject constructor(
+    private val service: CollectionService
+) {
 
     fun getCollections() : Flow<PagingData<CollectionModel>> {
         return Pager(
