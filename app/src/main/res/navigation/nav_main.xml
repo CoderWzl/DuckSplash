@@ -42,6 +42,9 @@
                 app:argType="string"
                 android:defaultValue="" />
         </action>
+        <action
+            android:id="@+id/action_mainFragment_to_photoDetailFragment"
+            app:destination="@id/photoDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -100,5 +103,12 @@
             android:name="fullName"
             app:argType="string"
             android:defaultValue="" />
+    </fragment>
+    <fragment
+        android:id="@+id/photoDetailFragment"
+        android:name="wzl.android.ducksplash.ui.PhotoDetailFragment"
+        android:label="fragment_photo_detail"
+        tools:layout="@layout/fragment_photo_detail" >
+
     </fragment>
 </navigation>

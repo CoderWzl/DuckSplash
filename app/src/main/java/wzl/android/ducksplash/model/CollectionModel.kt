@@ -1,11 +1,13 @@
 package wzl.android.ducksplash.model
 
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
 /**
  *Created on 1/17/21
  *@author zhilin
  */
+@Parcelize
 data class CollectionModel(
     val id: Int,
     val title: String,

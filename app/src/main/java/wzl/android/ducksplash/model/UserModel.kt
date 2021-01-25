@@ -1,11 +1,13 @@
 package wzl.android.ducksplash.model
 
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
 /**
  *Created on 2021/1/11
  *@author zhilin
  */
+@Parcelize
 data class UserModel(
     val id: String,
     @SerializedName("updated_at") val updatedTime: String,
