@@ -1,5 +1,6 @@
 package wzl.android.ducksplash.model
 
+import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 /**
@@ -13,4 +14,4 @@ data class UrlsModel(
     val regular: String,
     val small: String,
     val thumb: String
-)
+): Parcelable

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -16,6 +17,7 @@ import wzl.android.ducksplash.adapter.PhotoDiffCallback
 import wzl.android.ducksplash.adapter.FooterLoadStateAdapter
 import wzl.android.ducksplash.adapter.PhotoPagingAdapter
 import wzl.android.ducksplash.databinding.FragmentPhotoListBinding
+import wzl.android.ducksplash.util.navigateSafe
 import wzl.android.ducksplash.viewmodel.PhotoListViewModel
 
 /**
@@ -59,6 +61,15 @@ class PhotoListFragment : Fragment() {
             viewBinding.loadingLayout.loadingTip.setOnClickListener {
                 mAdapter.retry()
             }
+        }
+        mAdapter.onPhotoClickListener = {
+            it?.let {
+                val action = MainFragmentDirections.actionMainFragmentToPhotoDetailFragment(photo = it)
+                findNavController().navigateSafe(action)
+            }
+        }
+        mAdapter.onUserClickListener = {
+
         }
     }
 

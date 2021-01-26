@@ -1,5 +1,6 @@
 package wzl.android.ducksplash.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
@@ -19,4 +20,4 @@ data class CollectionModel(
     val private: Boolean,
     @SerializedName("share_key") val shareKey: String,
     @SerializedName("cover_photo") val coverPhoto: PhotoModel
-)
+): Parcelable

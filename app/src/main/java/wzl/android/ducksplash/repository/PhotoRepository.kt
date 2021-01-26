@@ -3,7 +3,9 @@ package wzl.android.ducksplash.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import wzl.android.ducksplash.api.PhotoService
 import wzl.android.ducksplash.data.CollectionPhotoPagingSource
 import wzl.android.ducksplash.data.PhotoPagingSource
@@ -35,6 +37,12 @@ class PhotoRepository @Inject constructor(val service: PhotoService) {
                 ),
                 pagingSourceFactory = { CollectionPhotoPagingSource(id, service) }
         ).flow
+    }
+
+    fun getPhoto(id: String, scope: CoroutineScope) {
+        scope.launch {
+            service.getPhoto(id)
+        }
     }
 
 }

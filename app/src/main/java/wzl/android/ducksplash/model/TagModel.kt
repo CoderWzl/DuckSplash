@@ -1,5 +1,6 @@
 package wzl.android.ducksplash.model
 
+import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 /**
@@ -9,4 +10,4 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class TagModel(
     val title: String?
-)
+): Parcelable

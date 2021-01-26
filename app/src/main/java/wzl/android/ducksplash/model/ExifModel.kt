@@ -1,5 +1,6 @@
 package wzl.android.ducksplash.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
@@ -21,4 +22,4 @@ data class ExifModel(
     @SerializedName("focal_length") val focalLength: String?,
     // 曝光度
     val iso: Int
-)
+): Parcelable

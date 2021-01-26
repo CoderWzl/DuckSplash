@@ -25,4 +25,10 @@ interface PhotoService {
             @Query("page") page: Int?,
             @Query("per_page") perPage: Int?
     ): List<PhotoModel>
+
+    @GET("photos/{id}")
+    suspend fun getPhoto(
+        @Path("id") id: String
+    ): PhotoModel
+
 }

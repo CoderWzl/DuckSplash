@@ -44,7 +44,18 @@
         </action>
         <action
             android:id="@+id/action_mainFragment_to_photoDetailFragment"
-            app:destination="@id/photoDetailFragment" />
+            app:destination="@id/photoDetailFragment" >
+            <argument
+                android:name="photo"
+                app:argType="wzl.android.ducksplash.model.PhotoModel"
+                android:defaultValue="@null"
+                app:nullable="true"/>
+            <argument
+                android:name="photoId"
+                app:argType="string"
+                android:defaultValue="@null"
+                app:nullable="true"/>
+        </action>
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -109,6 +120,15 @@
         android:name="wzl.android.ducksplash.ui.PhotoDetailFragment"
         android:label="fragment_photo_detail"
         tools:layout="@layout/fragment_photo_detail" >
-
+        <argument
+            android:name="photo"
+            app:argType="wzl.android.ducksplash.model.PhotoModel"
+            android:defaultValue="@null"
+            app:nullable="true"/>
+        <argument
+            android:name="photoId"
+            app:argType="string"
+            android:defaultValue="@null"
+            app:nullable="true"/>
     </fragment>
 </navigation>

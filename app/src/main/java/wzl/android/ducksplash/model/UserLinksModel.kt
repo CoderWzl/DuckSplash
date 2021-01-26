@@ -1,5 +1,6 @@
 package wzl.android.ducksplash.model
 
+import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 /**
@@ -15,4 +16,4 @@ data class UserLinksModel(
     val portfolio: String,
     val following: String,
     val followers: String
-)
+): Parcelable

@@ -1,5 +1,6 @@
 package wzl.android.ducksplash.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
@@ -36,4 +37,4 @@ data class PhotoModel(
     val tags: List<TagModel>?,
     @SerializedName("current_user_collections")
     val currentUserCollections: List<CollectionModel>?
-)
+): Parcelable
