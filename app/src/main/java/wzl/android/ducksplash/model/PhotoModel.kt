@@ -36,5 +36,8 @@ data class PhotoModel(
     val location: LocationModel?,
     val tags: List<TagModel>?,
     @SerializedName("current_user_collections")
-    val currentUserCollections: List<CollectionModel>?
+    val currentUserCollections: List<CollectionModel>?,
+    /*@SerializedName("related_collections")
+    val relatedCollections: List<CollectionModel>?,*/
+    val views: Int
 ): Parcelable

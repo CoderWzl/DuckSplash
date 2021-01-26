@@ -4,8 +4,10 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import wzl.android.ducksplash.api.PhotoService
 import wzl.android.ducksplash.data.CollectionPhotoPagingSource
 import wzl.android.ducksplash.data.PhotoPagingSource
@@ -39,10 +41,8 @@ class PhotoRepository @Inject constructor(val service: PhotoService) {
         ).flow
     }
 
-    fun getPhoto(id: String, scope: CoroutineScope) {
-        scope.launch {
-            service.getPhoto(id)
-        }
+    suspend fun getPhoto(id: String): PhotoModel {
+        return service.getPhoto(id)
     }
 
 }

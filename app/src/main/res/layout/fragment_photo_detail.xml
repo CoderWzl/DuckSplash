@@ -64,6 +64,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textColor="@color/text_black"
+                    android:layout_marginHorizontal="@dimen/dp10"
                     android:textSize="@dimen/sp14"
                     android:textStyle="bold"/>
 
@@ -99,7 +100,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="center_horizontal"
                     android:orientation="vertical">
 
                     <TextView
@@ -107,14 +107,15 @@
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/sp14"
                         android:textColor="@color/text_gray"
-                        android:text="浏览"/>
+                        android:text="设备制造商"/>
 
                     <TextView
+                        android:id="@+id/manufacturer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/sp14"
                         android:textColor="@color/text_black"
-                        android:text="1.1M"/>
+                        android:text="Canon"/>
 
                 </LinearLayout>
 
@@ -122,7 +123,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="center_horizontal"
                     android:orientation="vertical">
 
                     <TextView
@@ -130,18 +130,20 @@
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/sp14"
                         android:textColor="@color/text_gray"
-                        android:text="浏览"/>
+                        android:text="设备型号"/>
 
                     <TextView
+                        android:id="@+id/model"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/sp14"
                         android:textColor="@color/text_black"
-                        android:text="1.1M"/>
+                        android:text="Canon EOS 5D"/>
 
                 </LinearLayout>
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -153,7 +155,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="center_horizontal"
                     android:orientation="vertical">
 
                     <TextView
@@ -161,14 +162,15 @@
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/sp14"
                         android:textColor="@color/text_gray"
-                        android:text="浏览"/>
+                        android:text="尺寸"/>
 
                     <TextView
+                        android:id="@+id/size"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/sp14"
                         android:textColor="@color/text_black"
-                        android:text="1.1M"/>
+                        android:text="1020 x 1080"/>
 
                 </LinearLayout>
 
@@ -176,7 +178,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="center_horizontal"
                     android:orientation="vertical">
 
                     <TextView
@@ -184,18 +185,20 @@
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/sp14"
                         android:textColor="@color/text_gray"
-                        android:text="浏览"/>
+                        android:text="焦距"/>
 
                     <TextView
+                        android:id="@+id/focalLength"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/sp14"
                         android:textColor="@color/text_black"
-                        android:text="1.1M"/>
+                        android:text="63.0mm"/>
 
                 </LinearLayout>
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -207,7 +210,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="center_horizontal"
                     android:orientation="vertical">
 
                     <TextView
@@ -215,14 +217,15 @@
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/sp14"
                         android:textColor="@color/text_gray"
-                        android:text="浏览"/>
+                        android:text="光圈"/>
 
                     <TextView
+                        android:id="@+id/aperture"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/sp14"
                         android:textColor="@color/text_black"
-                        android:text="1.1M"/>
+                        android:text="f/5.6"/>
 
                 </LinearLayout>
 
@@ -230,7 +233,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="center_horizontal"
                     android:orientation="vertical">
 
                     <TextView
@@ -238,14 +240,70 @@
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/sp14"
                         android:textColor="@color/text_gray"
-                        android:text="浏览"/>
+                        android:text="快门时间"/>
+
+                    <TextView
+                        android:id="@+id/shutterTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp14"
+                        android:textColor="@color/text_black"
+                        android:text="1/100s"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingVertical="@dimen/dp20">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/sp14"
+                        android:textColor="@color/text_gray"
+                        android:text="曝光度"/>
+
+                    <TextView
+                        android:id="@+id/exposure"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp14"
                         android:textColor="@color/text_black"
-                        android:text="1.1M"/>
+                        android:text="f/5.6"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp14"
+                        android:textColor="@color/text_gray"
+                        android:text="颜色"/>
+
+                    <TextView
+                        android:id="@+id/color"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp14"
+                        android:textColor="@color/text_black"
+                        android:text="#f3f3f3"/>
 
                 </LinearLayout>
 
@@ -278,6 +336,7 @@
                         android:text="浏览"/>
 
                     <TextView
+                        android:id="@+id/view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/sp14"
@@ -298,14 +357,15 @@
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/sp14"
                         android:textColor="@color/text_gray"
-                        android:text="浏览"/>
+                        android:text="下载"/>
 
                     <TextView
+                        android:id="@+id/download"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/sp14"
                         android:textColor="@color/text_black"
-                        android:text="1.1M"/>
+                        android:text="5.5K"/>
 
                 </LinearLayout>
 
@@ -321,14 +381,15 @@
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/sp14"
                         android:textColor="@color/text_gray"
-                        android:text="浏览"/>
+                        android:text="喜爱"/>
 
                     <TextView
+                        android:id="@+id/favorite"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/sp14"
                         android:textColor="@color/text_black"
-                        android:text="1.1M"/>
+                        android:text="15"/>
 
                 </LinearLayout>
 

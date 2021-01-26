@@ -5,12 +5,10 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import dagger.hilt.android.AndroidEntryPoint
 import wzl.android.ducksplash.databinding.ActivityMainBinding
-import wzl.android.ducksplash.viewmodel.PhotoListViewModel
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
