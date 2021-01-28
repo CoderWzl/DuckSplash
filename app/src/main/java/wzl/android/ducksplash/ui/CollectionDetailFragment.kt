@@ -12,11 +12,13 @@ import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import wzl.android.ducksplash.NavMainDirections
 import wzl.android.ducksplash.R
 import wzl.android.ducksplash.adapter.FooterLoadStateAdapter
 import wzl.android.ducksplash.adapter.PhotoDiffCallback
 import wzl.android.ducksplash.adapter.PhotoPagingAdapter
 import wzl.android.ducksplash.databinding.FragmentCollectionDetailBinding
+import wzl.android.ducksplash.util.navigateSafe
 import wzl.android.ducksplash.util.reserveStatusBar
 import wzl.android.ducksplash.viewmodel.CollectionDetailViewModel
 
@@ -40,6 +42,9 @@ class CollectionDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mAdapter.onPhotoClickListener = {
+            findNavController().navigateSafe(NavMainDirections.actionGlobalToPhotoDetailFragment(it))
+        }
         with(viewBinding) {
             coordinatorLayout.reserveStatusBar()
             recyclerView.adapter = mAdapter.withLoadStateFooter(

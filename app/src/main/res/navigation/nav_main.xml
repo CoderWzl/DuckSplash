@@ -5,6 +5,23 @@
     android:id="@+id/nav_main"
     app:startDestination="@id/mainFragment">
 
+<!--  很多界面都能导航到该界面，故创建一个全局操作。全局操作要求 navigation 标签下
+      必须有 id 并会根据 id 生成相应的 Directions 类，如 NavMainDirections -->
+    <action
+        android:id="@+id/action_global_to_photoDetailFragment"
+        app:destination="@id/photoDetailFragment" >
+        <argument
+            android:name="photo"
+            app:argType="wzl.android.ducksplash.model.PhotoModel"
+            android:defaultValue="@null"
+            app:nullable="true"/>
+        <argument
+            android:name="photoId"
+            app:argType="string"
+            android:defaultValue="@null"
+            app:nullable="true"/>
+    </action>
+
     <fragment
         android:id="@+id/mainFragment"
         android:name="wzl.android.ducksplash.ui.MainFragment"
@@ -41,20 +58,6 @@
                 android:name="fullName"
                 app:argType="string"
                 android:defaultValue="" />
-        </action>
-        <action
-            android:id="@+id/action_mainFragment_to_photoDetailFragment"
-            app:destination="@id/photoDetailFragment" >
-            <argument
-                android:name="photo"
-                app:argType="wzl.android.ducksplash.model.PhotoModel"
-                android:defaultValue="@null"
-                app:nullable="true"/>
-            <argument
-                android:name="photoId"
-                app:argType="string"
-                android:defaultValue="@null"
-                app:nullable="true"/>
         </action>
     </fragment>
     <fragment

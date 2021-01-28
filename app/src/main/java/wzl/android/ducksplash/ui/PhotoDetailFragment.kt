@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.navigation.navGraphViewModels
 import dagger.hilt.android.AndroidEntryPoint
 import wzl.android.ducksplash.IMAGE_LARGE_SUFFIX
 import wzl.android.ducksplash.IMAGE_THUMB_SUFFIX
@@ -18,6 +20,7 @@ import wzl.android.ducksplash.model.PhotoModel
 import wzl.android.ducksplash.util.loadCirclePhotoUrl
 import wzl.android.ducksplash.util.loadPhotoUrlWithThumbnail
 import wzl.android.ducksplash.util.reserveStatusBar
+import wzl.android.ducksplash.viewmodel.NavMainViewModel
 import wzl.android.ducksplash.viewmodel.PhotoDetailViewModel
 
 /**
@@ -66,13 +69,21 @@ class PhotoDetailFragment : Fragment() {
     private fun observer() {
         viewModel.photo.observe(viewLifecycleOwner) {
             setupDetail(it)
+            viewBinding.loadingContainer.isVisible = false
+            viewBinding.detailContainer.isVisible = true
         }
         viewModel.loading.observe(viewLifecycleOwner) {
-            // TODO: 1/26/21 show or hide loading view
+            viewBinding.loadingContainer.isVisible = it
+            viewBinding.detailContainer.isVisible = !it
+            viewBinding.progressBar.isVisible = it
+            viewBinding.errorTip.isVisible = false
         }
         viewModel.error.observe(viewLifecycleOwner) {
-            // TODO: 1/26/21 show or hide error view
-            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+            viewBinding.loadingContainer.isVisible = true
+            viewBinding.detailContainer.isVisible = false
+            viewBinding.progressBar.isVisible = false
+            viewBinding.errorTip.isVisible = true
+            viewBinding.errorTip.text = it
         }
     }
 
@@ -85,6 +96,8 @@ class PhotoDetailFragment : Fragment() {
     }
 
     private fun setupDetail(photo: PhotoModel?) {
+        val vm by navGraphViewModels<NavMainViewModel>(R.id.nav_main)
+        vm.sendPhotoIso(photo?.exif?.iso.toString())
         photo?.let {
             viewBinding.apply {
                 manufacturer.text = it.exif?.make

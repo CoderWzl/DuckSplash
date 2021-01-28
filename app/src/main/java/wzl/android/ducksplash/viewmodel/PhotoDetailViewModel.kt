@@ -33,7 +33,9 @@ class PhotoDetailViewModel @ViewModelInject constructor(
             try {
                 val photoModel = repository.getPhoto(photoId)
                 _photo.postValue(photoModel)
+                _loading.postValue(false)
             } catch (throwable: Throwable) {
+                _loading.postValue(false)
                 when(throwable) {
                     is IOException -> {
                         _error.postValue("Io exception")
@@ -43,8 +45,6 @@ class PhotoDetailViewModel @ViewModelInject constructor(
                     }
                     else -> _error.postValue(throwable.localizedMessage)
                 }
-            } finally {
-                _loading.postValue(false)
             }
         }
     }

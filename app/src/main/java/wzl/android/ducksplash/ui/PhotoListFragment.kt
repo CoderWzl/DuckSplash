@@ -5,19 +5,24 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
 import androidx.paging.LoadState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import wzl.android.ducksplash.NavMainDirections
+import wzl.android.ducksplash.R
 import wzl.android.ducksplash.adapter.PhotoDiffCallback
 import wzl.android.ducksplash.adapter.FooterLoadStateAdapter
 import wzl.android.ducksplash.adapter.PhotoPagingAdapter
 import wzl.android.ducksplash.databinding.FragmentPhotoListBinding
 import wzl.android.ducksplash.util.navigateSafe
+import wzl.android.ducksplash.viewmodel.NavMainViewModel
 import wzl.android.ducksplash.viewmodel.PhotoListViewModel
 
 /**
@@ -35,6 +40,7 @@ class PhotoListFragment : Fragment() {
 
     private val viewModel: PhotoListViewModel by viewModels()
     private val mAdapter = PhotoPagingAdapter(PhotoDiffCallback())
+    private val vm by navGraphViewModels<NavMainViewModel>(R.id.nav_main)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -64,8 +70,7 @@ class PhotoListFragment : Fragment() {
         }
         mAdapter.onPhotoClickListener = {
             it?.let {
-                val action = MainFragmentDirections.actionMainFragmentToPhotoDetailFragment(photo = it)
-                findNavController().navigateSafe(action)
+                findNavController().navigateSafe(NavMainDirections.actionGlobalToPhotoDetailFragment(it))
             }
         }
         mAdapter.onUserClickListener = {
@@ -79,6 +84,9 @@ class PhotoListFragment : Fragment() {
             viewModel.getPhotos().collectLatest {
                 mAdapter.submitData(it)
             }
+        }
+        vm.photoIso.observe(viewLifecycleOwner) { it ->
+            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
         }
     }
 
