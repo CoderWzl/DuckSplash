@@ -24,6 +24,7 @@ buildscript {
         leakCanaryVersion = '2.2'
         hiltVersion = '2.28.3-alpha'
         hiltViewModelVersion = '1.0.0-alpha02'
+        recyclerViewVersion = '1.2.0-alpha05'
 
         // test
         junitVersion = "4.13.1"

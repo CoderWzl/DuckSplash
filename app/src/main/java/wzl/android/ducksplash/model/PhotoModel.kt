@@ -37,7 +37,14 @@ data class PhotoModel(
     val tags: List<TagModel>?,
     @SerializedName("current_user_collections")
     val currentUserCollections: List<CollectionModel>?,
-    /*@SerializedName("related_collections")
-    val relatedCollections: List<CollectionModel>?,*/
+    @SerializedName("related_collections")
+    val relatedCollections: RelatedCollectionsModel?,
     val views: Int
+): Parcelable
+
+@Parcelize
+data class RelatedCollectionsModel(
+    val total: Int,
+    val type:String?,
+    val results: List<CollectionModel>?
 ): Parcelable

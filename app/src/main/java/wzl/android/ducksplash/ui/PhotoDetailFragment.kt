@@ -11,10 +11,13 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import wzl.android.ducksplash.IMAGE_LARGE_SUFFIX
 import wzl.android.ducksplash.IMAGE_THUMB_SUFFIX
 import wzl.android.ducksplash.R
+import wzl.android.ducksplash.adapter.TagListAdapter
 import wzl.android.ducksplash.databinding.FragmentPhotoDetailBinding
 import wzl.android.ducksplash.model.PhotoModel
 import wzl.android.ducksplash.util.loadCirclePhotoUrl
@@ -114,6 +117,14 @@ class PhotoDetailFragment : Fragment() {
                 val headUrl = photo.user.profileImage.large
                 userHead.loadCirclePhotoUrl(headUrl)
                 userName.text = "${photo.user.firstName} ${photo.user.lastName?:""}"
+                tagList.layoutManager = LinearLayoutManager(
+                    requireContext(),
+                    RecyclerView.HORIZONTAL,
+                    false
+                )
+                tagList.adapter = TagListAdapter().also {
+                    it.submitList(photo.tags)
+                }
             }
         }
     }

@@ -112,6 +112,9 @@ dependencies {
     kapt "com.google.dagger:hilt-android-compiler:$rootProject.hiltVersion"
     kapt "androidx.hilt:hilt-compiler:$rootProject.hiltViewModelVersion"
 
+    // RecyclerView
+    //implementation "androidx.recyclerview:recyclerview:$rootProject.recyclerViewVersion"
+
     //test
     testImplementation "junit:junit:$rootProject.junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$rootProject.ext_junitVersion"
