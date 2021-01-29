@@ -10,4 +10,5 @@
     android:gravity="center"
     android:paddingHorizontal="@dimen/dp20"
     android:background="@drawable/shape_tag_bkg"
-    android:layout_margin="@dimen/dp10"/>
+    android:layout_marginVertical="@dimen/dp10"
+    android:layout_marginRight="@dimen/dp20"/>

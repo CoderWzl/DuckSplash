@@ -14,7 +14,7 @@ import wzl.android.ducksplash.util.loadCirclePhotoUrl
  */
 class PhotoDetailHeaderAdapter(): RecyclerView.Adapter<PhotoDetailHeaderVh>() {
 
-    private var photo: PhotoModel? = null
+    var photo: PhotoModel? = null
     set(value) {
         field = value
         notifyDataSetChanged()

@@ -26,8 +26,13 @@ class PhotoDetailViewModel @ViewModelInject constructor(
     val photo: LiveData<PhotoModel> = _photo
     val loading: LiveData<Boolean> = _loading
     val error: LiveData<String> = _error
+    private var curPhotoId: String? = null
 
     fun getPhoto(photoId: String) {
+        if (curPhotoId != null && curPhotoId == photoId) {
+            return
+        }
+        curPhotoId = photoId
         viewModelScope.launch {
             _loading.postValue(true)
             try {

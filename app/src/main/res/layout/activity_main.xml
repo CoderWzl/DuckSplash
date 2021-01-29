@@ -26,6 +26,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="#00ff00"
+        android:clickable="true"
         android:fitsSystemWindows="true" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

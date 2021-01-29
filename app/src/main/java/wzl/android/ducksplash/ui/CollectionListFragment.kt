@@ -13,6 +13,7 @@ import androidx.paging.LoadState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import wzl.android.ducksplash.NavMainDirections
 import wzl.android.ducksplash.adapter.CollectionDiffCallback
 import wzl.android.ducksplash.adapter.CollectionPagingAdapter
 import wzl.android.ducksplash.adapter.FooterLoadStateAdapter
@@ -37,7 +38,7 @@ class CollectionListFragment : Fragment() {
             it.coverPhoto.user.firstName + " " + it.coverPhoto.user.lastName
         }
         findNavController().navigateSafe(
-                MainFragmentDirections.actionMainFragmentToCollectionDetailFragment(
+                NavMainDirections.actionGlobalToCollectionDetailFragment(
                         it.id,
                         it.title,
                         it.totalPhotos,

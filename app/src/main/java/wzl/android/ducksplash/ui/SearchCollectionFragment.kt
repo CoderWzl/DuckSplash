@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.launch
+import wzl.android.ducksplash.NavMainDirections
 import wzl.android.ducksplash.adapter.CollectionDiffCallback
 import wzl.android.ducksplash.adapter.CollectionPagingAdapter
 import wzl.android.ducksplash.adapter.FooterLoadStateAdapter
@@ -36,7 +37,7 @@ class SearchCollectionFragment : Fragment() {
             it.coverPhoto.user.firstName + " " + it.coverPhoto.user.lastName
         }
         findNavController().navigateSafe(
-                SearchFragmentDirections.actionSearchFragmentToCollectionDetailFragment(
+                NavMainDirections.actionGlobalToCollectionDetailFragment(
                         it.id,
                         it.title,
                         it.totalPhotos,

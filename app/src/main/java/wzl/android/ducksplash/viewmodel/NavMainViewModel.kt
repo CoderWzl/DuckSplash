@@ -7,6 +7,9 @@ import wzl.android.ducksplash.util.SingleLiveEvent
 /**
  *Created on 2021/1/28
  *@author zhilin
+ *
+ * Fragment 之间交互通过共享 ViewModel 的方式进行
+ * val vm by navGraphViewModels<NavMainViewModel>(R.id.nav_main)
  */
 class NavMainViewModel: ViewModel() {
 
