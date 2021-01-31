@@ -5,4 +5,20 @@
         <item name="android:textSize">@dimen/sp16</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+    <style name="UserInfoCount">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/text_black</item>
+        <item name="android:textSize">@dimen/sp16</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="UserInfoHold">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/text_gray</item>
+        <item name="android:layout_marginTop">@dimen/dp5</item>
+        <item name="android:textSize">@dimen/sp14</item>
+    </style>
 </resources>

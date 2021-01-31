@@ -70,11 +70,17 @@ class PhotoListFragment : Fragment() {
         }
         mAdapter.onPhotoClickListener = {
             it?.let {
-                findNavController().navigateSafe(NavMainDirections.actionGlobalToPhotoDetailFragment(it))
+                findNavController().navigateSafe(
+                    NavMainDirections.actionGlobalToPhotoDetailFragment(it)
+                )
             }
         }
         mAdapter.onUserClickListener = {
-
+            it?.let {
+                findNavController().navigateSafe(
+                    NavMainDirections.actionGlobalUserFragment(it)
+                )
+            }
         }
     }
 

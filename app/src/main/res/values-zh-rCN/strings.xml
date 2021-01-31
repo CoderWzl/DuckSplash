@@ -5,6 +5,7 @@
     <string name="photo_summary_user_info">%d 张照片·由 %s 创建</string>
     <string name="search">搜索</string>
     <string name="photo">照片</string>
+    <string name="favorite">喜欢</string>
     <string name="collection">图集</string>
     <string name="user">用户</string>
     <string name="loading">加载中</string>

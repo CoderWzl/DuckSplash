@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="@dimen/app_bar_height"
+    android:paddingHorizontal="@dimen/dp15"
+    android:paddingBottom="@dimen/dp15">
+
+    <ImageView
+        android:id="@+id/userHead"
+        android:layout_width="@dimen/dp100"
+        android:layout_height="@dimen/dp100"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+        android:id="@+id/photoCount"
+        style="@style/UserInfoCount"
+        app:layout_constraintTop_toTopOf="@id/userHead"
+        app:layout_constraintLeft_toRightOf="@id/userHead"
+        app:layout_constraintBottom_toTopOf="@id/photoHold"
+        app:layout_constraintRight_toLeftOf="@id/favoriteCount"
+        app:layout_constraintVertical_chainStyle="packed"
+        android:text="@string/app_name"/>
+
+    <TextView
+        android:id="@+id/photoHold"
+        style="@style/UserInfoHold"
+        app:layout_constraintTop_toBottomOf="@id/photoCount"
+        app:layout_constraintBottom_toBottomOf="@id/userHead"
+        app:layout_constraintLeft_toRightOf="@id/userHead"
+        app:layout_constraintRight_toLeftOf="@id/favoriteHold"
+        android:text="@string/photo"/>
+
+    <TextView
+        android:id="@+id/favoriteCount"
+        style="@style/UserInfoCount"
+        app:layout_constraintBaseline_toBaselineOf="@id/photoCount"
+        app:layout_constraintLeft_toRightOf="@id/photoCount"
+        app:layout_constraintRight_toLeftOf="@id/collectionCount"
+        app:layout_constraintBottom_toTopOf="@id/favoriteHold"
+        android:text="@string/app_name"/>
+
+    <TextView
+        android:id="@+id/favoriteHold"
+        style="@style/UserInfoHold"
+        app:layout_constraintTop_toBottomOf="@id/favoriteCount"
+        app:layout_constraintBaseline_toBaselineOf="@id/photoHold"
+        app:layout_constraintLeft_toRightOf="@id/photoHold"
+        app:layout_constraintRight_toLeftOf="@id/collectionHold"
+        android:text="@string/favorite"/>
+
+    <TextView
+        android:id="@+id/collectionCount"
+        style="@style/UserInfoCount"
+        app:layout_constraintBaseline_toBaselineOf="@id/favoriteCount"
+        app:layout_constraintLeft_toRightOf="@id/favoriteCount"
+        app:layout_constraintRight_toRightOf="parent"
+        android:text="@string/app_name"/>
+
+    <TextView
+        android:id="@+id/collectionHold"
+        style="@style/UserInfoHold"
+        app:layout_constraintTop_toBottomOf="@id/collectionCount"
+        app:layout_constraintBaseline_toBaselineOf="@id/favoriteHold"
+        app:layout_constraintLeft_toRightOf="@id/favoriteHold"
+        app:layout_constraintRight_toRightOf="parent"
+        android:text="@string/collection"/>
+
+    <TextView
+        android:id="@+id/userName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lines="1"
+        android:ellipsize="end"
+        android:text="@string/app_name"
+        android:textStyle="bold"
+        android:textSize="@dimen/sp14"
+        android:textColor="@color/text_black"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/userHead"
+        android:layout_marginTop="@dimen/dp10"/>
+
+    <TextView
+        android:id="@+id/location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lines="1"
+        android:ellipsize="end"
+        android:text="@string/app_name"
+        android:textColor="@color/text_gray"
+        android:textSize="@dimen/sp14"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/userName"
+        android:layout_marginTop="@dimen/dp5"/>
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textSize="@dimen/sp14"
+        android:textColor="@color/text_black"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/location"
+        android:layout_marginTop="@dimen/dp10"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
