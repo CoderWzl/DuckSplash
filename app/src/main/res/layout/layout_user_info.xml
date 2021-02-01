@@ -10,64 +10,81 @@
 
     <ImageView
         android:id="@+id/userHead"
-        android:layout_width="@dimen/dp100"
-        android:layout_height="@dimen/dp100"
+        android:layout_width="@dimen/dp80"
+        android:layout_height="@dimen/dp80"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" />
 
-    <TextView
-        android:id="@+id/photoCount"
-        style="@style/UserInfoCount"
+    <LinearLayout
+        android:id="@+id/photoButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
         app:layout_constraintTop_toTopOf="@id/userHead"
         app:layout_constraintLeft_toRightOf="@id/userHead"
-        app:layout_constraintBottom_toTopOf="@id/photoHold"
-        app:layout_constraintRight_toLeftOf="@id/favoriteCount"
-        app:layout_constraintVertical_chainStyle="packed"
-        android:text="@string/app_name"/>
-
-    <TextView
-        android:id="@+id/photoHold"
-        style="@style/UserInfoHold"
-        app:layout_constraintTop_toBottomOf="@id/photoCount"
         app:layout_constraintBottom_toBottomOf="@id/userHead"
-        app:layout_constraintLeft_toRightOf="@id/userHead"
-        app:layout_constraintRight_toLeftOf="@id/favoriteHold"
-        android:text="@string/photo"/>
+        app:layout_constraintRight_toLeftOf="@id/favoriteButton">
 
-    <TextView
-        android:id="@+id/favoriteCount"
-        style="@style/UserInfoCount"
-        app:layout_constraintBaseline_toBaselineOf="@id/photoCount"
-        app:layout_constraintLeft_toRightOf="@id/photoCount"
-        app:layout_constraintRight_toLeftOf="@id/collectionCount"
-        app:layout_constraintBottom_toTopOf="@id/favoriteHold"
-        android:text="@string/app_name"/>
+        <TextView
+            android:id="@+id/photoCount"
+            style="@style/UserInfoCount"
+            android:text="@string/app_name"/>
 
-    <TextView
-        android:id="@+id/favoriteHold"
-        style="@style/UserInfoHold"
-        app:layout_constraintTop_toBottomOf="@id/favoriteCount"
-        app:layout_constraintBaseline_toBaselineOf="@id/photoHold"
-        app:layout_constraintLeft_toRightOf="@id/photoHold"
-        app:layout_constraintRight_toLeftOf="@id/collectionHold"
-        android:text="@string/favorite"/>
+        <TextView
+            android:id="@+id/photoHold"
+            style="@style/UserInfoHold"
+            app:layout_constraintTop_toBottomOf="@id/photoCount"
+            app:layout_constraintBottom_toBottomOf="@id/userHead"
+            app:layout_constraintLeft_toRightOf="@id/userHead"
+            app:layout_constraintRight_toLeftOf="@id/favoriteHold"
+            android:text="@string/photo"/>
 
-    <TextView
-        android:id="@+id/collectionCount"
-        style="@style/UserInfoCount"
-        app:layout_constraintBaseline_toBaselineOf="@id/favoriteCount"
-        app:layout_constraintLeft_toRightOf="@id/favoriteCount"
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/favoriteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:layout_constraintLeft_toRightOf="@id/photoButton"
+        app:layout_constraintRight_toLeftOf="@id/collectionButton"
+        app:layout_constraintTop_toTopOf="@id/photoButton"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/favoriteCount"
+            style="@style/UserInfoCount"
+            android:text="@string/app_name"/>
+
+        <TextView
+            android:id="@+id/favoriteHold"
+            style="@style/UserInfoHold"
+            android:text="@string/favorite"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/collectionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/favoriteButton"
+        app:layout_constraintLeft_toRightOf="@id/favoriteButton"
         app:layout_constraintRight_toRightOf="parent"
-        android:text="@string/app_name"/>
+        android:gravity="center"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/collectionHold"
-        style="@style/UserInfoHold"
-        app:layout_constraintTop_toBottomOf="@id/collectionCount"
-        app:layout_constraintBaseline_toBaselineOf="@id/favoriteHold"
-        app:layout_constraintLeft_toRightOf="@id/favoriteHold"
-        app:layout_constraintRight_toRightOf="parent"
-        android:text="@string/collection"/>
+        <TextView
+            android:id="@+id/collectionCount"
+            style="@style/UserInfoCount"
+            android:text="@string/app_name"/>
+
+        <TextView
+            android:id="@+id/collectionHold"
+            style="@style/UserInfoHold"
+            android:text="@string/collection"/>
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/userName"
