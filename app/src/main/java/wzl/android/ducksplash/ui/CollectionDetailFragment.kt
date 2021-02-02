@@ -80,10 +80,8 @@ class CollectionDetailFragment : Fragment() {
 
         }
         viewBinding.appBarLayout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
-            Log.d("zhilin", "onViewCreated: $verticalOffset")
             expanded = verticalOffset == 0
         })
-        Log.d("zhilin", "onViewCreated: $expanded")
         viewBinding.appBarLayout.setExpanded(expanded)
     }
 

@@ -13,8 +13,12 @@ import wzl.android.ducksplash.model.TagModel
  *@author zhilin
  */
 class TagListAdapter: ListAdapter<TagModel, TagViewHolder>(TagDiffCallback()) {
+
+    var onTagClickListener: ((tag: String) -> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TagViewHolder {
         return TagViewHolder(
+            onTagClickListener,
             ItemTagListBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
@@ -29,11 +33,17 @@ class TagListAdapter: ListAdapter<TagModel, TagViewHolder>(TagDiffCallback()) {
 }
 
 class TagViewHolder(
+    private val onTagClickListener: ((tag: String) -> Unit)?,
     private val viewBinding: ItemTagListBinding
 ): RecyclerView.ViewHolder(viewBinding.root) {
 
     fun bind(item: TagModel) {
         viewBinding.tagTextView.text = item.title
+        itemView.setOnClickListener {
+            if (item.title != null) {
+                onTagClickListener?.invoke(item.title)
+            }
+        }
     }
 }
 

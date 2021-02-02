@@ -77,6 +77,12 @@
         android:label="search_fragment"
         tools:layout="@layout/fragment_search" >
 
+        <argument
+            android:name="query"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null"/>
+
     </fragment>
     <fragment
         android:id="@+id/collectionDetailFragment"
@@ -120,11 +126,21 @@
             app:argType="string"
             android:defaultValue="@null"
             app:nullable="true"/>
+        <action
+            android:id="@+id/action_photoDetailFragment_to_searchFragment"
+            app:destination="@id/searchFragment" >
+            <argument
+                android:name="query"
+                app:argType="string"
+                app:nullable="true"
+                android:defaultValue="@null"/>
+        </action>
     </fragment>
     <fragment
         android:id="@+id/userFragment"
         android:name="wzl.android.ducksplash.ui.UserFragment"
-        android:label="UserFragment" >
+        android:label="UserFragment"
+        tools:layout="@layout/fragment_user">
         <argument
             android:name="user"
             app:argType="wzl.android.ducksplash.model.UserModel"

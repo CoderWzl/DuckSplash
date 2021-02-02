@@ -116,26 +116,47 @@ class PhotoDetailFragment : Fragment() {
     private fun setupDetail(photo: PhotoModel?) {
         /*val vm by navGraphViewModels<NavMainViewModel>(R.id.nav_main)
         vm.sendPhotoIso(photo?.exif?.iso.toString())*/
+        Log.d("zhilin", "setupDetail: ")
         photo?.let {
             val headerAdapter = PhotoDetailHeaderAdapter().apply {
                 this.photo = photo
-            }
-            val adapter = PhotoDetailRelatedCollectionsAdapter(CollectionDiffCallback()) {
-                val fullName = if (it.coverPhoto.user.lastName == null) {
-                    it.coverPhoto.user.firstName
-                } else {
-                    it.coverPhoto.user.firstName + " " + it.coverPhoto.user.lastName
-                }
-                findNavController().navigateSafe(
-                    NavMainDirections.actionGlobalToCollectionDetailFragment(
-                        it.id,
-                        it.title,
-                        it.totalPhotos,
-                        it.description,
-                        fullName
+                onTagClickListener = {
+                    findNavController().navigateSafe(
+                        PhotoDetailFragmentDirections.actionPhotoDetailFragmentToSearchFragment(it)
                     )
-                )
-            }.apply { submitList(photo.relatedCollections?.results) }
+                }
+                onUserClickListener = {
+                    findNavController().navigateSafe(
+                        NavMainDirections.actionGlobalUserFragment(it)
+                    )
+                }
+            }
+            val adapter = PhotoDetailRelatedCollectionsAdapter(CollectionDiffCallback())
+                .apply {
+                    submitList(photo.relatedCollections?.results)
+                    onUserClickListener = {
+                        findNavController().navigateSafe(
+                            NavMainDirections.actionGlobalUserFragment(it)
+                        )
+                    }
+                    itemClickListener = {
+                        val fullName = if (it.coverPhoto.user.lastName == null) {
+                            it.coverPhoto.user.firstName
+                        } else {
+                            it.coverPhoto.user.firstName + " " + it.coverPhoto.user.lastName
+                        }
+                        findNavController().navigateSafe(
+                            NavMainDirections.actionGlobalToCollectionDetailFragment(
+                                it.id,
+                                it.title,
+                                it.totalPhotos,
+                                it.description,
+                                fullName
+                            )
+                        )
+                    }
+                }
+
             val concatAdapter = ConcatAdapter()
             concatAdapter.addAdapter(headerAdapter)
             concatAdapter.addAdapter(adapter)

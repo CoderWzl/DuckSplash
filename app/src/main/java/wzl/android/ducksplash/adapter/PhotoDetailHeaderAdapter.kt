@@ -1,11 +1,13 @@
 package wzl.android.ducksplash.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import wzl.android.ducksplash.databinding.LayoutPhotoDetailHeaderBinding
 import wzl.android.ducksplash.model.PhotoModel
+import wzl.android.ducksplash.model.UserModel
 import wzl.android.ducksplash.util.loadCirclePhotoUrl
 
 /**
@@ -20,8 +22,13 @@ class PhotoDetailHeaderAdapter(): RecyclerView.Adapter<PhotoDetailHeaderVh>() {
         notifyDataSetChanged()
     }
 
+    var onTagClickListener: ((tag: String) -> Unit)? = null
+    var onUserClickListener: ((user: UserModel) -> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoDetailHeaderVh {
         return PhotoDetailHeaderVh(
+            onTagClickListener,
+            onUserClickListener,
             LayoutPhotoDetailHeaderBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
@@ -42,6 +49,8 @@ class PhotoDetailHeaderAdapter(): RecyclerView.Adapter<PhotoDetailHeaderVh>() {
 }
 
 class PhotoDetailHeaderVh(
+    private val onTagClickListener: ((tag: String) -> Unit)?,
+    private val onUserClickListener: ((user: UserModel) -> Unit)?,
     private val viewBinding: LayoutPhotoDetailHeaderBinding
 ): RecyclerView.ViewHolder(viewBinding.root) {
 
@@ -68,7 +77,13 @@ class PhotoDetailHeaderVh(
             )
             tagList.adapter = TagListAdapter().also {
                 it.submitList(item.tags)
+                it.onTagClickListener = onTagClickListener
             }
+            val clickListener = View.OnClickListener{
+                onUserClickListener?.invoke(item.user)
+            }
+            userHead.setOnClickListener(clickListener)
+            userName.setOnClickListener(clickListener)
         }
     }
 }

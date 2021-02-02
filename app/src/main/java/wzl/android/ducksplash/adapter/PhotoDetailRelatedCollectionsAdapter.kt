@@ -13,11 +13,11 @@ import wzl.android.ducksplash.model.UserModel
  *@author zhilin
  */
 class PhotoDetailRelatedCollectionsAdapter(
-    callback: DiffUtil.ItemCallback<CollectionModel>,
-    private val itemClickListener: (collection: CollectionModel) -> Unit
+    callback: DiffUtil.ItemCallback<CollectionModel>
 ) : ListAdapter<CollectionModel, CollectionPagingViewHolder>(callback) {
 
     var onUserClickListener: ((user: UserModel) -> Unit)? = null
+    var itemClickListener: ((collection: CollectionModel) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CollectionPagingViewHolder {
         return CollectionPagingViewHolder(
