@@ -1,6 +1,7 @@
 package wzl.android.ducksplash.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.appbar.AppBarLayout
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -21,6 +23,7 @@ import wzl.android.ducksplash.databinding.FragmentCollectionDetailBinding
 import wzl.android.ducksplash.util.navigateSafe
 import wzl.android.ducksplash.util.reserveStatusBar
 import wzl.android.ducksplash.viewmodel.CollectionDetailViewModel
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class CollectionDetailFragment : Fragment() {
@@ -30,7 +33,8 @@ class CollectionDetailFragment : Fragment() {
     private lateinit var viewBinding: FragmentCollectionDetailBinding
 
     private val args: CollectionDetailFragmentArgs by navArgs()
-    private val mAdapter = PhotoPagingAdapter(PhotoDiffCallback())
+    @Inject lateinit var mAdapter: PhotoPagingAdapter
+    private var expanded = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,8 +49,13 @@ class CollectionDetailFragment : Fragment() {
         mAdapter.onPhotoClickListener = {
             findNavController().navigateSafe(NavMainDirections.actionGlobalToPhotoDetailFragment(it))
         }
+        mAdapter.onUserClickListener = {
+            findNavController().navigateSafe(
+                NavMainDirections.actionGlobalUserFragment(it)
+            )
+        }
         with(viewBinding) {
-            coordinatorLayout.reserveStatusBar()
+            root.reserveStatusBar()
             recyclerView.adapter = mAdapter.withLoadStateFooter(
                     footer = FooterLoadStateAdapter {
                         mAdapter.retry()
@@ -68,7 +77,14 @@ class CollectionDetailFragment : Fragment() {
             }
             description.text = args.description
             otherDetails.text = requireContext().getString(R.string.photo_summary_user_info, args.totalPhotos, args.fullName)
+
         }
+        viewBinding.appBarLayout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
+            Log.d("zhilin", "onViewCreated: $verticalOffset")
+            expanded = verticalOffset == 0
+        })
+        Log.d("zhilin", "onViewCreated: $expanded")
+        viewBinding.appBarLayout.setExpanded(expanded)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

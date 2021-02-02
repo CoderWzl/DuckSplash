@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import wzl.android.ducksplash.NavMainDirections
 import wzl.android.ducksplash.adapter.FooterLoadStateAdapter
@@ -17,9 +18,11 @@ import wzl.android.ducksplash.adapter.PhotoPagingAdapter
 import wzl.android.ducksplash.databinding.FragmentSearchPhotoBinding
 import wzl.android.ducksplash.util.navigateSafe
 import wzl.android.ducksplash.viewmodel.SearchViewModel
+import javax.inject.Inject
 
 private const val TAG = "SearchPhotoFragment"
 
+@AndroidEntryPoint
 class SearchPhotoFragment : Fragment() {
 
     companion object {
@@ -32,7 +35,7 @@ class SearchPhotoFragment : Fragment() {
 
     private lateinit var viewBinding: FragmentSearchPhotoBinding
 
-    private val mAdapter = PhotoPagingAdapter(PhotoDiffCallback())
+    @Inject lateinit var mAdapter: PhotoPagingAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,6 +56,11 @@ class SearchPhotoFragment : Fragment() {
         mAdapter.onPhotoClickListener = {
             val action = NavMainDirections.actionGlobalToPhotoDetailFragment(it)
             findNavController().navigateSafe(action)
+        }
+        mAdapter.onUserClickListener = {
+            findNavController().navigateSafe(
+                NavMainDirections.actionGlobalUserFragment(it)
+            )
         }
     }
 

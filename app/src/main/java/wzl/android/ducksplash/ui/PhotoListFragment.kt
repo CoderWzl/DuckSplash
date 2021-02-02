@@ -24,6 +24,7 @@ import wzl.android.ducksplash.databinding.FragmentPhotoListBinding
 import wzl.android.ducksplash.util.navigateSafe
 import wzl.android.ducksplash.viewmodel.NavMainViewModel
 import wzl.android.ducksplash.viewmodel.PhotoListViewModel
+import javax.inject.Inject
 
 /**
  * zhilin
@@ -39,7 +40,8 @@ class PhotoListFragment : Fragment() {
     private lateinit var viewBinding: FragmentPhotoListBinding
 
     private val viewModel: PhotoListViewModel by viewModels()
-    private val mAdapter = PhotoPagingAdapter(PhotoDiffCallback())
+    @Inject lateinit var mAdapter: PhotoPagingAdapter
+
     private val vm by navGraphViewModels<NavMainViewModel>(R.id.nav_main)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

@@ -1,6 +1,5 @@
 package wzl.android.ducksplash.viewmodel
 
-import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,8 +11,6 @@ import wzl.android.ducksplash.model.CollectionModel
 import wzl.android.ducksplash.model.PhotoModel
 import wzl.android.ducksplash.model.UserModel
 import wzl.android.ducksplash.repository.SearchRepository
-
-private const val TAG = "SearchViewModel"
 
 class SearchViewModel @ViewModelInject constructor(
     private val repository: SearchRepository
@@ -31,7 +28,6 @@ class SearchViewModel @ViewModelInject constructor(
     private var curUserQuery: String? = null
 
     fun updateQuery(query: String) {
-        Log.d(TAG, "updateQuery: $query")
         _queryLiveData.postValue(query)
     }
 

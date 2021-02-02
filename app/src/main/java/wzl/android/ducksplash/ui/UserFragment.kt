@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import wzl.android.ducksplash.R
 import wzl.android.ducksplash.databinding.FragmentUserBinding
@@ -24,6 +26,7 @@ class UserFragment: Fragment() {
 
     private val args by navArgs<UserFragmentArgs>()
     private lateinit var viewBinding: FragmentUserBinding
+    private var expanded = true
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,7 +53,13 @@ class UserFragment: Fragment() {
             userInfoLayout.favoriteCount.text = "${args.user?.totalLikes}"
             userInfoLayout.collectionCount.text = "${args.user?.totalCollections}"
             userInfoLayout.description.text = args.user?.bio
+            userInfoLayout.location.isVisible = args.user?.location != null
+            userInfoLayout.description.isVisible = args.user?.bio != null
             toolBar.title = args.user?.username ?: ""
+            appBarLayout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
+                expanded = verticalOffset == 0
+            })
+            appBarLayout.setExpanded(expanded)
         }
         initViewPager()
     }

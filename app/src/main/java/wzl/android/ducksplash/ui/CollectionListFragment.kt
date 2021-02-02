@@ -14,12 +14,12 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import wzl.android.ducksplash.NavMainDirections
-import wzl.android.ducksplash.adapter.CollectionDiffCallback
 import wzl.android.ducksplash.adapter.CollectionPagingAdapter
 import wzl.android.ducksplash.adapter.FooterLoadStateAdapter
 import wzl.android.ducksplash.databinding.FragmentCollectionListBinding
 import wzl.android.ducksplash.util.navigateSafe
 import wzl.android.ducksplash.viewmodel.CollectionListViewModel
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class CollectionListFragment : Fragment() {
@@ -31,22 +31,7 @@ class CollectionListFragment : Fragment() {
     private lateinit var viewBinding: FragmentCollectionListBinding
     private val viewModel: CollectionListViewModel by viewModels()
 
-    private val mAdapter = CollectionPagingAdapter(CollectionDiffCallback()) {
-        val fullName = if (it.coverPhoto.user.lastName == null) {
-            it.coverPhoto.user.firstName
-        } else {
-            it.coverPhoto.user.firstName + " " + it.coverPhoto.user.lastName
-        }
-        findNavController().navigateSafe(
-                NavMainDirections.actionGlobalToCollectionDetailFragment(
-                        it.id,
-                        it.title,
-                        it.totalPhotos,
-                        it.description,
-                        fullName
-                )
-        )
-    }
+    @Inject lateinit var mAdapter: CollectionPagingAdapter
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -72,6 +57,27 @@ class CollectionListFragment : Fragment() {
                     mAdapter.retry()
                 }
             }
+        }
+        mAdapter.onCollectionClickListener = {
+            val fullName = if (it.coverPhoto.user.lastName == null) {
+                it.coverPhoto.user.firstName
+            } else {
+                it.coverPhoto.user.firstName + " " + it.coverPhoto.user.lastName
+            }
+            findNavController().navigateSafe(
+                NavMainDirections.actionGlobalToCollectionDetailFragment(
+                    it.id,
+                    it.title,
+                    it.totalPhotos,
+                    it.description,
+                    fullName
+                )
+            )
+        }
+        mAdapter.onUserClickListener = {
+            findNavController().navigateSafe(
+                NavMainDirections.actionGlobalUserFragment(it)
+            )
         }
     }
 

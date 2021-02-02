@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import wzl.android.ducksplash.NavMainDirections
 import wzl.android.ducksplash.adapter.CollectionDiffCallback
@@ -16,8 +17,10 @@ import wzl.android.ducksplash.adapter.FooterLoadStateAdapter
 import wzl.android.ducksplash.databinding.FragmentSearchCollectionBinding
 import wzl.android.ducksplash.util.navigateSafe
 import wzl.android.ducksplash.viewmodel.SearchViewModel
+import javax.inject.Inject
 
 private const val TAG = "SearchCollectionFragmen"
+@AndroidEntryPoint
 class SearchCollectionFragment : Fragment() {
 
     companion object {
@@ -30,22 +33,7 @@ class SearchCollectionFragment : Fragment() {
 
     private lateinit var viewBinding: FragmentSearchCollectionBinding
 
-    private val mAdapter = CollectionPagingAdapter(CollectionDiffCallback()) {
-        val fullName = if (it.coverPhoto.user.lastName == null) {
-            it.coverPhoto.user.firstName
-        } else {
-            it.coverPhoto.user.firstName + " " + it.coverPhoto.user.lastName
-        }
-        findNavController().navigateSafe(
-                NavMainDirections.actionGlobalToCollectionDetailFragment(
-                        it.id,
-                        it.title,
-                        it.totalPhotos,
-                        it.description,
-                        fullName
-                )
-        )
-    }
+    @Inject lateinit var mAdapter: CollectionPagingAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,6 +49,27 @@ class SearchCollectionFragment : Fragment() {
                     mAdapter.retry()
                 }
         )
+        mAdapter.onCollectionClickListener = {
+            val fullName = if (it.coverPhoto.user.lastName == null) {
+                it.coverPhoto.user.firstName
+            } else {
+                it.coverPhoto.user.firstName + " " + it.coverPhoto.user.lastName
+            }
+            findNavController().navigateSafe(
+                NavMainDirections.actionGlobalToCollectionDetailFragment(
+                    it.id,
+                    it.title,
+                    it.totalPhotos,
+                    it.description,
+                    fullName
+                )
+            )
+        }
+        mAdapter.onUserClickListener = {
+            findNavController().navigateSafe(
+                NavMainDirections.actionGlobalUserFragment(it)
+            )
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

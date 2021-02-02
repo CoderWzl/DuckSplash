@@ -12,16 +12,18 @@ import wzl.android.ducksplash.model.UserModel
 import wzl.android.ducksplash.util.dp2px
 import wzl.android.ducksplash.util.loadCirclePhotoUrl
 import wzl.android.ducksplash.util.loadRoundedPhotoUrl
+import javax.inject.Inject
 
 /**
  *Created on 2021/1/22
  *@author zhilin
  */
-class UserPagingAdapter(
-    diffCallback: DiffUtil.ItemCallback<UserModel>
+class UserPagingAdapter @Inject constructor(
+    diffCallback: UserDiffCallback
 ) : PagingDataAdapter<UserModel, UserViewHolder>(diffCallback) {
 
     var onPhotoClickListener: ((photo: PhotoModel) -> Unit)? = null
+    var onUserClickListener: ((user: UserModel) -> Unit)? = null
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         val item = getItem(position)
@@ -33,6 +35,7 @@ class UserPagingAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         return UserViewHolder(
             onPhotoClickListener,
+            onUserClickListener,
             ItemUserListBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
@@ -45,6 +48,7 @@ class UserPagingAdapter(
 
 class UserViewHolder(
     private val photoClickListener: ((photo: PhotoModel) -> Unit) ?,
+    private val onUserClickListener: ((user: UserModel) -> Unit)?,
     val viewBinding: ItemUserListBinding
 ) : RecyclerView.ViewHolder(viewBinding.root) {
 
@@ -79,6 +83,9 @@ class UserViewHolder(
                 image1.setOnClickListener(onClickListener)
                 image2.setOnClickListener(onClickListener)
                 image3.setOnClickListener(onClickListener)
+            }
+            itemView.setOnClickListener {
+                onUserClickListener?.invoke(item)
             }
         }
     }
