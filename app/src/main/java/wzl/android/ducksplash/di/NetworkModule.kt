@@ -13,12 +13,14 @@ import wzl.android.ducksplash.BASE_URL
 import wzl.android.ducksplash.api.CollectionService
 import wzl.android.ducksplash.api.PhotoService
 import wzl.android.ducksplash.api.SearchService
+import wzl.android.ducksplash.api.UserService
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 /**
  *Created on 2021/1/23
  *@author zhilin
+ * Service Di
  */
 @InstallIn(ApplicationComponent::class)
 @Module
@@ -52,6 +54,11 @@ object NetworkModule {
     fun provideSearchService(
         okHttpClient: OkHttpClient
     ): SearchService = createApiService(okHttpClient)
+
+    @Provides
+    fun provideUserService(
+        okHttpClient: OkHttpClient
+    ): UserService = createApiService(okHttpClient)
 
     private inline fun <reified T> createApiService(
         okHttpClient: OkHttpClient,
