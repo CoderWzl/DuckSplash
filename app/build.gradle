@@ -112,6 +112,9 @@ dependencies {
     kapt "com.google.dagger:hilt-android-compiler:$rootProject.hiltVersion"
     kapt "androidx.hilt:hilt-compiler:$rootProject.hiltViewModelVersion"
 
+    // DataStore
+    implementation "androidx.datastore:datastore-preferences:$rootProject.datastoreVersion"
+
     // RecyclerView
     //implementation "androidx.recyclerview:recyclerview:$rootProject.recyclerViewVersion"
 
