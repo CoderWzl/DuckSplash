@@ -12,4 +12,8 @@
     <string name="user">User</string>
     <string name="loading">Loading</string>
     <string name="initial_loading_error_tip">An error occurred, click here to retry</string>
+    <string name="user_login_tip">Please login</string>
+    <string name="user_login_email_placeholder">Support by author all of the world</string>
+    <string name="setting">Settings</string>
+    <string name="about">About</string>
 </resources>

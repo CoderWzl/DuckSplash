@@ -4,17 +4,28 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
+import wzl.android.ducksplash.api.login.AccessTokenProvider
 import wzl.android.ducksplash.databinding.ActivityMainBinding
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     // 懒加载
     private lateinit var viewBinding : ActivityMainBinding
+    @Inject lateinit var tokenProvider: AccessTokenProvider
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,20 +43,39 @@ class MainActivity : AppCompatActivity() {
             if (destination.id == R.id.mainFragment) {
                 viewBinding.drawerLayout.setDrawerLockMode(
                     DrawerLayout.LOCK_MODE_UNLOCKED,
-                    viewBinding.secondLayout
+                    viewBinding.menuLayout
                 )
             } else {
                 viewBinding.drawerLayout.setDrawerLockMode(
                     DrawerLayout.LOCK_MODE_LOCKED_CLOSED,
-                    viewBinding.secondLayout
+                    viewBinding.menuLayout
                 )
             }
+        }
+        initDrawerMenu()
+    }
+
+    private fun initDrawerMenu() {
+        viewBinding.menuLayout.apply {
+            onUserClickListener = {
+                lifecycleScope.launch {
+                    tokenProvider.isAuthorized.collectLatest {
+                        Toast.makeText(
+                            this@MainActivity,
+                            it.toString(),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            }
+            onSettingClickListener = {}
+            onAboutClickListener = {}
         }
     }
 
     fun showMenu() {
-        if (!viewBinding.drawerLayout.isDrawerOpen(viewBinding.secondLayout)) {
-            viewBinding.drawerLayout.openDrawer(viewBinding.secondLayout)
+        if (!viewBinding.drawerLayout.isDrawerOpen(viewBinding.menuLayout)) {
+            viewBinding.drawerLayout.openDrawer(viewBinding.menuLayout)
         }
     }
 

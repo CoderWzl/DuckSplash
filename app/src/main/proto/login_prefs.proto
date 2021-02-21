@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option java_package = "wzl.android.ducksplash";
+option java_multiple_files = true;
+
+/**
+Login 相关的信息，使用 DataStore-proto 进行存储
+reserved 保留字段，防止弃用的字段名称和字段号被再次使用导致数据错乱确保向前兼容
+声明为 reserved 的字段再次声明时编译时异常
+
+optional
+默认
+repeated
+ */
+message LoginPreferences {
+  string access_token = 1;
+  string user_name = 2;
+  string email = 3;
+  string profile_picture = 4;
+  //string test = 5;
+}

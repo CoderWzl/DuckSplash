@@ -10,5 +10,9 @@
     <string name="user">用户</string>
     <string name="loading">加载中</string>
     <string name="initial_loading_error_tip">加载出错，点击重试</string>
+    <string name="user_login_tip">请登录</string>
+    <string name="user_login_email_placeholder">由世界各地的创作者提供支持</string>
+    <string name="setting">设置</string>
+    <string name="about">关于</string>
 
 </resources>

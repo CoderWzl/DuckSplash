@@ -58,9 +58,16 @@ class AccessTokenProvider @Inject constructor(
         it[PROFILE_PICTURE_KEY]
     }
 
+    val isAuthorized: Flow<Boolean>
+    get() = dataStore.data.map {
+        it[ACCESS_TOKEN_KEY] != null
+    }
+
     suspend fun saveAccessToken(accessToken: String) = dataStore.edit {
         it[ACCESS_TOKEN_KEY] = accessToken
     }
+
+
 
     companion object {
 

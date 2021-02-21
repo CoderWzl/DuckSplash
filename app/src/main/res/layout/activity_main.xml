@@ -20,12 +20,12 @@
         app:navGraph="@navigation/nav_main" />
 
 <!--  侧边导航  -->
-    <FrameLayout
-        android:id="@+id/secondLayout"
+    <wzl.android.ducksplash.widget.DrawerMenu
+        android:id="@+id/menuLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="#00ff00"
+        android:background="@color/white"
         android:clickable="true"
         android:fitsSystemWindows="true" />
 
