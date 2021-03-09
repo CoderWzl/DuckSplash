@@ -25,7 +25,11 @@ class AccessTokenProvider @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
 
-    private val dataStore: DataStore<Preferences> = context.createDataStore(getDefaultDataStoreName(context))
+    //migrations 用来和sharedPreference 兼容
+    private val dataStore: DataStore<Preferences> = context.createDataStore(
+        name = getDefaultDataStoreName(context),
+        migrations = listOf()
+    )
 
     val clientId: String
     get() {

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -18,6 +19,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import wzl.android.ducksplash.api.login.AccessTokenProvider
 import wzl.android.ducksplash.databinding.ActivityMainBinding
+import wzl.android.ducksplash.viewmodel.MainViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -25,7 +27,7 @@ class MainActivity : AppCompatActivity() {
 
     // 懒加载
     private lateinit var viewBinding : ActivityMainBinding
-    @Inject lateinit var tokenProvider: AccessTokenProvider
+    private val mViewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,14 +60,10 @@ class MainActivity : AppCompatActivity() {
     private fun initDrawerMenu() {
         viewBinding.menuLayout.apply {
             onUserClickListener = {
-                lifecycleScope.launch {
-                    tokenProvider.isAuthorized.collectLatest {
-                        Toast.makeText(
-                            this@MainActivity,
-                            it.toString(),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+                if (mViewModel.isLogin) {
+                    // TODO: 2021/3/9 user main page
+                } else {
+                    // TODO: 2021/3/9 login page
                 }
             }
             onSettingClickListener = {}

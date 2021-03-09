@@ -17,9 +17,9 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import wzl.android.ducksplash.NavMainDirections
 import wzl.android.ducksplash.R
-import wzl.android.ducksplash.adapter.PhotoDiffCallback
 import wzl.android.ducksplash.adapter.FooterLoadStateAdapter
 import wzl.android.ducksplash.adapter.PhotoPagingAdapter
+import wzl.android.ducksplash.api.login.TokenProtoProvider
 import wzl.android.ducksplash.databinding.FragmentPhotoListBinding
 import wzl.android.ducksplash.util.navigateSafe
 import wzl.android.ducksplash.viewmodel.NavMainViewModel
@@ -41,6 +41,7 @@ class PhotoListFragment : Fragment() {
 
     private val viewModel: PhotoListViewModel by viewModels()
     @Inject lateinit var mAdapter: PhotoPagingAdapter
+    @Inject lateinit var tokenProvider: TokenProtoProvider
 
     private val vm by navGraphViewModels<NavMainViewModel>(R.id.nav_main)
 
@@ -93,6 +94,7 @@ class PhotoListFragment : Fragment() {
                 mAdapter.submitData(it)
             }
         }
+
         vm.photoIso.observe(viewLifecycleOwner) { it ->
             Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
         }
