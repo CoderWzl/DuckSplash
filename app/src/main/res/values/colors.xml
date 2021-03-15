@@ -14,4 +14,5 @@
     <color name="grey_300">#E0E0E0</color>
     <color name="text_white">#FFFFFF</color>
     <color name="color_division_line">#EEEEEE</color>
+    <color name="random_photo_mask">#66000000</color>
 </resources>

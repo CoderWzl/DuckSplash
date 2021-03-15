@@ -41,10 +41,13 @@ class UserCollectionFragment: UserContentListFragment() {
 
         }
         mAdapter.onCollectionClickListener = {
-            val fullName = if (it.coverPhoto.user.lastName == null) {
-                it.coverPhoto.user.firstName
-            } else {
-                it.coverPhoto.user.firstName + " " + it.coverPhoto.user.lastName
+            var fullName = ""
+            it.coverPhoto?.let { photo ->
+                fullName = if (photo.user.lastName == null) {
+                    photo.user.firstName
+                } else {
+                    photo.user.firstName + " " + photo.user.lastName
+                }
             }
             findNavController().navigateSafe(
                 NavMainDirections.actionGlobalToCollectionDetailFragment(

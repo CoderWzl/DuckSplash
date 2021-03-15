@@ -1,26 +1,24 @@
 package wzl.android.ducksplash
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.view.WindowCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
-import wzl.android.ducksplash.api.login.AccessTokenProvider
+import wzl.android.ducksplash.api.login.TokenProtoProvider
 import wzl.android.ducksplash.databinding.ActivityMainBinding
+import wzl.android.ducksplash.ui.UserFragmentDirections
+import wzl.android.ducksplash.util.loadCirclePhotoUrl
+import wzl.android.ducksplash.util.navigateSafe
+import wzl.android.ducksplash.util.toast
 import wzl.android.ducksplash.viewmodel.MainViewModel
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -54,6 +52,21 @@ class MainActivity : AppCompatActivity() {
                 )
             }
         }
+        mViewModel.loginPrefs.observe(this) {
+            viewBinding.menuLayout.apply {
+                if (it.profilePicture.isNullOrEmpty()) {
+                    userHead.setImageResource(R.mipmap.ic_default_userprofile)
+                } else {
+                    userHead.loadCirclePhotoUrl(url = it.profilePicture)
+                }
+                userName.text = if (it.userName.isNullOrEmpty())
+                    getString(R.string.user_login_tip) else it.userName
+                email.text = if (it.email.isNullOrEmpty())
+                    getString(R.string.user_login_email_placeholder) else it.email
+                logoutButton.visibility = if (it.accessToken.isNullOrEmpty())
+                    View.GONE else View.VISIBLE
+            }
+        }
         initDrawerMenu()
     }
 
@@ -62,18 +75,38 @@ class MainActivity : AppCompatActivity() {
             onUserClickListener = {
                 if (mViewModel.isLogin) {
                     // TODO: 2021/3/9 user main page
+                    val prefs = mViewModel.loginPrefs.value
+                    findNavController().navigateSafe(
+                        UserFragmentDirections.actionGlobalUserFragmentWithUserName(userName = prefs?.userName)
+                    )
                 } else {
-                    // TODO: 2021/3/9 login page
+                    findNavController().navigateSafe(R.id.action_global_loginFragment)
                 }
             }
             onSettingClickListener = {}
             onAboutClickListener = {}
+            onLogoutClickListener = {
+                mViewModel.logout()
+            }
         }
     }
 
     fun showMenu() {
         if (!viewBinding.drawerLayout.isDrawerOpen(viewBinding.menuLayout)) {
             viewBinding.drawerLayout.openDrawer(viewBinding.menuLayout)
+        }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        //ducksplash://unsplash-auth-callback?code=SARmNDBwDIHcBP17KqPzeMUFjxeEmLyWzTovUP3S69E
+        Log.e("wzl", "onNewIntent: " + intent?.data)
+        intent?.data?.let { uri ->
+            if (uri.authority.equals(TokenProtoProvider.unsplashAuthCallback)) {
+                uri.getQueryParameter("code")?.let { code->
+                    mViewModel.unsplashAuthCallback(code)
+                }
+            }
         }
     }
 

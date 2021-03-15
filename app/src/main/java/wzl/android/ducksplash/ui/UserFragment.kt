@@ -1,20 +1,26 @@
 package wzl.android.ducksplash.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 import wzl.android.ducksplash.R
+import wzl.android.ducksplash.api.ApiState
 import wzl.android.ducksplash.databinding.FragmentUserBinding
+import wzl.android.ducksplash.model.UserModel
 import wzl.android.ducksplash.util.loadCirclePhotoUrl
 import wzl.android.ducksplash.util.reserveStatusBar
+import wzl.android.ducksplash.viewmodel.UserViewModel
 import java.util.ArrayList
 
 /**
@@ -22,10 +28,12 @@ import java.util.ArrayList
  *@author zhilin
  * 用户详情界面
  */
+@AndroidEntryPoint
 class UserFragment: Fragment() {
 
     private val args by navArgs<UserFragmentArgs>()
     private lateinit var viewBinding: FragmentUserBinding
+    private val viewModel by viewModels<UserViewModel>()
     private var expanded = true
 
     override fun onCreateView(
@@ -39,33 +47,51 @@ class UserFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initViews(args.user)
+        initViewPager(args.user)
+        args.userName?.let {
+            viewModel.loadUserState.observe(viewLifecycleOwner) { state ->
+                if (state is ApiState.Success) {
+                    Log.d("zhilin", "onViewCreated: ${state.data}")
+                    initViews(state.data)
+                    initViewPager(state.data)
+                }
+            }
+            viewModel.getUserPublicProfile(it)
+        }
+    }
+
+    private fun initViews(user: UserModel?) {
         viewBinding.apply {
             root.reserveStatusBar()
             toolBar.setNavigationOnClickListener {
                 findNavController().popBackStack()
             }
-            val url = args.user?.profileImage?.large?:""
-            userInfoLayout.userHead.loadCirclePhotoUrl(url, R.drawable.drawable_circle_image_placeholder)
-            val userName = if (args.user == null) "" else "${args.user?.firstName} ${args.user?.lastName?:""}"
+            val url = user?.profileImage?.large ?: ""
+            userInfoLayout.userHead.loadCirclePhotoUrl(
+                url,
+                R.drawable.drawable_circle_image_placeholder
+            )
+            val userName =
+                if (user == null) "" else "${user.firstName} ${user.lastName ?: ""}"
             userInfoLayout.userName.text = userName
-            userInfoLayout.location.text = args.user?.location
-            userInfoLayout.photoCount.text = "${args.user?.totalPhotos}"
-            userInfoLayout.favoriteCount.text = "${args.user?.totalLikes}"
-            userInfoLayout.collectionCount.text = "${args.user?.totalCollections}"
-            userInfoLayout.description.text = args.user?.bio
-            userInfoLayout.location.isVisible = args.user?.location != null
-            userInfoLayout.description.isVisible = args.user?.bio != null
-            toolBar.title = args.user?.username ?: ""
+            userInfoLayout.location.text = user?.location
+            userInfoLayout.photoCount.text = "${user?.totalPhotos}"
+            userInfoLayout.favoriteCount.text = "${user?.totalLikes}"
+            userInfoLayout.collectionCount.text = "${user?.totalCollections}"
+            userInfoLayout.description.text = user?.bio
+            userInfoLayout.location.isVisible = user?.location != null
+            userInfoLayout.description.isVisible = user?.bio != null
+            toolBar.title = user?.username ?: ""
             appBarLayout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
                 expanded = verticalOffset == 0
             })
             appBarLayout.setExpanded(expanded)
         }
-        initViewPager()
     }
 
-    private fun initViewPager() {
-        args.user?.let {
+    private fun initViewPager(user: UserModel?) {
+        user?.let {
             val titleRes: ArrayList<Int> = ArrayList()
             if (it.totalPhotos != 0) {
                 titleRes.add(R.string.photo)

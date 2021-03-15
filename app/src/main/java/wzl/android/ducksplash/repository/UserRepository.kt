@@ -10,6 +10,7 @@ import wzl.android.ducksplash.data.UserLikePhotoPagingSource
 import wzl.android.ducksplash.data.UserPhotoPagingSource
 import wzl.android.ducksplash.model.CollectionModel
 import wzl.android.ducksplash.model.PhotoModel
+import wzl.android.ducksplash.model.UserModel
 import javax.inject.Inject
 
 /**
@@ -51,6 +52,10 @@ class UserRepository @Inject constructor(
             ),
             pagingSourceFactory = { UserCollectionPagingSource(username, service) }
         ).flow
+    }
+
+    suspend fun getUserPublicProfile(username: String): UserModel {
+        return service.getUserPublicProfile(username)
     }
 
 }

@@ -19,12 +19,18 @@ class DrawerMenu(
     var onUserClickListener: (() -> Unit)? = null
     var onSettingClickListener: (() -> Unit)? = null
     var onAboutClickListener: (() -> Unit)? = null
+    var onLogoutClickListener: (() -> Unit)? = null
 
     private var viewBinding: LayoutDrawerMenuBinding = LayoutDrawerMenuBinding.inflate(
         LayoutInflater.from(context),
         this,
         true
     )
+
+    val userHead = viewBinding.userHead
+    val userName = viewBinding.userName
+    val email = viewBinding.email
+    val logoutButton = viewBinding.logout
 
     constructor(context: Context, attrs: AttributeSet?): this(context, attrs, 0)
 
@@ -45,6 +51,9 @@ class DrawerMenu(
         }
         viewBinding.about.setOnClickListener {
             onAboutClickListener?.invoke()
+        }
+        viewBinding.logout.setOnClickListener {
+            onLogoutClickListener?.invoke()
         }
 
     }

@@ -31,4 +31,23 @@ interface PhotoService {
         @Path("id") id: String
     ): PhotoModel
 
+    @GET("photos/random")
+    suspend fun getRandomPhoto(
+        @Query("collections") collections: String? = null, //Public collection ID(‘s) to filter selection. If multiple, comma-separated
+        @Query("username") username: String? = null, //Limit selection to a single user.
+        @Query("query") query: String? = null, //Limit selection to photos matching a search term.
+        @Query("orientation") orientation: String? = null, //Filter by photo orientation. (Valid values: landscape, portrait, squarish)
+        @Query("content_filter") contentFilter: String? = null, // Limit results by content safety. Default: low. Valid values are low and high.
+    ): PhotoModel
+
+    @GET("photos/random")
+    suspend fun getRandomPhotos(
+        @Query("collections") collections: String? = null, //Public collection ID(‘s) to filter selection. If multiple, comma-separated
+        @Query("username") username: String? = null, //Limit selection to a single user.
+        @Query("query") query: String? = null, //Limit selection to photos matching a search term.
+        @Query("orientation") orientation: String? = null, //Filter by photo orientation. (Valid values: landscape, portrait, squarish)
+        @Query("content_filter") contentFilter: String? = null, // Limit results by content safety. Default: low. Valid values are low and high.
+        @Query("count") count: Int = 1 // The number of photos to return. (Default: 1; max: 30)
+    ): List<PhotoModel>
+
 }

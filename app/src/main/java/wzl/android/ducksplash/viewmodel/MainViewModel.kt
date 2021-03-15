@@ -38,4 +38,14 @@ class MainViewModel @ViewModelInject constructor(
             tokenProvider.saveAccessToken(token)
         }
     }
+
+    fun unsplashAuthCallback(code: String) {
+        tokenProvider.emitUnsplashAuthCode(code)
+    }
+
+    fun logout() {
+        viewModelScope.launch {
+            tokenProvider.reset()
+        }
+    }
 }

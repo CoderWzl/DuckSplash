@@ -14,5 +14,11 @@
     <string name="user_login_email_placeholder">由世界各地的创作者提供支持</string>
     <string name="setting">设置</string>
     <string name="about">关于</string>
+    <string name="logout">退出登录</string>
+    <string name="add_account">新增账户</string>
+    <string name="create_account">创建一个账户</string>
+    <string name="login">登录</string>
+    <string name="main_slogan">创作从这里开始</string>
+    <string name="sub_slogan">访问别处难觅的免费高分辨率照片</string>
 
 </resources>

@@ -67,6 +67,7 @@ dependencies {
     implementation "com.google.android.material:material:$rootProject.materialVersion"
     implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraintlayoutVersion"
     implementation "androidx.fragment:fragment-ktx:$rootProject.fragmentKtxVersion"
+    implementation "androidx.browser:browser:$rootProject.browserVersion"
 
     // navigation
     implementation "androidx.navigation:navigation-ui-ktx:$rootProject.navigationVersion"
@@ -105,9 +106,9 @@ dependencies {
     //glide
     kapt "com.github.bumptech.glide:compiler:$rootProject.glideVersion"
     implementation "com.github.bumptech.glide:glide:$rootProject.glideVersion"
-    //implementation "jp.wasabeef:glide-transformations:$rootProject.glideTransformationsVersion"
+    implementation "jp.wasabeef:glide-transformations:$rootProject.glideTransformationsVersion"
     // If you want to use the GPU Filters
-    //implementation "jp.co.cyberagent.android:gpuimage:$rootProject.gpuImageVersion"
+    implementation "jp.co.cyberagent.android:gpuimage:$rootProject.gpuImageVersion"
 
     // Hilt dependencies
     implementation "com.google.dagger:hilt-android:$rootProject.hiltVersion"

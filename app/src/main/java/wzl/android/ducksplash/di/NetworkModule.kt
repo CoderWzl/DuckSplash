@@ -9,11 +9,9 @@ import okhttp3.OkHttpClient
 import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import wzl.android.ducksplash.BASE_LOGIN_URL
 import wzl.android.ducksplash.BASE_URL
-import wzl.android.ducksplash.api.CollectionService
-import wzl.android.ducksplash.api.PhotoService
-import wzl.android.ducksplash.api.SearchService
-import wzl.android.ducksplash.api.UserService
+import wzl.android.ducksplash.api.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -59,6 +57,18 @@ object NetworkModule {
     fun provideUserService(
         okHttpClient: OkHttpClient
     ): UserService = createApiService(okHttpClient)
+
+    @Provides
+    fun provideLoginService(
+        okHttpClient: OkHttpClient
+    ): LoginService {
+        return Retrofit.Builder()
+            .baseUrl(BASE_LOGIN_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
+            .build()
+            .create(LoginService::class.java)
+    }
 
     private inline fun <reified T> createApiService(
         okHttpClient: OkHttpClient,

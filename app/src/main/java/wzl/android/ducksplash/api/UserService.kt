@@ -4,7 +4,9 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 import wzl.android.ducksplash.model.CollectionModel
+import wzl.android.ducksplash.model.MeModel
 import wzl.android.ducksplash.model.PhotoModel
+import wzl.android.ducksplash.model.UserModel
 
 /**
  *Created on 2/1/21
@@ -39,5 +41,13 @@ interface UserService {
         @Query("page") page: Int?,
         @Query("per_page") perPage: Int?,
     ): List<CollectionModel>
+
+    @GET("me")
+    suspend fun getUserPrivateProfile(): MeModel
+
+    @GET("users/{username}")
+    suspend fun getUserPublicProfile(
+        @Path("username") username: String
+    ): UserModel
 
 }

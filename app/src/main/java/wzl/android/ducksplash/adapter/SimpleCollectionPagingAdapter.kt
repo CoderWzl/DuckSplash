@@ -51,13 +51,19 @@ class SimpleCollectionPagingViewHolder(
         with(viewBinding) {
             description.text = item.title
             photoCount.text = photoCount.context.getString(R.string.photo_number, item.totalPhotos)
-            val imageUrl = item.coverPhoto.urls.raw + "&w=1200&q=80&fm=webp"
-            val thumbUrl = item.coverPhoto.urls.raw + "&w=200&q=80&fm=webp"
+            var imageUrl = ""
+            var thumbUrl = ""
+            var color = "#808080"
+            item.coverPhoto?.let {
+                imageUrl = item.coverPhoto.urls.raw + "&w=1200&q=80&fm=webp"
+                thumbUrl = item.coverPhoto.urls.raw + "&w=200&q=80&fm=webp"
+                color = item.coverPhoto.color
+            }
             collectionCover.aspectRatio = 3 / 4.0
             collectionCover.loadPhotoUrlWithThumbnail(
-                    imageUrl,
-                    thumbUrl,
-                    item.coverPhoto.color
+                imageUrl,
+                thumbUrl,
+                color
             )
         }
         itemView.setOnClickListener {

@@ -7,7 +7,10 @@ import androidx.annotation.StringRes
  *@author zhilin
  * 定义 App 模块中使用的常量
  */
+// 数据列表请求时的域名
 const val BASE_URL = "https://api.unsplash.com/"
+// 获取 token 时的域名
+const val BASE_LOGIN_URL = "https://unsplash.com/"
 // unsplash 官网申请的 access key
 const val USPLASH_CLIENT_ID = "w72LwQkOD-iFlBdIFeqJkGZqbxLBuN5vQ68OlLBhKg0"
 const val USPLASH_CLIENT_SECRET = "bz8eLgv6TtWe-fxmFRjq3sGpAITCSIR2O5c9GNC0teg"

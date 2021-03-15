@@ -20,11 +20,22 @@
         android:theme="@style/Theme.DuckSplash"
         tools:ignore="UnusedAttribute">
         <activity android:name=".MainActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"><!-- 先固定屏幕为竖屏 -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <intent-filter>
+                <data
+                    android:host="unsplash-auth-callback"
+                    android:scheme="ducksplash" />
+
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
         </activity>
     </application>

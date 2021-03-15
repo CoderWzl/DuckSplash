@@ -107,4 +107,27 @@
         android:background="@color/grey_300"
         app:layout_constraintTop_toBottomOf="@id/about"/>
 
+    <LinearLayout
+        android:id="@+id/logout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp60"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/about"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="@dimen/dp30"
+            android:layout_height="@dimen/dp30"
+            android:src="@mipmap/ic_about"
+            android:layout_marginHorizontal="@dimen/dp15"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/logout"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/sp16"/>
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

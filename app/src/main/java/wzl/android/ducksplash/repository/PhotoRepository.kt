@@ -45,4 +45,8 @@ class PhotoRepository @Inject constructor(val service: PhotoService) {
         return service.getPhoto(id)
     }
 
+    suspend fun getRandomPhoto(): PhotoModel {
+        return service.getRandomPhoto()
+    }
+
 }

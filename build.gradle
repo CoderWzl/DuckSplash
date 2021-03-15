@@ -26,6 +26,7 @@ buildscript {
         hiltViewModelVersion = '1.0.0-alpha02'
         datastoreVersion = '1.0.0-alpha06'
         recyclerViewVersion = '1.2.0-alpha05'
+        browserVersion = '1.2.0'
 
         // test
         junitVersion = "4.13.1"
