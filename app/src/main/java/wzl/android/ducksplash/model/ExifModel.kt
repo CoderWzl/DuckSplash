@@ -2,6 +2,8 @@ package wzl.android.ducksplash.model
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import kotlinx.parcelize.Parcelize
 
 /**
@@ -9,17 +11,18 @@ import kotlinx.parcelize.Parcelize
  *@author zhilin
  */
 @Parcelize
+@JsonClass(generateAdapter = true)
 data class ExifModel(
     // 设备制造商
     val make: String?,
     // 设备型号
     val model: String?,
     // 快门时间
-    @SerializedName("exposure_time") val exposureTime: String?,
+    @Json(name = "exposure_time") val exposureTime: String?,
     // 光圈
     val aperture: String?,
     // 焦距
-    @SerializedName("focal_length") val focalLength: String?,
+    @Json(name = "focal_length") val focalLength: String?,
     // 曝光度
-    val iso: Int
+    val iso: Int?
 ): Parcelable

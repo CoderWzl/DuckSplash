@@ -45,6 +45,7 @@
         <argument
             android:name="fullName"
             app:argType="string"
+            app:nullable="true"
             android:defaultValue="" />
     </action>
 
@@ -122,6 +123,7 @@
         <argument
             android:name="fullName"
             app:argType="string"
+            app:nullable="true"
             android:defaultValue="" />
     </fragment>
     <fragment

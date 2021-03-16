@@ -8,7 +8,7 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Converter
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import wzl.android.ducksplash.BASE_LOGIN_URL
 import wzl.android.ducksplash.BASE_URL
 import wzl.android.ducksplash.api.*
@@ -64,7 +64,7 @@ object NetworkModule {
     ): LoginService {
         return Retrofit.Builder()
             .baseUrl(BASE_LOGIN_URL)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(MoshiConverterFactory.create())
             .client(okHttpClient)
             .build()
             .create(LoginService::class.java)
@@ -72,7 +72,7 @@ object NetworkModule {
 
     private inline fun <reified T> createApiService(
         okHttpClient: OkHttpClient,
-        converterFactory: Converter.Factory = GsonConverterFactory.create()
+        converterFactory: Converter.Factory = MoshiConverterFactory.create()
     ) : T {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)

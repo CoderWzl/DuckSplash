@@ -55,7 +55,7 @@ class PhotoViewHolder(
 
     fun bind(item: PhotoModel) {
         viewBinding.imageView.apply {
-            computerAspectRatio(item.width, item.height)
+            computerAspectRatio(item.width?:0, item.height?:0)
             val imageUrl = item.urls.raw + IMAGE_LARGE_SUFFIX
             val thumbUrl = item.urls.raw + IMAGE_THUMB_SUFFIX
             // 使用 glide 进行图片加载
@@ -64,9 +64,9 @@ class PhotoViewHolder(
                 onPhotoClickListener?.invoke(item)
             }
         }
-        with(item.user) {
-            viewBinding.userName.text = "$firstName ${lastName?:""}"
-            viewBinding.userHead.loadCirclePhotoUrl(profileImage.large)
+        item.user?.apply {
+            viewBinding.userName.text = "${firstName?:""} ${lastName?:""}"
+            viewBinding.userHead.loadCirclePhotoUrl(profileImage?.large)
             viewBinding.userHead.setOnClickListener {
                 onUserClickListener?.invoke(this)
             }

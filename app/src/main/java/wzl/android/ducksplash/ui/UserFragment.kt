@@ -104,7 +104,7 @@ class UserFragment: Fragment() {
             }
             viewBinding.apply {
                 viewPager.adapter = UserViewPagerAdapter(
-                    it.username,
+                    it.username?:"",
                     titleRes,
                     this@UserFragment
                 )

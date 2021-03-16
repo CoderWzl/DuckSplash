@@ -67,9 +67,9 @@ class PhotoDetailHeaderVh(
             download.text = item.downloads.toString()
             favorite.text = item.likes.toString()
             view.text = item.views.toString()
-            val headUrl = item.user.profileImage.large
+            val headUrl = item.user?.profileImage?.large
             userHead.loadCirclePhotoUrl(headUrl)
-            userName.text = "${item.user.firstName} ${item.user.lastName?:""}"
+            userName.text = "${item.user?.firstName?:""} ${item.user?.lastName?:""}"
             tagList.layoutManager = LinearLayoutManager(
                 itemView.context,
                 RecyclerView.HORIZONTAL,
@@ -80,7 +80,9 @@ class PhotoDetailHeaderVh(
                 it.onTagClickListener = onTagClickListener
             }
             val clickListener = View.OnClickListener{
-                onUserClickListener?.invoke(item.user)
+                item.user?.let {
+                    onUserClickListener?.invoke(it)
+                }
             }
             userHead.setOnClickListener(clickListener)
             userName.setOnClickListener(clickListener)

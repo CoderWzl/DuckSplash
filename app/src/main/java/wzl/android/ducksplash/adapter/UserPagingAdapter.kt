@@ -54,7 +54,7 @@ class UserViewHolder(
 
     fun bind(item: UserModel) {
         viewBinding.apply {
-            userHead.loadCirclePhotoUrl(item.profileImage.large)
+            userHead.loadCirclePhotoUrl(item.profileImage?.large)
             userName.text = "${item.firstName} ${item.lastName ?: ""}"
             userInsName.text = "@${item.username}"
             image1.aspectRatio = 4 / 3.0

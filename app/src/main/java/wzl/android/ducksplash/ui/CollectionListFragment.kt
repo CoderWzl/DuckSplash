@@ -59,8 +59,8 @@ class CollectionListFragment : Fragment() {
             }
         }
         mAdapter.onCollectionClickListener = {
-            val fullName = if (it.coverPhoto.user.lastName == null) {
-                it.coverPhoto.user.firstName
+            val fullName = if (it.coverPhoto?.user?.lastName == null) {
+                it.coverPhoto?.user?.firstName?:""
             } else {
                 it.coverPhoto.user.firstName + " " + it.coverPhoto.user.lastName
             }
@@ -68,7 +68,7 @@ class CollectionListFragment : Fragment() {
                 NavMainDirections.actionGlobalToCollectionDetailFragment(
                     it.id,
                     it.title,
-                    it.totalPhotos,
+                    it.totalPhotos ?: 0,
                     it.description,
                     fullName
                 )

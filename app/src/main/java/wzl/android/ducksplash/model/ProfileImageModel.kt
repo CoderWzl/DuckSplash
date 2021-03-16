@@ -1,6 +1,7 @@
 package wzl.android.ducksplash.model
 
 import android.os.Parcelable
+import com.squareup.moshi.JsonClass
 import kotlinx.parcelize.Parcelize
 
 /**
@@ -8,6 +9,7 @@ import kotlinx.parcelize.Parcelize
  *@author zhilin
  */
 @Parcelize
+@JsonClass(generateAdapter = true)
 data class ProfileImageModel(
     val small: String,
     val medium: String,

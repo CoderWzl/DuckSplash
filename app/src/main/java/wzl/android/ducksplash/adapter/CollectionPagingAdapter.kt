@@ -52,8 +52,8 @@ class CollectionPagingViewHolder(
 ) : RecyclerView.ViewHolder(viewBinding.root) {
 
     fun bind(item: CollectionModel) {
-        val fullName = if (item.coverPhoto.user.lastName == null) {
-            item.coverPhoto.user.firstName
+        val fullName = if (item.coverPhoto?.user?.lastName == null) {
+            item.coverPhoto?.user?.firstName
         } else {
             item.coverPhoto.user.firstName + " " + item.coverPhoto.user.lastName
         }
@@ -61,19 +61,22 @@ class CollectionPagingViewHolder(
             description.text = item.title
             photoCount.text = photoCount.context.getString(R.string.photo_number, item.totalPhotos)
             userName.text = fullName
-            val imageUrl = item.coverPhoto.urls.raw + "&w=1200&q=80&fm=webp"
-            val thumbUrl = item.coverPhoto.urls.raw + "&w=200&q=80&fm=webp"
+            val imageUrl = item.coverPhoto?.urls?.raw + "&w=1200&q=80&fm=webp"
+            val thumbUrl = item.coverPhoto?.urls?.raw + "&w=200&q=80&fm=webp"
             collectionCover.aspectRatio = 3 / 4.0
             collectionCover.loadPhotoUrlWithThumbnail(
                     imageUrl,
                     thumbUrl,
-                    item.coverPhoto.color
+                    item.coverPhoto?.color
             )
             userHead.loadCirclePhotoUrl(
-                    item.coverPhoto.user.profileImage.large
+                    item.coverPhoto?.user?.profileImage?.large
             )
             val clickListener = View.OnClickListener{
-                onUserClickListener?.invoke(item.coverPhoto.user)
+                item.coverPhoto?.user?.let { user ->
+                    onUserClickListener?.invoke(user)
+                }
+
             }
             userHead.setOnClickListener(clickListener)
             userName.setOnClickListener(clickListener)

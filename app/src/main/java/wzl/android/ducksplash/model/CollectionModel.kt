@@ -2,6 +2,8 @@ package wzl.android.ducksplash.model
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import kotlinx.parcelize.Parcelize
 
 /**
@@ -9,15 +11,16 @@ import kotlinx.parcelize.Parcelize
  *@author zhilin
  */
 @Parcelize
+@JsonClass(generateAdapter = true)
 data class CollectionModel(
     val id: Int,
     val title: String,
-    val description: String,
-    @SerializedName("published_at") val publishedTime: String,
-    @SerializedName("updated_at") val updatedTime: String,
-    @SerializedName("last_collected_at") val lastCollectedTime: String,
-    @SerializedName("total_photos") val totalPhotos: Int,
-    val private: Boolean,
-    @SerializedName("share_key") val shareKey: String,
-    @SerializedName("cover_photo") val coverPhoto: PhotoModel
+    val description: String?,
+    @Json(name = "published_at") val publishedTime: String?,
+    @Json(name = "updated_at") val updatedTime: String?,
+    @Json(name = "last_collected_at") val lastCollectedTime: String?,
+    @Json(name = "total_photos") val totalPhotos: Int?,
+    val private: Boolean?,
+    @Json(name = "share_key") val shareKey: String?,
+    @Json(name = "cover_photo") val coverPhoto: PhotoModel?
 ): Parcelable

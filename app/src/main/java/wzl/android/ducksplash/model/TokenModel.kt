@@ -1,14 +1,17 @@
 package wzl.android.ducksplash.model
 
 import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
 /**
  *Created on 2021/3/12
  *@author zhilin
  */
+@JsonClass(generateAdapter = true)
 data class TokenModel(
-    @SerializedName("access_token") val accessToken: String?,
-    @SerializedName("token_type") val tokenType: String?,
+    @Json(name = "access_token") val accessToken: String?,
+    @Json(name = "token_type") val tokenType: String?,
     val scope: String?,
-    @SerializedName("create_at") val createTime: Long?
+    @Json(name = "create_at") val createTime: Long?
 )

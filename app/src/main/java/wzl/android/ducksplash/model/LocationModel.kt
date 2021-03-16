@@ -1,6 +1,7 @@
 package wzl.android.ducksplash.model
 
 import android.os.Parcelable
+import com.squareup.moshi.JsonClass
 import kotlinx.parcelize.Parcelize
 
 /**
@@ -8,6 +9,7 @@ import kotlinx.parcelize.Parcelize
  *@author zhilin
  */
 @Parcelize
+@JsonClass(generateAdapter = true)
 data class LocationModel(
     val city: String?,
     val country: String?,
@@ -15,7 +17,8 @@ data class LocationModel(
 ): Parcelable
 
 @Parcelize
+@JsonClass(generateAdapter = true)
 data class Position(
-    val latitude: Double,
-    val longitude: Double
+    val latitude: Double?,
+    val longitude: Double?
 ): Parcelable

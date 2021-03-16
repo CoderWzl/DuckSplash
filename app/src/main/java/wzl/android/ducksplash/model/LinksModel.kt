@@ -2,6 +2,8 @@ package wzl.android.ducksplash.model
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import kotlinx.parcelize.Parcelize
 
 /**
@@ -9,9 +11,10 @@ import kotlinx.parcelize.Parcelize
  *@author zhilin
  */
 @Parcelize
+@JsonClass(generateAdapter = true)
 data class LinksModel(
     val self: String,
     val html: String,
     val download: String,
-    @SerializedName("download_location") val downloadLocation: String
+    @Json(name = "download_location") val downloadLocation: String
 ): Parcelable

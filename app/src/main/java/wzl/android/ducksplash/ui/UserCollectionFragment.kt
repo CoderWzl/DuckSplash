@@ -43,8 +43,8 @@ class UserCollectionFragment: UserContentListFragment() {
         mAdapter.onCollectionClickListener = {
             var fullName = ""
             it.coverPhoto?.let { photo ->
-                fullName = if (photo.user.lastName == null) {
-                    photo.user.firstName
+                fullName = if (photo.user?.lastName == null) {
+                    photo.user?.firstName?:""
                 } else {
                     photo.user.firstName + " " + photo.user.lastName
                 }
@@ -53,7 +53,7 @@ class UserCollectionFragment: UserContentListFragment() {
                 NavMainDirections.actionGlobalToCollectionDetailFragment(
                     it.id,
                     it.title,
-                    it.totalPhotos,
+                    it.totalPhotos?:0,
                     it.description,
                     fullName
                 )

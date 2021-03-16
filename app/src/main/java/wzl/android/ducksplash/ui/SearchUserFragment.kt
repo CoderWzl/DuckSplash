@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import wzl.android.ducksplash.NavMainDirections
@@ -15,6 +16,7 @@ import wzl.android.ducksplash.adapter.UserDiffCallback
 import wzl.android.ducksplash.adapter.UserPagingAdapter
 import wzl.android.ducksplash.databinding.FragmentSearchUserBinding
 import wzl.android.ducksplash.util.navigateSafe
+import wzl.android.ducksplash.util.toast
 import wzl.android.ducksplash.viewmodel.SearchViewModel
 import javax.inject.Inject
 

@@ -57,7 +57,7 @@ class SimpleCollectionPagingViewHolder(
             item.coverPhoto?.let {
                 imageUrl = item.coverPhoto.urls.raw + "&w=1200&q=80&fm=webp"
                 thumbUrl = item.coverPhoto.urls.raw + "&w=200&q=80&fm=webp"
-                color = item.coverPhoto.color
+                color = item.coverPhoto.color?:"#E0E0E0"
             }
             collectionCover.aspectRatio = 3 / 4.0
             collectionCover.loadPhotoUrlWithThumbnail(
