@@ -27,10 +27,7 @@ import wzl.android.ducksplash.adapter.PhotoDetailRelatedCollectionsAdapter
 import wzl.android.ducksplash.adapter.TagListAdapter
 import wzl.android.ducksplash.databinding.FragmentPhotoDetailBinding
 import wzl.android.ducksplash.model.PhotoModel
-import wzl.android.ducksplash.util.loadCirclePhotoUrl
-import wzl.android.ducksplash.util.loadPhotoUrlWithThumbnail
-import wzl.android.ducksplash.util.navigateSafe
-import wzl.android.ducksplash.util.reserveStatusBar
+import wzl.android.ducksplash.util.*
 import wzl.android.ducksplash.viewmodel.NavMainViewModel
 import wzl.android.ducksplash.viewmodel.PhotoDetailViewModel
 
@@ -129,6 +126,26 @@ class PhotoDetailFragment : Fragment() {
                     findNavController().navigateSafe(
                         NavMainDirections.actionGlobalUserFragment(it)
                     )
+                }
+                onDownloadClickListener = {
+                    requireContext().toast("download")
+                }
+                onFavoriteClickListener = {
+                    if (viewModel.isUserAuthorized()) {
+                        if (it.likedByUser == true) {
+                            viewModel.unlikePhoto(it.id)
+                        } else {
+                            viewModel.likePhoto(it.id)
+                        }
+                        photo.likedByUser = photo.likedByUser?.not()
+                        notifyDataSetChanged()
+                    } else{
+                        requireContext().toast("Please Login First")
+                        findNavController().navigateSafe(R.id.action_global_loginFragment)
+                    }
+                }
+                onBookmarkClickListener = {
+                    requireContext().toast("bookmark")
                 }
             }
             val adapter = PhotoDetailRelatedCollectionsAdapter(CollectionDiffCallback())

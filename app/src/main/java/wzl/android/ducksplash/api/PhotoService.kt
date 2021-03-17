@@ -1,8 +1,6 @@
 package wzl.android.ducksplash.api
 
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 import wzl.android.ducksplash.model.PhotoModel
 
 /**
@@ -49,5 +47,15 @@ interface PhotoService {
         @Query("content_filter") contentFilter: String? = null, // Limit results by content safety. Default: low. Valid values are low and high.
         @Query("count") count: Int = 1 // The number of photos to return. (Default: 1; max: 30)
     ): List<PhotoModel>
+
+    @POST("photos/{id}/like")
+    suspend fun likePhoto(
+        @Path("id") id: String
+    ): PhotoModel
+
+    @DELETE("photos/{id}/like")
+    suspend fun unlikePhoto(
+        @Path("id") id: String
+    ): PhotoModel
 
 }

@@ -49,4 +49,12 @@ class PhotoRepository @Inject constructor(val service: PhotoService) {
         return service.getRandomPhoto()
     }
 
+    suspend fun likePhoto(id: String): PhotoModel {
+        return service.likePhoto(id)
+    }
+
+    suspend fun unlikePhoto(id: String): PhotoModel {
+        return service.unlikePhoto(id)
+    }
+
 }

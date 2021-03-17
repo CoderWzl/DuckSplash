@@ -29,19 +29,23 @@
             android:textStyle="bold" />
 
         <ImageView
+            android:id="@+id/downloadButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_close" />
+            android:src="@drawable/ic_download_border_24dp" />
 
         <ImageView
+            android:id="@+id/favoriteButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_close" />
+            android:src="@drawable/ic_favorite_border_24dp"
+            android:layout_marginHorizontal="@dimen/dp20"/>
 
         <ImageView
+            android:id="@+id/bookmarkButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_close" />
+            android:src="@drawable/ic_bookmark_border_24dp" />
     </LinearLayout>
 
     <View
@@ -65,7 +69,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="设备制造商"
+                android:text="@string/ext_info_manufacturer"
                 android:textColor="@color/text_gray"
                 android:textSize="@dimen/sp14" />
 
@@ -88,7 +92,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="设备型号"
+                android:text="@string/ext_info_model"
                 android:textColor="@color/text_gray"
                 android:textSize="@dimen/sp14" />
 
@@ -120,7 +124,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="尺寸"
+                android:text="@string/ext_info_size"
                 android:textColor="@color/text_gray"
                 android:textSize="@dimen/sp14" />
 
@@ -143,7 +147,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="焦距"
+                android:text="@string/ext_info_focal_length"
                 android:textColor="@color/text_gray"
                 android:textSize="@dimen/sp14" />
 
@@ -175,7 +179,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="光圈"
+                android:text="@string/ext_info_aperture"
                 android:textColor="@color/text_gray"
                 android:textSize="@dimen/sp14" />
 
@@ -198,7 +202,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="快门时间"
+                android:text="@string/shutter_time"
                 android:textColor="@color/text_gray"
                 android:textSize="@dimen/sp14" />
 
@@ -230,7 +234,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="曝光度"
+                android:text="@string/ext_info_exposure"
                 android:textColor="@color/text_gray"
                 android:textSize="@dimen/sp14" />
 
@@ -253,7 +257,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="颜色"
+                android:text="@string/ext_info_color"
                 android:textColor="@color/text_gray"
                 android:textSize="@dimen/sp14" />
 
@@ -291,7 +295,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="浏览"
+                android:text="@string/browse"
                 android:textColor="@color/text_gray"
                 android:textSize="@dimen/sp14" />
 
@@ -315,7 +319,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="下载"
+                android:text="@string/download"
                 android:textColor="@color/text_gray"
                 android:textSize="@dimen/sp14" />
 
@@ -339,7 +343,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="喜爱"
+                android:text="@string/favorite"
                 android:textColor="@color/text_gray"
                 android:textSize="@dimen/sp14" />
 

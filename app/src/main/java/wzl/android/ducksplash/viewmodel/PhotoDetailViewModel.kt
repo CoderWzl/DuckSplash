@@ -5,18 +5,23 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import retrofit2.HttpException
+import wzl.android.ducksplash.api.login.TokenProtoProvider
 import wzl.android.ducksplash.model.PhotoModel
 import wzl.android.ducksplash.repository.PhotoRepository
 import java.io.IOException
+import java.lang.Exception
 
 /**
  *Created on 2021/1/26
  *@author zhilin
  */
 class PhotoDetailViewModel @ViewModelInject constructor(
-    private val repository: PhotoRepository
+    private val repository: PhotoRepository,
+    private val tokenProvider: TokenProtoProvider
 ): ViewModel() {
 
     private val _photo: MutableLiveData<PhotoModel> = MutableLiveData()
@@ -50,6 +55,31 @@ class PhotoDetailViewModel @ViewModelInject constructor(
                     }
                     else -> _error.postValue(throwable.localizedMessage)
                 }
+            }
+        }
+    }
+
+    fun isUserAuthorized() = runBlocking {
+        val prefs = tokenProvider.loginPreferences.first()
+        !prefs.accessToken.isNullOrEmpty()
+    }
+
+    fun likePhoto(id: String) {
+        viewModelScope.launch {
+            try {
+                repository.likePhoto(id)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun unlikePhoto(id: String) {
+        viewModelScope.launch {
+            try {
+                repository.likePhoto(id)
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
     }

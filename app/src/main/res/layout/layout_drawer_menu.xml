@@ -118,7 +118,7 @@
         <ImageView
             android:layout_width="@dimen/dp30"
             android:layout_height="@dimen/dp30"
-            android:src="@mipmap/ic_about"
+            android:src="@mipmap/ic_logout"
             android:layout_marginHorizontal="@dimen/dp15"/>
 
         <TextView

@@ -33,7 +33,7 @@ data class PhotoModel(
     val links: LinksModel?,
     val likes: Int?,
     @Json(name = "liked_by_user")
-    val likedByUser: Boolean?,
+    var likedByUser: Boolean?,
     val downloads: Int?,
     val exif: ExifModel?,
     val location: LocationModel?,

@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() {
     private fun initDrawerMenu() {
         viewBinding.menuLayout.apply {
             onUserClickListener = {
-                if (mViewModel.isLogin) {
+                if (mViewModel.isUserAuthorized()) {
                     // TODO: 2021/3/9 user main page
                     val prefs = mViewModel.loginPrefs.value
                     findNavController().navigateSafe(

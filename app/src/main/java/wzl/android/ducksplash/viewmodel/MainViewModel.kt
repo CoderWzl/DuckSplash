@@ -1,5 +1,6 @@
 package wzl.android.ducksplash.viewmodel
 
+import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -8,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import wzl.android.ducksplash.LoginPreferences
 import wzl.android.ducksplash.api.login.TokenProtoProvider
 
@@ -23,15 +25,11 @@ class MainViewModel @ViewModelInject constructor(
 
     val loginPrefs: LiveData<LoginPreferences> = tokenProvider.loginPreferences.asLiveData()
 
-    val isLogin: Boolean
-        get() {
-            var isAuthorized = false;
-            viewModelScope.launch {
-                val prefs = tokenProvider.loginPreferences.firstOrNull()
-                isAuthorized = !prefs?.accessToken.isNullOrEmpty()
-            }
-            return isAuthorized
-        }
+    fun isUserAuthorized() = runBlocking {
+        val prefs = tokenProvider.loginPreferences.first()
+        Log.d("zhilin", "isUserAuthorized: $prefs ${prefs.accessToken}")
+        !prefs.accessToken.isNullOrEmpty()
+    }
 
     fun updateAccessToken(token: String) {
         viewModelScope.launch {

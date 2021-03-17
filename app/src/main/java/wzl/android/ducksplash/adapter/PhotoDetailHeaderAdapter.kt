@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import wzl.android.ducksplash.R
 import wzl.android.ducksplash.databinding.LayoutPhotoDetailHeaderBinding
 import wzl.android.ducksplash.model.PhotoModel
 import wzl.android.ducksplash.model.UserModel
@@ -24,11 +25,17 @@ class PhotoDetailHeaderAdapter(): RecyclerView.Adapter<PhotoDetailHeaderVh>() {
 
     var onTagClickListener: ((tag: String) -> Unit)? = null
     var onUserClickListener: ((user: UserModel) -> Unit)? = null
+    var onDownloadClickListener: (() -> Unit)? = null
+    var onBookmarkClickListener: (() -> Unit)? = null
+    var onFavoriteClickListener: (() -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoDetailHeaderVh {
         return PhotoDetailHeaderVh(
             onTagClickListener,
             onUserClickListener,
+            onDownloadClickListener,
+            onBookmarkClickListener,
+            onFavoriteClickListener,
             LayoutPhotoDetailHeaderBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
@@ -51,19 +58,24 @@ class PhotoDetailHeaderAdapter(): RecyclerView.Adapter<PhotoDetailHeaderVh>() {
 class PhotoDetailHeaderVh(
     private val onTagClickListener: ((tag: String) -> Unit)?,
     private val onUserClickListener: ((user: UserModel) -> Unit)?,
+    private val onDownloadClickListener: (() -> Unit)?,
+    private val onBookmarkClickListener: (() -> Unit)?,
+    private val onFavoriteClickListener: (() -> Unit)?,
     private val viewBinding: LayoutPhotoDetailHeaderBinding
 ): RecyclerView.ViewHolder(viewBinding.root) {
 
+    private val unknownStr: String = itemView.context.getString(R.string.unknown)
+
     fun bind(item: PhotoModel) {
         viewBinding.apply {
-            manufacturer.text = item.exif?.make
-            model.text = item.exif?.model
-            focalLength.text = item.exif?.focalLength
-            exposure.text = item.exif?.iso.toString()
+            manufacturer.text = item.exif?.make?:unknownStr
+            model.text = item.exif?.model?:unknownStr
+            focalLength.text = item.exif?.focalLength?:unknownStr
+            exposure.text = if (item.exif?.iso == null) unknownStr else item.exif.iso.toString()
             size.text = "${item.width} x ${item.height}"
             color.text = item.color
-            shutterTime.text = item.exif?.exposureTime
-            aperture.text = item.exif?.aperture
+            shutterTime.text = item.exif?.exposureTime?:unknownStr
+            aperture.text = item.exif?.aperture?:unknownStr
             download.text = item.downloads.toString()
             favorite.text = item.likes.toString()
             view.text = item.views.toString()
@@ -86,6 +98,21 @@ class PhotoDetailHeaderVh(
             }
             userHead.setOnClickListener(clickListener)
             userName.setOnClickListener(clickListener)
+            downloadButton.setOnClickListener {
+                onDownloadClickListener?.invoke()
+            }
+            favoriteButton.setOnClickListener {
+                onFavoriteClickListener?.invoke()
+            }
+            bookmarkButton.setOnClickListener {
+                onBookmarkClickListener?.invoke()
+            }
+            favoriteButton.setImageResource(
+                if (item.likedByUser == true)
+                    R.drawable.ic_favorite_filled_24dp
+                else
+                    R.drawable.ic_favorite_border_24dp
+            )
         }
     }
 }

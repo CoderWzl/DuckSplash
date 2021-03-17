@@ -5,6 +5,7 @@
     <string name="photo_summary_user_info">%d 张照片·由 %s 创建</string>
     <string name="search">搜索</string>
     <string name="photo">照片</string>
+    <string name="unknown">未知</string>
     <string name="favorite">喜欢</string>
     <string name="collection">图集</string>
     <string name="user">用户</string>
@@ -20,5 +21,16 @@
     <string name="login">登录</string>
     <string name="main_slogan">创作从这里开始</string>
     <string name="sub_slogan">访问别处难觅的免费高分辨率照片</string>
+    <!-- ext info -->
+    <string name="ext_info_manufacturer">设备制造商</string>
+    <string name="ext_info_model">设备型号</string>
+    <string name="ext_info_size">尺寸</string>
+    <string name="ext_info_focal_length">焦距</string>
+    <string name="ext_info_aperture">光圈</string>
+    <string name="shutter_time">快门时间</string>
+    <string name="ext_info_exposure">曝光度</string>
+    <string name="ext_info_color">颜色</string>
+    <string name="browse">浏览</string>
+    <string name="download">下载</string>
 
 </resources>
