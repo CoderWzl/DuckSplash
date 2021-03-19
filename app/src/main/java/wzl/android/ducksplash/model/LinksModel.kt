@@ -16,5 +16,5 @@ data class LinksModel(
     val self: String,
     val html: String,
     val download: String?,
-    @Json(name = "download_location") val downloadLocation: String
+    @Json(name = "download_location") val downloadLocation: String?
 ): Parcelable
