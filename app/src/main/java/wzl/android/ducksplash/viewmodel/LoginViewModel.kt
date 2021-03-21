@@ -67,6 +67,7 @@ class LoginViewModel @ViewModelInject constructor(
                 }
                 _loginState.value = ApiState.Success(accessToken)
             } catch (e: Exception) {
+                tokenProvider.reset()
                 _loginState.value = ApiState.Error(message = e.localizedMessage)
             }
         }

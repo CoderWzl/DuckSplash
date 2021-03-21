@@ -27,6 +27,7 @@ import wzl.android.ducksplash.adapter.PhotoDetailRelatedCollectionsAdapter
 import wzl.android.ducksplash.adapter.TagListAdapter
 import wzl.android.ducksplash.databinding.FragmentPhotoDetailBinding
 import wzl.android.ducksplash.model.PhotoModel
+import wzl.android.ducksplash.ui.add.AddCollectionBottomSheet
 import wzl.android.ducksplash.util.*
 import wzl.android.ducksplash.viewmodel.NavMainViewModel
 import wzl.android.ducksplash.viewmodel.PhotoDetailViewModel
@@ -73,6 +74,7 @@ class PhotoDetailFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         observer()
         viewModel.getPhoto(photoId)
+        Log.d("zhilin", "onActivityCreated: $viewModel")
         viewBinding.appBarLayout.addOnOffsetChangedListener(
             AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
                 expanded = verticalOffset == 0
@@ -146,6 +148,7 @@ class PhotoDetailFragment : Fragment() {
                 }
                 onBookmarkClickListener = {
                     requireContext().toast("bookmark")
+                    AddCollectionBottomSheet().show(parentFragmentManager, "add_collection")
                 }
             }
             val adapter = PhotoDetailRelatedCollectionsAdapter(CollectionDiffCallback())
