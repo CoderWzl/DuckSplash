@@ -32,5 +32,12 @@
     <string name="ext_info_color">颜色</string>
     <string name="browse">浏览</string>
     <string name="download">下载</string>
+    <string name="add_to_collection">添加到图集</string>
+    <string name="create_new_collection">创建一个新的图集</string>
+    <string name="hint_collection_name">名称</string>
+    <string name="hint_collection_description">描述（可选）</string>
+    <string name="set_collection_private">将图集设为私密</string>
+    <string name="create">创建</string>
+    <string name="cancel">取消</string>
 
 </resources>

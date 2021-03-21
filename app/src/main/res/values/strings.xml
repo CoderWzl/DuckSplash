@@ -35,5 +35,13 @@
     <string name="ext_info_color">Color</string>
     <string name="browse">Browse</string>
     <string name="download">Download</string>
+    <string name="add_to_collection">Add to Collection</string>
+    <string name="create_new_collection">Create New Collection</string>
+    <string name="hint_collection_name">Name</string>
+    <string name="hint_collection_description">Description(optional)</string>
+    <string name="set_collection_private">Set Collection Private</string>
+    <string name="create">Create</string>
+    <string name="cancel">Cancel</string>
+
 
 </resources>
