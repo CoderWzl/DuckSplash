@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import wzl.android.ducksplash.adapter.AddCollectionPagingAdapter
+import wzl.android.ducksplash.adapter.AddState
 import wzl.android.ducksplash.api.login.TokenProtoProvider
 import wzl.android.ducksplash.databinding.BottomSheetAddCollectionBinding
 import wzl.android.ducksplash.viewmodel.MainSharedViewModel
@@ -32,6 +33,15 @@ class AddCollectionBottomSheet : BottomSheetDialogFragment() {
     private lateinit var viewBinding: BottomSheetAddCollectionBinding
     @Inject lateinit var adapter: AddCollectionPagingAdapter
     @Inject lateinit var tokenProvider: TokenProtoProvider
+    private var photoId: String? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        arguments?.getString(ARGUMENT_PHOTO_ID)?.let {
+            photoId = it
+        }
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return super.onCreateDialog(savedInstanceState)
@@ -49,6 +59,22 @@ class AddCollectionBottomSheet : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        adapter.onItemClickListener = { collection ->
+            Log.d("zhilin", "onViewCreated: $photoId")
+            photoId?.let {
+                viewModel.addPhotoToCollection(
+                    collectionId = collection.id,
+                    it).observe(viewLifecycleOwner) { state ->
+                    val collectionId = when(state) {
+                        is AddState.Adding -> state.collectionId
+                        is AddState.Added -> state.result.collection?.id
+                        is AddState.NotAdd -> state.collectionId
+                        is AddState.Removing -> state.collectionId
+                    }?:0
+                    adapter.changeItemAddState(collectionId, state)
+                }
+            }
+        }
         viewBinding.collectionList.adapter = adapter
         viewBinding.collectionList.layoutManager = LinearLayoutManager(
             requireContext(),
@@ -73,6 +99,17 @@ class AddCollectionBottomSheet : BottomSheetDialogFragment() {
                 adapter.submitData(it)
             }
         }
+    }
+
+    companion object {
+        private const val ARGUMENT_PHOTO_ID = "argument_photo_id"
+
+        fun newInstance(photoId: String) = AddCollectionBottomSheet()
+            .apply {
+                arguments = Bundle().apply {
+                    putString(ARGUMENT_PHOTO_ID, photoId)
+                }
+            }
     }
 
 }

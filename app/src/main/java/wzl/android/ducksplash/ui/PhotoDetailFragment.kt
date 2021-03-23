@@ -148,7 +148,9 @@ class PhotoDetailFragment : Fragment() {
                 }
                 onBookmarkClickListener = {
                     requireContext().toast("bookmark")
-                    AddCollectionBottomSheet().show(parentFragmentManager, "add_collection")
+                    AddCollectionBottomSheet.newInstance(
+                        it.id
+                    ).show(parentFragmentManager, "add_collection")
                 }
             }
             val adapter = PhotoDetailRelatedCollectionsAdapter(CollectionDiffCallback())

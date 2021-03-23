@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import wzl.android.ducksplash.api.CollectionService
 import wzl.android.ducksplash.data.CollectionPagingSource
 import wzl.android.ducksplash.model.CollectionModel
+import wzl.android.ducksplash.model.CollectionPhotoResult
 import javax.inject.Inject
 
 /**
@@ -26,6 +27,12 @@ class CollectionRepository @Inject constructor(
                 ),
                 pagingSourceFactory = { CollectionPagingSource(service) }
         ).flow
+    }
+
+    suspend fun addPhotoToCollection(
+        collectionId: Int, photoId: String
+    ): CollectionPhotoResult {
+        return service.addPhotoToCollection(collectionId, photoId)
     }
 
 

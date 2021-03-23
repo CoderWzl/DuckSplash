@@ -2,12 +2,14 @@ package wzl.android.ducksplash.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import wzl.android.ducksplash.R
 import wzl.android.ducksplash.databinding.ItemAddCollectionBinding
 import wzl.android.ducksplash.model.CollectionModel
+import wzl.android.ducksplash.model.CollectionPhotoResult
 import wzl.android.ducksplash.util.loadPhotoUrlWithThumbnail
 import javax.inject.Inject
 
@@ -20,10 +22,26 @@ class AddCollectionPagingAdapter @Inject constructor(
     diffCallback: CollectionDiffCallback
 ): PagingDataAdapter<CollectionModel, AddCollectionVH>(diffCallback) {
 
+    var onItemClickListener: ((collection: CollectionModel) -> Unit)? = null
+    private var _stateMap: MutableMap<Int, AddState>? = null
+
+    fun changeItemAddState(id: Int, state: AddState) {
+        if (_stateMap == null) {
+            _stateMap = HashMap()
+        }
+        _stateMap?.let { map ->
+            if (map.contains(id) && map[id] != state) {
+                map[id] = state
+                notifyDataSetChanged()
+            }
+        }
+    }
+
     override fun onBindViewHolder(holder: AddCollectionVH, position: Int) {
         val item = getItem(position)
         if (item != null) {
-            holder.bindView(item)
+            holder.bindView(item, _stateMap)
+            holder.itemView.setOnClickListener { onItemClickListener?.invoke(item) }
         }
     }
 
@@ -43,7 +61,7 @@ class AddCollectionVH(
     private val viewBinding: ItemAddCollectionBinding
 ): RecyclerView.ViewHolder(viewBinding.root) {
 
-    fun bindView(item: CollectionModel) {
+    fun bindView(item: CollectionModel, map: Map<Int, AddState>?) {
         viewBinding.collectionName.text = item.title
         viewBinding.photoCount.text = itemView.context.getString(
             R.string.photo_number,
@@ -59,5 +77,43 @@ class AddCollectionVH(
                 thumbnailUrl = thumbUrl
             )
         }
+        map?.let { stateMap ->
+            if (stateMap.containsKey(item.id)) {
+                when(stateMap[item.id]) {
+                    is AddState.NotAdd -> {
+                        viewBinding.addProgress.isVisible = false
+                        viewBinding.addedIcon.isVisible = false
+                        viewBinding.coverOverlay.setBackgroundColor(
+                            ContextCompat.getColor(itemView.context, R.color.black_overlay)
+                        )
+                    }
+                    is AddState.Adding,
+                    is AddState.Removing -> {
+                        viewBinding.addProgress.isVisible = true
+                        viewBinding.addedIcon.isVisible = false
+                    }
+                    is AddState.Added -> {
+                        viewBinding.addProgress.isVisible = false
+                        viewBinding.addedIcon.isVisible = true
+                        viewBinding.coverOverlay.setBackgroundColor(
+                            ContextCompat.getColor(itemView.context, R.color.green_overlay)
+                        )
+                    }
+                }
+            } else {
+                viewBinding.addProgress.isVisible = false
+                viewBinding.addedIcon.isVisible = false
+                viewBinding.coverOverlay.setBackgroundColor(
+                    ContextCompat.getColor(itemView.context, R.color.black_overlay)
+                )
+            }
+        }
     }
+}
+
+sealed class AddState {
+    data class NotAdd(val collectionId: Int): AddState()
+    data class Added(val result: CollectionPhotoResult): AddState()
+    data class Adding(val collectionId: Int): AddState()
+    data class Removing(val collectionId: Int): AddState()
 }

@@ -15,4 +15,7 @@
     <color name="text_white">#FFFFFF</color>
     <color name="color_division_line">#EEEEEE</color>
     <color name="random_photo_mask">#66000000</color>
+
+    <color name="black_overlay">#66000000</color>
+    <color name="green_overlay">#A6145A00</color>
 </resources>
