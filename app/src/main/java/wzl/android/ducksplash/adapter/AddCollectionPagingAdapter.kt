@@ -1,5 +1,6 @@
 package wzl.android.ducksplash.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -24,14 +25,16 @@ class AddCollectionPagingAdapter @Inject constructor(
 
     var onItemClickListener: ((collection: CollectionModel) -> Unit)? = null
     private var _stateMap: MutableMap<Int, AddState>? = null
+    var currentUserCollections: MutableList<Int> = mutableListOf()
 
     fun changeItemAddState(id: Int, state: AddState) {
         if (_stateMap == null) {
             _stateMap = HashMap()
         }
         _stateMap?.let { map ->
-            if (map.contains(id) && map[id] != state) {
+            if (!map.contains(id) || map[id] != state) {
                 map[id] = state
+                Log.d("zhilin", "changeItemAddState: ")
                 notifyDataSetChanged()
             }
         }
@@ -51,14 +54,16 @@ class AddCollectionPagingAdapter @Inject constructor(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
-            )
+            ),
+            currentUserCollections
         )
     }
 
 }
 
 class AddCollectionVH(
-    private val viewBinding: ItemAddCollectionBinding
+    private val viewBinding: ItemAddCollectionBinding,
+    private val currentCollections: List<Int>
 ): RecyclerView.ViewHolder(viewBinding.root) {
 
     fun bindView(item: CollectionModel, map: Map<Int, AddState>?) {
@@ -77,35 +82,43 @@ class AddCollectionVH(
                 thumbnailUrl = thumbUrl
             )
         }
-        map?.let { stateMap ->
-            if (stateMap.containsKey(item.id)) {
-                when(stateMap[item.id]) {
-                    is AddState.NotAdd -> {
-                        viewBinding.addProgress.isVisible = false
-                        viewBinding.addedIcon.isVisible = false
-                        viewBinding.coverOverlay.setBackgroundColor(
-                            ContextCompat.getColor(itemView.context, R.color.black_overlay)
-                        )
+        if (currentCollections.contains(item.id)) {
+            viewBinding.addProgress.isVisible = false
+            viewBinding.addedIcon.isVisible = true
+            viewBinding.coverOverlay.setBackgroundColor(
+                ContextCompat.getColor(itemView.context, R.color.green_overlay)
+            )
+        } else {
+            map?.let { stateMap ->
+                if (stateMap.containsKey(item.id)) {
+                    when (stateMap[item.id]) {
+                        is AddState.NotAdd -> {
+                            viewBinding.addProgress.isVisible = false
+                            viewBinding.addedIcon.isVisible = false
+                            viewBinding.coverOverlay.setBackgroundColor(
+                                ContextCompat.getColor(itemView.context, R.color.black_overlay)
+                            )
+                        }
+                        is AddState.Adding,
+                        is AddState.Removing -> {
+                            viewBinding.addProgress.isVisible = true
+                            viewBinding.addedIcon.isVisible = false
+                        }
+                        is AddState.Added -> {
+                            viewBinding.addProgress.isVisible = false
+                            viewBinding.addedIcon.isVisible = true
+                            viewBinding.coverOverlay.setBackgroundColor(
+                                ContextCompat.getColor(itemView.context, R.color.green_overlay)
+                            )
+                        }
                     }
-                    is AddState.Adding,
-                    is AddState.Removing -> {
-                        viewBinding.addProgress.isVisible = true
-                        viewBinding.addedIcon.isVisible = false
-                    }
-                    is AddState.Added -> {
-                        viewBinding.addProgress.isVisible = false
-                        viewBinding.addedIcon.isVisible = true
-                        viewBinding.coverOverlay.setBackgroundColor(
-                            ContextCompat.getColor(itemView.context, R.color.green_overlay)
-                        )
-                    }
+                } else {
+                    viewBinding.addProgress.isVisible = false
+                    viewBinding.addedIcon.isVisible = false
+                    viewBinding.coverOverlay.setBackgroundColor(
+                        ContextCompat.getColor(itemView.context, R.color.black_overlay)
+                    )
                 }
-            } else {
-                viewBinding.addProgress.isVisible = false
-                viewBinding.addedIcon.isVisible = false
-                viewBinding.coverOverlay.setBackgroundColor(
-                    ContextCompat.getColor(itemView.context, R.color.black_overlay)
-                )
             }
         }
     }

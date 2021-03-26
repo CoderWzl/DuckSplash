@@ -55,7 +55,7 @@ class CollectionPagingViewHolder(
         val fullName = if (item.coverPhoto?.user?.lastName == null) {
             item.coverPhoto?.user?.firstName
         } else {
-            item.coverPhoto.user.firstName + " " + item.coverPhoto.user.lastName
+            item.coverPhoto?.user?.firstName + " " + item.coverPhoto?.user?.lastName
         }
         with(viewBinding) {
             description.text = item.title

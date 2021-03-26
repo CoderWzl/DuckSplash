@@ -22,5 +22,5 @@ data class CollectionModel(
     @Json(name = "total_photos") val totalPhotos: Int?,
     val private: Boolean?,
     @Json(name = "share_key") val shareKey: String?,
-    @Json(name = "cover_photo") val coverPhoto: PhotoModel?
+    @Json(name = "cover_photo") var coverPhoto: PhotoModel?
 ): Parcelable

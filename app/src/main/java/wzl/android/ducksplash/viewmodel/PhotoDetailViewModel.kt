@@ -27,10 +27,12 @@ class PhotoDetailViewModel @ViewModelInject constructor(
     private val _photo: MutableLiveData<PhotoModel> = MutableLiveData()
     private val _loading: MutableLiveData<Boolean> = MutableLiveData()
     private val _error: MutableLiveData<String> = MutableLiveData()
+    private val _currentUserCollections = MutableLiveData<List<Int>?>()
 
     val photo: LiveData<PhotoModel> = _photo
     val loading: LiveData<Boolean> = _loading
     val error: LiveData<String> = _error
+    val currentUserCollections: LiveData<List<Int>?> = _currentUserCollections
     private var curPhotoId: String? = null
 
     fun getPhoto(photoId: String) {
@@ -82,6 +84,13 @@ class PhotoDetailViewModel @ViewModelInject constructor(
                 e.printStackTrace()
             }
         }
+    }
+
+    // 获取包含所有这张图片的用户图集 id 信息，用来判断是否被用户收藏
+    fun setCurrentUserCollections(photo: PhotoModel) {
+        _currentUserCollections.postValue(
+            photo.currentUserCollections?.map { it.id }?.toMutableList()
+        )
     }
 
 }

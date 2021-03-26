@@ -113,6 +113,12 @@ class PhotoDetailHeaderVh(
                 else
                     R.drawable.ic_favorite_border_24dp
             )
+            bookmarkButton.setImageResource(
+                if (item.currentUserCollections?.isNotEmpty() == true)
+                    R.drawable.ic_bookmark_filled_24dp
+                else
+                    R.drawable.ic_bookmark_border_24dp
+            )
         }
     }
 }

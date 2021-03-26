@@ -53,7 +53,7 @@ class SearchCollectionFragment : Fragment() {
             val fullName = if (it.coverPhoto?.user?.lastName == null) {
                 it.coverPhoto?.user?.firstName?:""
             } else {
-                it.coverPhoto.user.firstName + " " + it.coverPhoto.user.lastName
+                it.coverPhoto?.user?.firstName + " " + it.coverPhoto?.user?.lastName
             }
             findNavController().navigateSafe(
                 NavMainDirections.actionGlobalToCollectionDetailFragment(

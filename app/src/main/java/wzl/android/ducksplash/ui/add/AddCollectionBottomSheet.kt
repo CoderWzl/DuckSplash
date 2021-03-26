@@ -1,6 +1,5 @@
 package wzl.android.ducksplash.ui.add
 
-import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -33,6 +32,7 @@ class AddCollectionBottomSheet : BottomSheetDialogFragment() {
     private lateinit var viewBinding: BottomSheetAddCollectionBinding
     @Inject lateinit var adapter: AddCollectionPagingAdapter
     @Inject lateinit var tokenProvider: TokenProtoProvider
+    private var collections: List<Int> ?= null
     private var photoId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,10 +41,6 @@ class AddCollectionBottomSheet : BottomSheetDialogFragment() {
         arguments?.getString(ARGUMENT_PHOTO_ID)?.let {
             photoId = it
         }
-    }
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return super.onCreateDialog(savedInstanceState)
     }
 
     override fun onCreateView(
@@ -71,6 +67,7 @@ class AddCollectionBottomSheet : BottomSheetDialogFragment() {
                         is AddState.NotAdd -> state.collectionId
                         is AddState.Removing -> state.collectionId
                     }?:0
+                    Log.d("zhilin", "onViewCreated: ${state.javaClass.simpleName}")
                     adapter.changeItemAddState(collectionId, state)
                 }
             }
@@ -89,16 +86,27 @@ class AddCollectionBottomSheet : BottomSheetDialogFragment() {
             viewBinding.addCollectionLayout.visibility = View.VISIBLE
             viewBinding.createCollectionLayout.visibility = View.INVISIBLE
         }
+        if (collections != null) {
+            adapter.currentUserCollections.addAll(collections!!)
+            adapter.notifyDataSetChanged()
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         lifecycleScope.launch {
             val userName = tokenProvider.loginPreferences.firstOrNull()?.userName
-            viewModel.getUserCollections(userName).collectLatest {
+            viewModel.getUserCollections(userName)?.collectLatest {
                 adapter.submitData(it)
             }
         }
+    }
+
+    fun setCurrentUserCollections(collections: List<Int>) {
+        Log.d("zhilin", "setCurrentUserCollections: ${if(collections.isEmpty()) "--" else collections[0]}")
+        this.collections = collections
+        adapter.currentUserCollections.addAll(collections)
+        adapter.notifyDataSetChanged()
     }
 
     companion object {

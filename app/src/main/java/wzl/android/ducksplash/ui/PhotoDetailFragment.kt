@@ -6,15 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
 import dagger.hilt.android.AndroidEntryPoint
 import wzl.android.ducksplash.IMAGE_LARGE_SUFFIX
@@ -24,12 +21,10 @@ import wzl.android.ducksplash.R
 import wzl.android.ducksplash.adapter.CollectionDiffCallback
 import wzl.android.ducksplash.adapter.PhotoDetailHeaderAdapter
 import wzl.android.ducksplash.adapter.PhotoDetailRelatedCollectionsAdapter
-import wzl.android.ducksplash.adapter.TagListAdapter
 import wzl.android.ducksplash.databinding.FragmentPhotoDetailBinding
 import wzl.android.ducksplash.model.PhotoModel
 import wzl.android.ducksplash.ui.add.AddCollectionBottomSheet
 import wzl.android.ducksplash.util.*
-import wzl.android.ducksplash.viewmodel.NavMainViewModel
 import wzl.android.ducksplash.viewmodel.PhotoDetailViewModel
 
 /**
@@ -45,6 +40,9 @@ class PhotoDetailFragment : Fragment() {
     private lateinit var photoId: String
     private val viewModel by viewModels<PhotoDetailViewModel>()
     private var expanded = true
+    private val bottomSheetDialogFragment: AddCollectionBottomSheet by lazy {
+        AddCollectionBottomSheet.newInstance(photoId)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -102,6 +100,11 @@ class PhotoDetailFragment : Fragment() {
             viewBinding.errorTip.isVisible = true
             viewBinding.errorTip.text = it
         }
+        viewModel.currentUserCollections.observe(viewLifecycleOwner) { collections ->
+            if (collections != null && collections.isNotEmpty()) {
+                bottomSheetDialogFragment.setCurrentUserCollections(collections)
+            }
+        }
     }
 
     private fun setupPhoto(photo: PhotoModel?) {
@@ -109,6 +112,7 @@ class PhotoDetailFragment : Fragment() {
             val imageUrl = it.urls.raw + IMAGE_LARGE_SUFFIX
             val thumbUrl = it.urls.raw + IMAGE_THUMB_SUFFIX
             viewBinding.imageView.loadPhotoUrlWithThumbnail(imageUrl, thumbUrl, it.color)
+            viewModel.setCurrentUserCollections(photo)
         }
     }
 
@@ -148,9 +152,9 @@ class PhotoDetailFragment : Fragment() {
                 }
                 onBookmarkClickListener = {
                     requireContext().toast("bookmark")
-                    AddCollectionBottomSheet.newInstance(
-                        it.id
-                    ).show(parentFragmentManager, "add_collection")
+                    if (!bottomSheetDialogFragment.isAdded) {
+                        bottomSheetDialogFragment.show(parentFragmentManager, "add_collection")
+                    }
                 }
             }
             val adapter = PhotoDetailRelatedCollectionsAdapter(CollectionDiffCallback())
@@ -165,7 +169,7 @@ class PhotoDetailFragment : Fragment() {
                         val fullName = if (it.coverPhoto?.user?.lastName == null) {
                             it.coverPhoto?.user?.firstName?:""
                         } else {
-                            it.coverPhoto.user.firstName + " " + it.coverPhoto.user.lastName
+                            it.coverPhoto?.user?.firstName + " " + it.coverPhoto?.user?.lastName
                         }
                         findNavController().navigateSafe(
                             NavMainDirections.actionGlobalToCollectionDetailFragment(
