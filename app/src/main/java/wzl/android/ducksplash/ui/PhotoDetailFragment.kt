@@ -21,11 +21,13 @@ import wzl.android.ducksplash.R
 import wzl.android.ducksplash.adapter.CollectionDiffCallback
 import wzl.android.ducksplash.adapter.PhotoDetailHeaderAdapter
 import wzl.android.ducksplash.adapter.PhotoDetailRelatedCollectionsAdapter
+import wzl.android.ducksplash.api.ApiState
 import wzl.android.ducksplash.databinding.FragmentPhotoDetailBinding
 import wzl.android.ducksplash.model.PhotoModel
 import wzl.android.ducksplash.ui.add.AddCollectionBottomSheet
 import wzl.android.ducksplash.util.*
 import wzl.android.ducksplash.viewmodel.PhotoDetailViewModel
+import javax.inject.Inject
 
 /**
  * A simple [Fragment] subclass.
@@ -40,8 +42,9 @@ class PhotoDetailFragment : Fragment() {
     private lateinit var photoId: String
     private val viewModel by viewModels<PhotoDetailViewModel>()
     private var expanded = true
+    @Inject lateinit var headerAdapter: PhotoDetailHeaderAdapter
     private val bottomSheetDialogFragment: AddCollectionBottomSheet by lazy {
-        AddCollectionBottomSheet.newInstance(photoId)
+        AddCollectionBottomSheet.newInstance(photoId, viewModel)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,7 +74,6 @@ class PhotoDetailFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         observer()
-        viewModel.getPhoto(photoId)
         Log.d("zhilin", "onActivityCreated: $viewModel")
         viewBinding.appBarLayout.addOnOffsetChangedListener(
             AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
@@ -82,27 +84,32 @@ class PhotoDetailFragment : Fragment() {
     }
 
     private fun observer() {
-        viewModel.photo.observe(viewLifecycleOwner) {
-            setupDetail(it)
-            viewBinding.loadingContainer.isVisible = false
-            viewBinding.recyclerView.isVisible = true
-        }
-        viewModel.loading.observe(viewLifecycleOwner) {
-            viewBinding.loadingContainer.isVisible = it
-            viewBinding.recyclerView.isVisible = !it
-            viewBinding.progressBar.isVisible = it
-            viewBinding.errorTip.isVisible = false
-        }
-        viewModel.error.observe(viewLifecycleOwner) {
-            viewBinding.loadingContainer.isVisible = true
-            viewBinding.recyclerView.isVisible = false
-            viewBinding.progressBar.isVisible = false
-            viewBinding.errorTip.isVisible = true
-            viewBinding.errorTip.text = it
+        viewModel.getPhoto(photoId).observe(viewLifecycleOwner) { state ->
+            Log.d("zhilin", "observer: $state")
+            when(state) {
+                is ApiState.Loading -> {
+                    viewBinding.loadingContainer.isVisible = true
+                    viewBinding.recyclerView.isVisible = false
+                    viewBinding.progressBar.isVisible = true
+                    viewBinding.errorTip.isVisible = false
+                }
+                is ApiState.Error -> {
+                    viewBinding.loadingContainer.isVisible = true
+                    viewBinding.recyclerView.isVisible = false
+                    viewBinding.progressBar.isVisible = false
+                    viewBinding.errorTip.isVisible = true
+                    viewBinding.errorTip.text = state.message
+                }
+                is ApiState.Success -> {
+                    setupDetail(state.data)
+                    viewBinding.loadingContainer.isVisible = false
+                    viewBinding.recyclerView.isVisible = true
+                }
+            }
         }
         viewModel.currentUserCollections.observe(viewLifecycleOwner) { collections ->
             if (collections != null && collections.isNotEmpty()) {
-                bottomSheetDialogFragment.setCurrentUserCollections(collections)
+                headerAdapter.notifyDataSetChanged()
             }
         }
     }
@@ -121,7 +128,7 @@ class PhotoDetailFragment : Fragment() {
         vm.sendPhotoIso(photo?.exif?.iso.toString())*/
         Log.d("zhilin", "setupDetail: ")
         photo?.let {
-            val headerAdapter = PhotoDetailHeaderAdapter().apply {
+            headerAdapter.apply {
                 this.photo = photo
                 onTagClickListener = {
                     findNavController().navigateSafe(

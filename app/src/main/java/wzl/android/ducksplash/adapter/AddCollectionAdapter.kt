@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import wzl.android.ducksplash.R
 import wzl.android.ducksplash.databinding.ItemAddCollectionBinding
@@ -19,13 +20,21 @@ import javax.inject.Inject
  *@author zhilin
  * 我的界面添加图集
  */
-class AddCollectionPagingAdapter @Inject constructor(
+class AddCollectionAdapter @Inject constructor(
     diffCallback: CollectionDiffCallback
-): PagingDataAdapter<CollectionModel, AddCollectionVH>(diffCallback) {
+): ListAdapter<CollectionModel, AddCollectionVH>(diffCallback) {
 
-    var onItemClickListener: ((collection: CollectionModel) -> Unit)? = null
+    var onItemClickListener: ((collection: CollectionModel, position: Int) -> Unit)? = null
     private var _stateMap: MutableMap<Int, AddState>? = null
-    var currentUserCollections: MutableList<Int> = mutableListOf()
+    private val _currentUserCollections: MutableList<Int> = mutableListOf()
+
+    fun submitCurrentUserCollections(list: List<Int>?) {
+        list?.let {
+            _currentUserCollections.clear()
+            _currentUserCollections.addAll(it)
+            notifyDataSetChanged()
+        }
+    }
 
     fun changeItemAddState(id: Int, state: AddState) {
         if (_stateMap == null) {
@@ -44,7 +53,7 @@ class AddCollectionPagingAdapter @Inject constructor(
         val item = getItem(position)
         if (item != null) {
             holder.bindView(item, _stateMap)
-            holder.itemView.setOnClickListener { onItemClickListener?.invoke(item) }
+            holder.itemView.setOnClickListener { onItemClickListener?.invoke(item, position) }
         }
     }
 
@@ -55,7 +64,7 @@ class AddCollectionPagingAdapter @Inject constructor(
                 parent,
                 false
             ),
-            currentUserCollections
+            _currentUserCollections
         )
     }
 

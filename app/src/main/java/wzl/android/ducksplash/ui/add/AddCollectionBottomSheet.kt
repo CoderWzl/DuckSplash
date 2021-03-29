@@ -5,20 +5,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.launch
-import wzl.android.ducksplash.adapter.AddCollectionPagingAdapter
+import wzl.android.ducksplash.adapter.AddCollectionAdapter
 import wzl.android.ducksplash.adapter.AddState
 import wzl.android.ducksplash.api.login.TokenProtoProvider
 import wzl.android.ducksplash.databinding.BottomSheetAddCollectionBinding
-import wzl.android.ducksplash.viewmodel.MainSharedViewModel
+import wzl.android.ducksplash.viewmodel.PhotoDetailViewModel
 import javax.inject.Inject
 
 /**
@@ -28,16 +23,14 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class AddCollectionBottomSheet : BottomSheetDialogFragment() {
 
-    private val viewModel: MainSharedViewModel by activityViewModels()
+    private lateinit var viewModel: PhotoDetailViewModel
     private lateinit var viewBinding: BottomSheetAddCollectionBinding
-    @Inject lateinit var adapter: AddCollectionPagingAdapter
+    @Inject lateinit var adapter: AddCollectionAdapter
     @Inject lateinit var tokenProvider: TokenProtoProvider
-    private var collections: List<Int> ?= null
     private var photoId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         arguments?.getString(ARGUMENT_PHOTO_ID)?.let {
             photoId = it
         }
@@ -55,12 +48,14 @@ class AddCollectionBottomSheet : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter.onItemClickListener = { collection ->
+        adapter.onItemClickListener = { collection, position ->
             Log.d("zhilin", "onViewCreated: $photoId")
             photoId?.let {
                 viewModel.addPhotoToCollection(
                     collectionId = collection.id,
-                    it).observe(viewLifecycleOwner) { state ->
+                    it,
+                    position
+                ).observe(viewLifecycleOwner) { state ->
                     val collectionId = when(state) {
                         is AddState.Adding -> state.collectionId
                         is AddState.Added -> state.result.collection?.id
@@ -86,37 +81,36 @@ class AddCollectionBottomSheet : BottomSheetDialogFragment() {
             viewBinding.addCollectionLayout.visibility = View.VISIBLE
             viewBinding.createCollectionLayout.visibility = View.INVISIBLE
         }
-        if (collections != null) {
-            adapter.currentUserCollections.addAll(collections!!)
-            adapter.notifyDataSetChanged()
-        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        lifecycleScope.launch {
-            val userName = tokenProvider.loginPreferences.firstOrNull()?.userName
-            viewModel.getUserCollections(userName)?.collectLatest {
-                adapter.submitData(it)
-            }
-        }
+        // TODO: 2021/3/29 load more
+        observer()
+        viewModel.loadMoreUserCollections()
     }
 
-    fun setCurrentUserCollections(collections: List<Int>) {
-        Log.d("zhilin", "setCurrentUserCollections: ${if(collections.isEmpty()) "--" else collections[0]}")
-        this.collections = collections
-        adapter.currentUserCollections.addAll(collections)
-        adapter.notifyDataSetChanged()
+    private fun observer() {
+        // 监听登录用户图集列表
+        viewModel.userCollections.observe(viewLifecycleOwner) { collections ->
+            adapter.submitList(collections)
+        }
+        // 图片所在用户图集 id 列表
+        viewModel.currentUserCollections.observe(viewLifecycleOwner) { currentUserCollections ->
+            Log.d("zhilin", "observer: currentUserCollections $currentUserCollections")
+            adapter.submitCurrentUserCollections(currentUserCollections)
+        }
     }
 
     companion object {
         private const val ARGUMENT_PHOTO_ID = "argument_photo_id"
 
-        fun newInstance(photoId: String) = AddCollectionBottomSheet()
+        fun newInstance(photoId: String, vm: PhotoDetailViewModel) = AddCollectionBottomSheet()
             .apply {
                 arguments = Bundle().apply {
                     putString(ARGUMENT_PHOTO_ID, photoId)
                 }
+                viewModel = vm
             }
     }
 

@@ -10,12 +10,15 @@ import wzl.android.ducksplash.databinding.LayoutPhotoDetailHeaderBinding
 import wzl.android.ducksplash.model.PhotoModel
 import wzl.android.ducksplash.model.UserModel
 import wzl.android.ducksplash.util.loadCirclePhotoUrl
+import javax.inject.Inject
 
 /**
  *Created on 1/29/21
  *@author zhilin
  */
-class PhotoDetailHeaderAdapter(): RecyclerView.Adapter<PhotoDetailHeaderVh>() {
+class PhotoDetailHeaderAdapter @Inject constructor(
+
+): RecyclerView.Adapter<PhotoDetailHeaderVh>() {
 
     var photo: PhotoModel? = null
     set(value) {

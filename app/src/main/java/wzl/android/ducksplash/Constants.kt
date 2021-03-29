@@ -16,6 +16,7 @@ const val USPLASH_CLIENT_ID = "w72LwQkOD-iFlBdIFeqJkGZqbxLBuN5vQ68OlLBhKg0"
 const val USPLASH_CLIENT_SECRET = "bz8eLgv6TtWe-fxmFRjq3sGpAITCSIR2O5c9GNC0teg"
 // unsplash 第一页 index 为 1
 const val INITIAL_PAGE = 1;
+const val DEFAULT_PER_PAGE_SIZE = 10;
 
 const val IMAGE_LARGE_SUFFIX = "&w=1200&q=80&fm=webp"
 const val IMAGE_THUMB_SUFFIX = "&w=200&q=80&fm=webp"

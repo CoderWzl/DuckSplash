@@ -4,6 +4,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
+import wzl.android.ducksplash.DEFAULT_PER_PAGE_SIZE
 import wzl.android.ducksplash.api.UserService
 import wzl.android.ducksplash.data.UserCollectionPagingSource
 import wzl.android.ducksplash.data.UserLikePhotoPagingSource
@@ -52,6 +53,17 @@ class UserRepository @Inject constructor(
             ),
             pagingSourceFactory = { UserCollectionPagingSource(username, service) }
         ).flow
+    }
+
+    /**
+     * 显示分页获取用户图集信息
+     */
+    suspend fun listUserCollections(username: String, page: Int): List<CollectionModel> {
+        return service.listUserCollections(
+            username = username,
+            page = page,
+            perPage = DEFAULT_PER_PAGE_SIZE
+        )
     }
 
     suspend fun getUserPublicProfile(username: String): UserModel {

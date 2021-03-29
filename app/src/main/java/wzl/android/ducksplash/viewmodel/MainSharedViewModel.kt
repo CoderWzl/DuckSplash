@@ -22,6 +22,8 @@ import java.lang.Exception
  *@author zhilin
  * 共享 ViewModel 生命周期不依赖 Fragment 生命周期，其依赖 Fragment 所依附的 Activity 的生命周期
  * 实现 Fragment 之间共享数据。
+ * 在 PhotoDetailFragment 中添加图片到图集的时候，用来共享用户所有的图集信息，后面没有应用这个方案
+ * 选择直接将 PhotoDetailFragment 的 ViewModel 传递到AddCollectionBottomSheet 的方法
  */
 class MainSharedViewModel @ViewModelInject constructor(
     private val userRepository: UserRepository,
@@ -51,7 +53,10 @@ class MainSharedViewModel @ViewModelInject constructor(
                     collectionId,
                     photoId
                 )
-                // WARN：使用 Paging3 进行数据加载的时候
+                // NOTE：使用 Paging3 进行数据加载的时候，遇到需要变更列表某一项信息的时候（例如在现在的业务
+                // 场景下，用户将图片成功收藏到图集后需要更新图集的封面为最新收藏的图片，不知道该如何操作），
+                // 不知道该如何操作网上搜索得知可结合 Room 通过修改数据源的方式更新数据项。没有使用 Room 的
+                // 话还是没有找到很好的解决办法。
                 emit(AddState.Added(result))
             } catch (e: Exception) {
                 Log.d("zhilin", "addPhotoToCollection: ${e.localizedMessage}")
