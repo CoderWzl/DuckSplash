@@ -43,7 +43,6 @@ class AddCollectionAdapter @Inject constructor(
         _stateMap?.let { map ->
             if (!map.contains(id) || map[id] != state) {
                 map[id] = state
-                Log.d("zhilin", "changeItemAddState: ")
                 notifyDataSetChanged()
             }
         }
@@ -52,7 +51,7 @@ class AddCollectionAdapter @Inject constructor(
     override fun onBindViewHolder(holder: AddCollectionVH, position: Int) {
         val item = getItem(position)
         if (item != null) {
-            holder.bindView(item, _stateMap)
+            holder.bindView(item, _stateMap, _currentUserCollections)
             holder.itemView.setOnClickListener { onItemClickListener?.invoke(item, position) }
         }
     }
@@ -63,19 +62,17 @@ class AddCollectionAdapter @Inject constructor(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
-            ),
-            _currentUserCollections
+            )
         )
     }
 
 }
 
 class AddCollectionVH(
-    private val viewBinding: ItemAddCollectionBinding,
-    private val currentCollections: List<Int>
+    private val viewBinding: ItemAddCollectionBinding
 ): RecyclerView.ViewHolder(viewBinding.root) {
 
-    fun bindView(item: CollectionModel, map: Map<Int, AddState>?) {
+    fun bindView(item: CollectionModel, map: Map<Int, AddState>?, currentCollections: List<Int>) {
         viewBinding.collectionName.text = item.title
         viewBinding.photoCount.text = itemView.context.getString(
             R.string.photo_number,

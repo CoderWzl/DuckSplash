@@ -16,11 +16,14 @@ import javax.inject.Inject
  *Created on 1/29/21
  *@author zhilin
  */
-class PhotoDetailHeaderAdapter @Inject constructor(
-
-): RecyclerView.Adapter<PhotoDetailHeaderVh>() {
+class PhotoDetailHeaderAdapter @Inject constructor(): RecyclerView.Adapter<PhotoDetailHeaderVh>() {
 
     var photo: PhotoModel? = null
+    set(value) {
+        field = value
+        notifyDataSetChanged()
+    }
+    var isCollected = false
     set(value) {
         field = value
         notifyDataSetChanged()
@@ -49,7 +52,7 @@ class PhotoDetailHeaderAdapter @Inject constructor(
 
     override fun onBindViewHolder(holder: PhotoDetailHeaderVh, position: Int) {
         if (photo != null) {
-            holder.bind(photo!!)
+            holder.bind(photo!!, isCollected)
         }
     }
 
@@ -69,7 +72,7 @@ class PhotoDetailHeaderVh(
 
     private val unknownStr: String = itemView.context.getString(R.string.unknown)
 
-    fun bind(item: PhotoModel) {
+    fun bind(item: PhotoModel, isCollected: Boolean) {
         viewBinding.apply {
             manufacturer.text = item.exif?.make?:unknownStr
             model.text = item.exif?.model?:unknownStr
@@ -117,7 +120,7 @@ class PhotoDetailHeaderVh(
                     R.drawable.ic_favorite_border_24dp
             )
             bookmarkButton.setImageResource(
-                if (item.currentUserCollections?.isNotEmpty() == true)
+                if (item.currentUserCollections?.isNotEmpty() == true || isCollected)
                     R.drawable.ic_bookmark_filled_24dp
                 else
                     R.drawable.ic_bookmark_border_24dp

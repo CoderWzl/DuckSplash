@@ -46,13 +46,6 @@ class PhotoDetailViewModel @ViewModelInject constructor(
         }
     }
 
-    // 获取包含所有这张图片的用户图集 id 信息，用来判断是否被用户收藏
-    fun setCurrentUserCollections(photo: PhotoModel) {
-        _currentUserCollections.postValue(
-            photo.currentUserCollections?.map { it.id }?.toMutableList()
-        )
-    }
-
     fun isUserAuthorized() = runBlocking {
         val prefs = tokenProvider.loginPreferences.first()
         !prefs.accessToken.isNullOrEmpty()

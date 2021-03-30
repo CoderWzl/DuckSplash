@@ -108,9 +108,7 @@ class PhotoDetailFragment : Fragment() {
             }
         }
         viewModel.currentUserCollections.observe(viewLifecycleOwner) { collections ->
-            if (collections != null && collections.isNotEmpty()) {
-                headerAdapter.notifyDataSetChanged()
-            }
+            headerAdapter.isCollected = collections != null && collections.isNotEmpty()
         }
     }
 
@@ -119,13 +117,10 @@ class PhotoDetailFragment : Fragment() {
             val imageUrl = it.urls.raw + IMAGE_LARGE_SUFFIX
             val thumbUrl = it.urls.raw + IMAGE_THUMB_SUFFIX
             viewBinding.imageView.loadPhotoUrlWithThumbnail(imageUrl, thumbUrl, it.color)
-            viewModel.setCurrentUserCollections(photo)
         }
     }
 
     private fun setupDetail(photo: PhotoModel?) {
-        /*val vm by navGraphViewModels<NavMainViewModel>(R.id.nav_main)
-        vm.sendPhotoIso(photo?.exif?.iso.toString())*/
         Log.d("zhilin", "setupDetail: ")
         photo?.let {
             headerAdapter.apply {
