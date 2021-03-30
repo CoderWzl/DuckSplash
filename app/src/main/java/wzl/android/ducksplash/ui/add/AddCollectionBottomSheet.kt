@@ -51,19 +51,37 @@ class AddCollectionBottomSheet : BottomSheetDialogFragment() {
         adapter.onItemClickListener = { collection, position ->
             Log.d("zhilin", "onViewCreated: $photoId")
             photoId?.let {
-                viewModel.addPhotoToCollection(
-                    collectionId = collection.id,
-                    it,
-                    position
-                ).observe(viewLifecycleOwner) { state ->
-                    val collectionId = when(state) {
-                        is AddState.Adding -> state.collectionId
-                        is AddState.Added -> state.result.collection?.id
-                        is AddState.NotAdd -> state.collectionId
-                        is AddState.Removing -> state.collectionId
-                    }?:0
-                    Log.d("zhilin", "onViewCreated: ${state.javaClass.simpleName}")
-                    adapter.changeItemAddState(collectionId, state)
+                if (viewModel.currentUserCollections.value?.contains(collection.id) == true) {
+                    viewModel.removePhotoFromCollection(
+                        collectionId = collection.id,
+                        photoId = it,
+                        position = position
+                    ).observe(viewLifecycleOwner) { state ->
+                        val collectionId = when (state) {
+                            is AddState.Adding -> state.collectionId
+                            is AddState.Added -> state.result.collection?.id
+                            is AddState.NotAdd -> state.collectionId
+                            is AddState.Removing -> state.collectionId
+                            is AddState.Error -> state.collectionId
+                        } ?: 0
+                        adapter.changeItemAddState(collectionId, state)
+                    }
+                } else {
+                    viewModel.addPhotoToCollection(
+                        collectionId = collection.id,
+                        it,
+                        position
+                    ).observe(viewLifecycleOwner) { state ->
+                        val collectionId = when (state) {
+                            is AddState.Adding -> state.collectionId
+                            is AddState.Added -> state.result.collection?.id
+                            is AddState.NotAdd -> state.collectionId
+                            is AddState.Removing -> state.collectionId
+                            is AddState.Error -> state.collectionId
+                        } ?: 0
+                        Log.d("zhilin", "onViewCreated: ${state.javaClass.simpleName}")
+                        adapter.changeItemAddState(collectionId, state)
+                    }
                 }
             }
         }
@@ -97,7 +115,6 @@ class AddCollectionBottomSheet : BottomSheetDialogFragment() {
         }
         // 图片所在用户图集 id 列表
         viewModel.currentUserCollections.observe(viewLifecycleOwner) { currentUserCollections ->
-            Log.d("zhilin", "observer: currentUserCollections $currentUserCollections")
             adapter.submitCurrentUserCollections(currentUserCollections)
         }
     }

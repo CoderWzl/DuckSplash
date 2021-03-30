@@ -1,5 +1,6 @@
 package wzl.android.ducksplash.viewmodel
 
+import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import kotlinx.coroutines.flow.first
@@ -40,6 +41,9 @@ class PhotoDetailViewModel @ViewModelInject constructor(
         emit(ApiState.Loading)
         try {
             val photoModel = repository.getPhoto(photoId)
+            _currentUserCollections.postValue(
+                photoModel.currentUserCollections?.map { it.id }?.toMutableList()
+            )
             emit(ApiState.Success(photoModel))
         } catch (throwable: Throwable) {
             emit(ApiState.Error(message = throwable.localizedMessage))
@@ -114,6 +118,27 @@ class PhotoDetailViewModel @ViewModelInject constructor(
                 emit(AddState.Added(result))
             } catch (e: Exception) {
                 emit(AddState.NotAdd(collectionId))
+            }
+        }
+
+    fun removePhotoFromCollection(collectionId: Int, photoId: String, position: Int) =
+        liveData<AddState> {
+            emit(AddState.Removing(collectionId))
+            try {
+                val result = collectionRepository.removePhotoFromCollection(
+                    collectionId = collectionId,
+                    photoId = photoId
+                )
+                val newList = _currentUserCollections.value ?: mutableListOf()
+                newList.remove(collectionId)
+                _currentUserCollections.postValue(newList)
+                val newCollectionList = _userCollections.value
+                result.collection?.let { newCollectionList?.set(position, it) }
+                _userCollections.postValue(newCollectionList)
+                emit(AddState.NotAdd(collectionId))
+            }catch (e: Exception) {
+                Log.e("zhilin", "removePhotoFromCollection: ${e.localizedMessage}")
+                emit(AddState.Error(collectionId))
             }
         }
 

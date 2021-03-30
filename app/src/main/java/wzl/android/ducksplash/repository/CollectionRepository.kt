@@ -35,5 +35,11 @@ class CollectionRepository @Inject constructor(
         return service.addPhotoToCollection(collectionId, photoId)
     }
 
+    suspend fun removePhotoFromCollection(
+        collectionId: Int, photoId: String
+    ): CollectionPhotoResult {
+        return service.removePhotoFromCollection(collectionId, photoId)
+    }
+
 
 }

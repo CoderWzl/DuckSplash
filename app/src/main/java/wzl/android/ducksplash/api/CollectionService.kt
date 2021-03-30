@@ -23,4 +23,10 @@ interface CollectionService {
         @Field("photo_id") photoId: String
     ): CollectionPhotoResult
 
+    @DELETE("collections/{collection_id}/remove")
+    suspend fun removePhotoFromCollection(
+        @Path("collection_id") collectionId: Int,
+        @Query("photo_id") photoId: String
+    ): CollectionPhotoResult
+
 }

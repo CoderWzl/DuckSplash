@@ -135,4 +135,5 @@ sealed class AddState {
     data class Added(val result: CollectionPhotoResult): AddState()
     data class Adding(val collectionId: Int): AddState()
     data class Removing(val collectionId: Int): AddState()
+    data class Error(val collectionId: Int): AddState()
 }

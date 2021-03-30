@@ -108,7 +108,8 @@ class PhotoDetailFragment : Fragment() {
             }
         }
         viewModel.currentUserCollections.observe(viewLifecycleOwner) { collections ->
-            headerAdapter.isCollected = collections != null && collections.isNotEmpty()
+            val collected: Boolean = collections != null && collections.isNotEmpty()
+            headerAdapter.isCollected = collected
         }
     }
 
@@ -153,9 +154,13 @@ class PhotoDetailFragment : Fragment() {
                     }
                 }
                 onBookmarkClickListener = {
-                    requireContext().toast("bookmark")
-                    if (!bottomSheetDialogFragment.isAdded) {
-                        bottomSheetDialogFragment.show(parentFragmentManager, "add_collection")
+                    if (viewModel.isUserAuthorized()) {
+                        if (!bottomSheetDialogFragment.isAdded) {
+                            bottomSheetDialogFragment.show(parentFragmentManager, "add_collection")
+                        }
+                    } else {
+                        requireContext().toast("Please Login First")
+                        findNavController().navigateSafe(R.id.action_global_loginFragment)
                     }
                 }
             }
