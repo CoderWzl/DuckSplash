@@ -39,5 +39,7 @@
     <string name="set_collection_private">将图集设为私密</string>
     <string name="create">创建</string>
     <string name="cancel">取消</string>
+    <string name="name_is_required">必须填写图集名称信息</string>
+    <string name="something_went_wrong">哪里出了问题…</string>
 
 </resources>

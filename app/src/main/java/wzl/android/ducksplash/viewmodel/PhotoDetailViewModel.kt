@@ -142,4 +142,32 @@ class PhotoDetailViewModel @ViewModelInject constructor(
             }
         }
 
+    fun createCollection(name: String,
+                         description: String?,
+                         isPrivate: Boolean,
+                         photoId: String) =
+        liveData(viewModelScope.coroutineContext) {
+            emit(ApiState.Loading)
+            try {
+                var createResult = collectionRepository.createCollection(
+                    name = name,
+                    description = description,
+                    isPrivate = isPrivate
+                )
+                val result = collectionRepository.addPhotoToCollection(createResult.id, photoId)
+                val newIdList = _currentUserCollections.value ?: mutableListOf()
+                newIdList.add(createResult.id)
+                _currentUserCollections.postValue(newIdList)
+
+                result.collection?.let { createResult = it }
+
+                val newList = _userCollections.value ?: mutableListOf()
+                newList.add(0, createResult)
+                _userCollections.postValue(newList)
+                emit(ApiState.Success(data = createResult))
+            }catch (e: Exception) {
+                emit(ApiState.Error(message = e.localizedMessage))
+            }
+        }
+
 }

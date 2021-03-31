@@ -29,4 +29,12 @@ interface CollectionService {
         @Query("photo_id") photoId: String
     ): CollectionPhotoResult
 
+    @POST("collections")
+    @FormUrlEncoded
+    suspend fun createCollection(
+        @Field("title") title: String,
+        @Field("description") description: String?,
+        @Field("private") private: Boolean?
+    ): CollectionModel
+
 }
