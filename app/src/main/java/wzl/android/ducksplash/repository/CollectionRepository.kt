@@ -41,5 +41,12 @@ class CollectionRepository @Inject constructor(
         return service.removePhotoFromCollection(collectionId, photoId)
     }
 
+    suspend fun createCollection(
+        name: String,
+        description: String?,
+        isPrivate: Boolean
+    ): CollectionModel {
+        return service.createCollection(name, description, isPrivate)
+    }
 
 }

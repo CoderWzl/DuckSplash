@@ -42,6 +42,7 @@
     <string name="set_collection_private">Set Collection Private</string>
     <string name="create">Create</string>
     <string name="cancel">Cancel</string>
-
+    <string name="name_is_required">Name is required</string>
+    <string name="something_went_wrong">Something went wrong…</string>
 
 </resources>

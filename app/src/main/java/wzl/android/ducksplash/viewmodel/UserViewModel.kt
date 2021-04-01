@@ -24,6 +24,9 @@ class UserViewModel @ViewModelInject constructor(
     val loadUserState: LiveData<ApiState<UserModel>> = _loadUserState
 
     fun getUserPublicProfile(userName: String) {
+        if (_loadUserState.value != null) {
+            return
+        }
         viewModelScope.launch {
             _loadUserState.postValue(ApiState.Loading)
             try {
