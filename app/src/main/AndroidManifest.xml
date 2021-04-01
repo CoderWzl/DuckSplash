@@ -38,6 +38,14 @@
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:authorities="${applicationId}.android-startup"
+            android:name="androidx.startup.InitializationProvider"
+            android:exported="false"
+            tools:node="merge">
+<!--            <meta-data android:name=""-->
+        </provider>
     </application>
 
 </manifest>

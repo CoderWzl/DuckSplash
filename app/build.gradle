@@ -126,6 +126,9 @@ dependencies {
     // RecyclerView
     //implementation "androidx.recyclerview:recyclerview:$rootProject.recyclerViewVersion"
 
+    // startup
+    implementation "androidx.startup:startup-runtime:$rootProject.startupVersion"
+
     //test
     testImplementation "junit:junit:$rootProject.junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$rootProject.ext_junitVersion"
