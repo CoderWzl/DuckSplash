@@ -44,5 +44,9 @@
     <string name="cancel">Cancel</string>
     <string name="name_is_required">Name is required</string>
     <string name="something_went_wrong">Something went wrong…</string>
+    <string name="file_exists_title">Download again?</string>
+    <string name="file_exists_message">This photo has already been downloaded. Do you want to download this photo again?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
 </resources>

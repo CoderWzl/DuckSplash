@@ -41,5 +41,9 @@
     <string name="cancel">取消</string>
     <string name="name_is_required">必须填写图集名称信息</string>
     <string name="something_went_wrong">哪里出了问题…</string>
+    <string name="file_exists_title">重新下载？</string>
+    <string name="file_exists_message">这张照片已经下载过了。您要重新下载这张照片吗？</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
 
 </resources>

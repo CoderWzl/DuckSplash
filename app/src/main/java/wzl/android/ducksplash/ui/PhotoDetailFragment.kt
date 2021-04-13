@@ -1,5 +1,6 @@
 package wzl.android.ducksplash.ui
 
+import android.Manifest
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -34,6 +35,7 @@ import javax.inject.Inject
  * Use the [PhotoDetailFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+const val DOWNLOADER = DOWNLOADER_SYSTEM
 @AndroidEntryPoint
 class PhotoDetailFragment : Fragment() {
 
@@ -138,6 +140,13 @@ class PhotoDetailFragment : Fragment() {
                 }
                 onDownloadClickListener = {
                     requireContext().toast("download")
+                    if (requireContext().fileExists(it.fileName, DOWNLOADER)) {
+                        showFileExistsDialog(requireContext()) {
+                            downloadPhoto(it)
+                        }
+                    } else {
+                        downloadPhoto(it)
+                    }
                 }
                 onFavoriteClickListener = {
                     if (viewModel.isUserAuthorized()) {
@@ -195,6 +204,14 @@ class PhotoDetailFragment : Fragment() {
             concatAdapter.addAdapter(adapter)
             viewBinding.recyclerView.adapter = concatAdapter
             viewBinding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        }
+    }
+
+    private fun downloadPhoto(photo: PhotoModel) {
+        if (requireContext().hasWritePermission()) {
+            // TODO: 2021/4/13 download photo
+        } else {
+            requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, requestCode = 0)
         }
     }
 
