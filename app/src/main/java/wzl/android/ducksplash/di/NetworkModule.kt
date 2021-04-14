@@ -82,4 +82,26 @@ object NetworkModule {
             .create(T::class.java)
     }
 
+    @Provides
+    fun provideDownloadService(
+        @AccessTokenInterceptorType accessTokenInterceptor: Interceptor,
+        @HeaderInterceptorType headerInterceptor: Interceptor,
+        @HttpLoggingInterceptorType httpLoggingInterceptor: Interceptor
+    ): DownloadService {
+        val okHttpClient = OkHttpClient.Builder()
+            .addNetworkInterceptor(headerInterceptor)
+            .addNetworkInterceptor(httpLoggingInterceptor)
+            .addNetworkInterceptor(accessTokenInterceptor)
+            .connectTimeout(20, TimeUnit.SECONDS)
+            .readTimeout(120, TimeUnit.SECONDS)
+            .writeTimeout(120, TimeUnit.SECONDS)
+            .build()
+        return Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(okHttpClient)
+            .addConverterFactory(MoshiConverterFactory.create())
+            .build()
+            .create(DownloadService::class.java)
+    }
+
 }

@@ -1,8 +1,11 @@
 package wzl.android.ducksplash.util.download
 
+import android.app.NotificationManager
 import android.content.Context
 import androidx.work.*
+import wzl.android.ducksplash.api.DownloadService
 import java.util.*
+import javax.inject.Inject
 
 /**
  *Created on 2021/4/14
@@ -14,8 +17,17 @@ class DownloadWorker(
     parameters: WorkerParameters
 ) : CoroutineWorker(context, parameters) {
 
+    @Inject lateinit var downloadService: DownloadService
+    val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
     override suspend fun doWork(): Result {
-        // TODO: 2021/4/14 download
+        val url = inputData.getString(KEY_INPUT_URL) ?: return Result.failure()
+        val fileName = inputData.getString(KEY_OUTPUT_FILE_NAME) ?: return Result.failure()
+
+        val notificationId = id.hashCode()
+        val cancelIntent = WorkManager.getInstance(context).createCancelPendingIntent(id)
+        //val notificationBuilder = notificationManager.get
+
         return Result.success()
     }
 
