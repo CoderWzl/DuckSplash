@@ -210,6 +210,7 @@ class PhotoDetailFragment : Fragment() {
     private fun downloadPhoto(photo: PhotoModel) {
         if (requireContext().hasWritePermission()) {
             // TODO: 2021/4/13 download photo
+
         } else {
             requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, requestCode = 0)
         }
