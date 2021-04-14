@@ -28,6 +28,8 @@ buildscript {
         recyclerViewVersion = '1.2.0-alpha05'
         browserVersion = '1.2.0'
         startupVersion = '1.0.0'
+        liveEventVersion = '1.7.3'
+        workVersion = '2.4.0'
 
         // test
         junitVersion = "4.13.1"

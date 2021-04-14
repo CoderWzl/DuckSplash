@@ -135,7 +135,10 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoCoreVersion"
 
     // LiveEventBus
-    implementation 'com.jeremyliao:live-event-bus-x:1.7.3'
+    implementation "com.jeremyliao:live-event-bus-x:$rootProject.liveEventVersion"
+
+    // work
+    implementation "androidx.work:work-runtime-ktx:$rootProject.workVersion"
 
     // LeakCanary
     //debugImplementation "com.squareup.leakcanary:leakcanary-android:$rootProject.leakCanaryVersion"
