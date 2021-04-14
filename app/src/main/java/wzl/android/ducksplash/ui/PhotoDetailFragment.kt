@@ -14,6 +14,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.AppBarLayout
+import com.jeremyliao.liveeventbus.LiveEventBus
 import dagger.hilt.android.AndroidEntryPoint
 import wzl.android.ducksplash.IMAGE_LARGE_SUFFIX
 import wzl.android.ducksplash.IMAGE_THUMB_SUFFIX
@@ -27,6 +28,8 @@ import wzl.android.ducksplash.databinding.FragmentPhotoDetailBinding
 import wzl.android.ducksplash.model.PhotoModel
 import wzl.android.ducksplash.ui.add.AddCollectionBottomSheet
 import wzl.android.ducksplash.util.*
+import wzl.android.ducksplash.util.eventbus.DownloadEvent
+import wzl.android.ducksplash.util.eventbus.EVENT_KEY_DOWNLOAD_PHOTO
 import wzl.android.ducksplash.viewmodel.PhotoDetailViewModel
 import javax.inject.Inject
 
@@ -113,6 +116,14 @@ class PhotoDetailFragment : Fragment() {
             val collected: Boolean = collections != null && collections.isNotEmpty()
             headerAdapter.isCollected = collected
         }
+        LiveEventBus.get(EVENT_KEY_DOWNLOAD_PHOTO, DownloadEvent::class.java)
+            .observe(viewLifecycleOwner) { event ->
+                if (event.result) {
+                    requireContext().toast(event.message?:"Download Success")
+                } else {
+                    requireContext().toast(event.message?:"Download Fail")
+                }
+            }
     }
 
     private fun setupPhoto(photo: PhotoModel?) {
@@ -139,7 +150,6 @@ class PhotoDetailFragment : Fragment() {
                     )
                 }
                 onDownloadClickListener = {
-                    requireContext().toast("download")
                     if (requireContext().fileExists(it.fileName, DOWNLOADER)) {
                         showFileExistsDialog(requireContext()) {
                             downloadPhoto(it)
@@ -209,8 +219,7 @@ class PhotoDetailFragment : Fragment() {
 
     private fun downloadPhoto(photo: PhotoModel) {
         if (requireContext().hasWritePermission()) {
-            // TODO: 2021/4/13 download photo
-
+            viewModel.downloadPhoto(photo)
         } else {
             requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, requestCode = 0)
         }

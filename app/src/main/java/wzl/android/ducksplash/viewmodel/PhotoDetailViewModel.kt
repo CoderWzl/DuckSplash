@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import wzl.android.ducksplash.DEFAULT_PER_PAGE_SIZE
@@ -16,6 +15,9 @@ import wzl.android.ducksplash.model.PhotoModel
 import wzl.android.ducksplash.repository.CollectionRepository
 import wzl.android.ducksplash.repository.PhotoRepository
 import wzl.android.ducksplash.repository.UserRepository
+import wzl.android.ducksplash.util.download.DownloadManagerWrapper
+import wzl.android.ducksplash.util.fileName
+import wzl.android.ducksplash.util.getPhotoUrl
 import java.lang.Exception
 
 /**
@@ -26,7 +28,8 @@ class PhotoDetailViewModel @ViewModelInject constructor(
     private val repository: PhotoRepository,
     private val tokenProvider: TokenProtoProvider,
     private val userRepository: UserRepository,
-    private val collectionRepository: CollectionRepository
+    private val collectionRepository: CollectionRepository,
+    private val downloadManager: DownloadManagerWrapper
 ) : ViewModel() {
 
     // 登录用户包含该图片的所有合集 id 信息
@@ -36,15 +39,19 @@ class PhotoDetailViewModel @ViewModelInject constructor(
     val currentUserCollections: LiveData<MutableList<Int>?> = _currentUserCollections
     val userCollections: LiveData<MutableList<CollectionModel>?> = _userCollections
 
+    private var _photoModel: PhotoModel? = null
+
     // liveData 函数不添加 coroutineContext 和添加 coroutineContext 有什么区别
     fun getPhoto(photoId: String) = liveData (viewModelScope.coroutineContext) {
         emit(ApiState.Loading)
         try {
-            val photoModel = repository.getPhoto(photoId)
-            _currentUserCollections.postValue(
-                photoModel.currentUserCollections?.map { it.id }?.toMutableList()
-            )
-            emit(ApiState.Success(photoModel))
+            if (_photoModel == null) {
+                _photoModel = repository.getPhoto(photoId)
+                _currentUserCollections.postValue(
+                    _photoModel?.currentUserCollections?.map { it.id }?.toMutableList()
+                )
+            }
+            emit(ApiState.Success(_photoModel))
         } catch (throwable: Throwable) {
             emit(ApiState.Error(message = throwable.localizedMessage))
         }
@@ -169,5 +176,10 @@ class PhotoDetailViewModel @ViewModelInject constructor(
                 emit(ApiState.Error(message = e.localizedMessage))
             }
         }
+
+    fun downloadPhoto(photo: PhotoModel): Long {
+        val url = getPhotoUrl(photo, "full")
+        return downloadManager.downloadPhoto(url, photo.fileName)
+    }
 
 }

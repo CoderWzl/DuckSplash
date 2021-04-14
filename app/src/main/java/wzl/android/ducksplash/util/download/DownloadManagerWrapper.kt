@@ -9,9 +9,14 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
+import com.jeremyliao.liveeventbus.LiveEventBus
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import wzl.android.ducksplash.util.DUCKSPLASH_DIRECTORY
 import wzl.android.ducksplash.util.error
+import wzl.android.ducksplash.util.eventbus.DownloadEvent
+import wzl.android.ducksplash.util.eventbus.EVENT_KEY_DOWNLOAD_PHOTO
 import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -98,7 +103,12 @@ class DownloadManagerWrapper @Inject constructor(
             error("onError: $message")
             cursor.close()
             downloadManager.remove(id)
-
+            // 下载完，发送事件。这里使用 LiveEventBus，也可以使用 LocalBroadcastManager
+            LiveEventBus.get(EVENT_KEY_DOWNLOAD_PHOTO)
+                .post(DownloadEvent(
+                    result = false,
+                    message = message
+                ))
         }
 
         private fun onSuccess(
@@ -106,7 +116,13 @@ class DownloadManagerWrapper @Inject constructor(
             id: Long,
             uri: Uri
         ) {
-
+            cursor.close()
+            LiveEventBus.get(EVENT_KEY_DOWNLOAD_PHOTO)
+                .post(DownloadEvent(
+                    result = true,
+                    message = "Download success",
+                    uri = uri
+                ))
         }
 
     }
