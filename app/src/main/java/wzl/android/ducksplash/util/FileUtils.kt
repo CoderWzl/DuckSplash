@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import wzl.android.ducksplash.BuildConfig
 import wzl.android.ducksplash.R
 import java.io.File
 
@@ -13,6 +14,8 @@ import java.io.File
  *@author zhilin
  */
 const val DUCKSPLASH_DIRECTORY = "DuckSplash"
+
+const val FILE_PROVIDER_AUTHORITY = "${BuildConfig.APPLICATION_ID}.fileprovider"
 
 val DUCKSPLASH_RELATIVE_PATH = "${Environment.DIRECTORY_PICTURES}${File.separator}$DUCKSPLASH_DIRECTORY"
 
