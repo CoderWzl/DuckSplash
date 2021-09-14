@@ -25,10 +25,10 @@ class AddCollectionAdapter @Inject constructor(
 ): ListAdapter<CollectionModel, AddCollectionVH>(diffCallback) {
 
     var onItemClickListener: ((collection: CollectionModel, position: Int) -> Unit)? = null
-    private var _stateMap: MutableMap<Int, AddState>? = null
-    private val _currentUserCollections: MutableList<Int> = mutableListOf()
+    private var _stateMap: MutableMap<String, AddState>? = null
+    private val _currentUserCollections: MutableList<String> = mutableListOf()
 
-    fun submitCurrentUserCollections(list: List<Int>?) {
+    fun submitCurrentUserCollections(list: List<String>?) {
         list?.let {
             _currentUserCollections.clear()
             _currentUserCollections.addAll(it)
@@ -36,7 +36,7 @@ class AddCollectionAdapter @Inject constructor(
         }
     }
 
-    fun changeItemAddState(id: Int, state: AddState) {
+    fun changeItemAddState(id: String, state: AddState) {
         if (_stateMap == null) {
             _stateMap = HashMap()
         }
@@ -72,7 +72,7 @@ class AddCollectionVH(
     private val viewBinding: ItemAddCollectionBinding
 ): RecyclerView.ViewHolder(viewBinding.root) {
 
-    fun bindView(item: CollectionModel, map: Map<Int, AddState>?, currentCollections: List<Int>) {
+    fun bindView(item: CollectionModel, map: Map<String, AddState>?, currentCollections: List<String>) {
         viewBinding.collectionName.text = item.title
         viewBinding.photoCount.text = itemView.context.getString(
             R.string.photo_number,
@@ -131,9 +131,9 @@ class AddCollectionVH(
 }
 
 sealed class AddState {
-    data class NotAdd(val collectionId: Int): AddState()
+    data class NotAdd(val collectionId: String): AddState()
     data class Added(val result: CollectionPhotoResult): AddState()
-    data class Adding(val collectionId: Int): AddState()
-    data class Removing(val collectionId: Int): AddState()
-    data class Error(val collectionId: Int): AddState()
+    data class Adding(val collectionId: String): AddState()
+    data class Removing(val collectionId: String): AddState()
+    data class Error(val collectionId: String): AddState()
 }

@@ -68,7 +68,7 @@ class AddCollectionBottomSheet : BottomSheetDialogFragment() {
                             is AddState.NotAdd -> state.collectionId
                             is AddState.Removing -> state.collectionId
                             is AddState.Error -> state.collectionId
-                        } ?: 0
+                        } ?: ""
                         adapter.changeItemAddState(collectionId, state)
                     }
                 } else {
@@ -83,7 +83,7 @@ class AddCollectionBottomSheet : BottomSheetDialogFragment() {
                             is AddState.NotAdd -> state.collectionId
                             is AddState.Removing -> state.collectionId
                             is AddState.Error -> state.collectionId
-                        } ?: 0
+                        } ?: ""
                         Log.d("zhilin", "onViewCreated: ${state.javaClass.simpleName}")
                         adapter.changeItemAddState(collectionId, state)
                     }

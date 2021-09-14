@@ -12,7 +12,7 @@ import java.io.IOException
  *@author zhilin
  */
 class CollectionPhotoPagingSource(
-        private val id: Int,
+        private val id: String,
         private val service: PhotoService
 ): PagingSource<Int, PhotoModel>() {
 

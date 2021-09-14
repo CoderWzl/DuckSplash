@@ -19,13 +19,13 @@ interface CollectionService {
     @POST("collections/{collection_id}/add")
     @FormUrlEncoded
     suspend fun addPhotoToCollection(
-        @Path("collection_id") collectionId: Int,
+        @Path("collection_id") collectionId: String,
         @Field("photo_id") photoId: String
     ): CollectionPhotoResult
 
     @DELETE("collections/{collection_id}/remove")
     suspend fun removePhotoFromCollection(
-        @Path("collection_id") collectionId: Int,
+        @Path("collection_id") collectionId: String,
         @Query("photo_id") photoId: String
     ): CollectionPhotoResult
 

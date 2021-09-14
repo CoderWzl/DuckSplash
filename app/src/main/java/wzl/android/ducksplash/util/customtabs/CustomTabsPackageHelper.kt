@@ -1,5 +1,7 @@
 package wzl.android.ducksplash.util.customtabs
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -31,6 +33,7 @@ internal object CustomTabsPackageHelper {
      * @param context [Context] to use for accessing [PackageManager].
      * @return The package name recommended to use for connecting to custom tabs related components.
      */
+    @SuppressLint("QueryPermissionsNeeded")
     @JvmStatic
     fun getPackageNameToUse(context: Context, uri: Uri): String? {
         if (packageNameToUse != null) {

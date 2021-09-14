@@ -14,9 +14,9 @@ class CollectionDetailViewModel @ViewModelInject constructor(
 ) : ViewModel() {
 
     private var currentPhoto: Flow<PagingData<PhotoModel>>? = null
-    private var currentId: Int = 0
+    private var currentId: String = ""
 
-    fun getCollectionPhoto(id: Int): Flow<PagingData<PhotoModel>> {
+    fun getCollectionPhoto(id: String): Flow<PagingData<PhotoModel>> {
         if (id == currentId && currentPhoto != null) {
             return currentPhoto!!
         }

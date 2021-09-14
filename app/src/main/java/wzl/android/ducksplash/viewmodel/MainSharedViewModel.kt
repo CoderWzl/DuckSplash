@@ -45,7 +45,7 @@ class MainSharedViewModel @ViewModelInject constructor(
         return _userCollections
     }
 
-    fun addPhotoToCollection(collectionId: Int, photoId: String) =
+    fun addPhotoToCollection(collectionId: String, photoId: String) =
         liveData(viewModelScope.coroutineContext) {
             emit(AddState.Adding(collectionId))
             try {

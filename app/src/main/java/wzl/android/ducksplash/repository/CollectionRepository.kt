@@ -30,13 +30,13 @@ class CollectionRepository @Inject constructor(
     }
 
     suspend fun addPhotoToCollection(
-        collectionId: Int, photoId: String
+        collectionId: String, photoId: String
     ): CollectionPhotoResult {
         return service.addPhotoToCollection(collectionId, photoId)
     }
 
     suspend fun removePhotoFromCollection(
-        collectionId: Int, photoId: String
+        collectionId: String, photoId: String
     ): CollectionPhotoResult {
         return service.removePhotoFromCollection(collectionId, photoId)
     }

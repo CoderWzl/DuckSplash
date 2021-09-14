@@ -33,10 +33,10 @@ class PhotoDetailViewModel @ViewModelInject constructor(
 ) : ViewModel() {
 
     // 登录用户包含该图片的所有合集 id 信息
-    private val _currentUserCollections = MutableLiveData<MutableList<Int>?>()
+    private val _currentUserCollections = MutableLiveData<MutableList<String>?>()
     private val _userCollections = MutableLiveData<MutableList<CollectionModel>?>()
 
-    val currentUserCollections: LiveData<MutableList<Int>?> = _currentUserCollections
+    val currentUserCollections: LiveData<MutableList<String>?> = _currentUserCollections
     val userCollections: LiveData<MutableList<CollectionModel>?> = _userCollections
 
     private var _photoModel: PhotoModel? = null
@@ -110,7 +110,7 @@ class PhotoDetailViewModel @ViewModelInject constructor(
         }
     }
 
-    fun addPhotoToCollection(collectionId: Int, photoId: String, position: Int) =
+    fun addPhotoToCollection(collectionId: String, photoId: String, position: Int) =
         liveData {
             emit(AddState.Adding(collectionId))
             try {
@@ -128,7 +128,7 @@ class PhotoDetailViewModel @ViewModelInject constructor(
             }
         }
 
-    fun removePhotoFromCollection(collectionId: Int, photoId: String, position: Int) =
+    fun removePhotoFromCollection(collectionId: String, photoId: String, position: Int) =
         liveData<AddState> {
             emit(AddState.Removing(collectionId))
             try {

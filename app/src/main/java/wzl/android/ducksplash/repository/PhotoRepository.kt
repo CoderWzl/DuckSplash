@@ -31,7 +31,7 @@ class PhotoRepository @Inject constructor(val service: PhotoService) {
         ).flow
     }
 
-    fun getCollectionPhotos(id: Int): Flow<PagingData<PhotoModel>> {
+    fun getCollectionPhotos(id: String): Flow<PagingData<PhotoModel>> {
         return Pager(
                 config = PagingConfig(
                         pageSize = 10,

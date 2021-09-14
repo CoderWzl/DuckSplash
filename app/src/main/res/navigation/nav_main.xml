@@ -27,8 +27,8 @@
         app:destination="@id/collectionDetailFragment" >
         <argument
             android:name="collectionId"
-            app:argType="integer"
-            android:defaultValue="0"/>
+            app:argType="string"
+            android:defaultValue=""/>
         <argument
             android:name="title"
             app:argType="string"
@@ -105,8 +105,8 @@
         tools:layout="@layout/fragment_collection_detail" >
         <argument
             android:name="collectionId"
-            app:argType="integer"
-            android:defaultValue="0"/>
+            app:argType="string"
+            android:defaultValue=""/>
         <argument
             android:name="title"
             app:argType="string"

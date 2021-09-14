@@ -13,7 +13,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 @JsonClass(generateAdapter = true)
 data class CollectionModel(
-    val id: Int,
+    val id: String,
     val title: String,
     val description: String?,
     @Json(name = "published_at") val publishedTime: String?,

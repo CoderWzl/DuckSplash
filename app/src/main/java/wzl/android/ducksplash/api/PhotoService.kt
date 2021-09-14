@@ -19,7 +19,7 @@ interface PhotoService {
 
     @GET("collections/{id}/photos")
     suspend fun getCollectionPhotos(
-            @Path("id") id: Int,
+            @Path("id") id: String,
             @Query("page") page: Int?,
             @Query("per_page") perPage: Int?
     ): List<PhotoModel>
