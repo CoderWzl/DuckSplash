@@ -1,6 +1,6 @@
 ### Jetpack 入门，项目笔记
 
-- Android 5.0 之上实现透明状态栏
+- Android 5.0 之上实现透明状态栏
 
   ```java
   if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {    

@@ -12,11 +12,11 @@ const val BASE_URL = "https://api.unsplash.com/"
 // 获取 token 时的域名
 const val BASE_LOGIN_URL = "https://unsplash.com/"
 // unsplash 官网申请的 access key
-const val USPLASH_CLIENT_ID = "w72LwQkOD-iFlBdIFeqJkGZqbxLBuN5vQ68OlLBhKg0"
-const val USPLASH_CLIENT_SECRET = "bz8eLgv6TtWe-fxmFRjq3sGpAITCSIR2O5c9GNC0teg"
+val USPLASH_CLIENT_ID = if (BuildConfig.DEBUG) BuildConfig.DEV_APP_ID else BuildConfig.RELEASE_APP_ID
+val USPLASH_CLIENT_SECRET = if (BuildConfig.DEBUG) BuildConfig.DEV_SECRET else BuildConfig.RELEASE_SECRET
 // unsplash 第一页 index 为 1
 const val INITIAL_PAGE = 1;
-const val DEFAULT_PER_PAGE_SIZE = 10;
+const val DEFAULT_PER_PAGE_SIZE = 10
 
 const val IMAGE_LARGE_SUFFIX = "&w=1200&q=80&fm=webp"
 const val IMAGE_THUMB_SUFFIX = "&w=200&q=80&fm=webp"

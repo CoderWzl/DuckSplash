@@ -7,6 +7,9 @@ plugins {
     id 'dagger.hilt.android.plugin'
     id 'com.google.protobuf' version '0.8.12'
 }
+// Load local properties with API keys
+def localProperties = new Properties()
+localProperties.load(new FileInputStream(rootProject.file("local.properties")))
 
 android {
     compileSdkVersion 30
@@ -18,7 +21,10 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-
+        buildConfigField("String", "RELEASE_APP_ID", localProperties['releaseAppId'])
+        buildConfigField("String", "RELEASE_SECRET", localProperties['releaseSecret'])
+        buildConfigField("String", "DEV_APP_ID", localProperties['devAppId'])
+        buildConfigField("String", "DEV_SECRET", localProperties['devSecret'])
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
